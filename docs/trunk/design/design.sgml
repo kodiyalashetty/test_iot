@@ -50,6 +50,7 @@
 <title>OpenHPI 2.0 Design Guide</title>
         &intro;
         &hpib;
+&library;
         &config;
 </book>
       
