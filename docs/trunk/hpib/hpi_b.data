@@ -1,0 +1,1108 @@
+SaHpiAlarmT
+    Acknowledged (SaHpiBoolT) 
+    AlarmCond (SaHpiConditionT) 
+        Data (SaHpiTextBufferT) 
+            DataLength (SaHpiUint8T) 
+            DataType (SaHpiTextTypeT) 
+            Language (SaHpiLanguageT) 
+        DomainId (SaHpiDomainIdT) 
+        Entity (SaHpiEntityPathT) 
+        EventState (SaHpiEventStateT) 
+        Mid (SaHpiManufacturerIdT) 
+        Name (SaHpiNameT) 
+            Length (SaHpiUint16T) 
+        ResourceId (SaHpiResourceIdT) 
+        SensorNum (SaHpiSensorNumT) 
+        Type (SaHpiStatusCondTypeT) 
+    AlarmId (SaHpiAlarmIdT) 
+    Severity (SaHpiSeverityT) 
+
+SaHpiAnnouncementT
+    Acknowledged (SaHpiBoolT) 
+    AddedByUser (SaHpiBoolT) 
+    EntryId (SaHpiEntryIdT) 
+    Severity (SaHpiSeverityT) 
+    StatusCond (SaHpiConditionT) 
+        Data (SaHpiTextBufferT) 
+            DataLength (SaHpiUint8T) 
+            DataType (SaHpiTextTypeT) 
+            Language (SaHpiLanguageT) 
+        DomainId (SaHpiDomainIdT) 
+        Entity (SaHpiEntityPathT) 
+        EventState (SaHpiEventStateT) 
+        Mid (SaHpiManufacturerIdT) 
+        Name (SaHpiNameT) 
+            Length (SaHpiUint16T) 
+        ResourceId (SaHpiResourceIdT) 
+        SensorNum (SaHpiSensorNumT) 
+        Type (SaHpiStatusCondTypeT) 
+
+SaHpiAnnunciatorRecT
+    AnnunciatorNum (SaHpiAnnunciatorNumT) 
+    AnnunciatorType (SaHpiAnnunciatorTypeT) 
+    MaxConditions (SaHpiUint32T) 
+    ModeReadOnly (SaHpiBoolT) 
+    Oem (SaHpiUint32T) 
+
+SaHpiConditionT
+    Data (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+    DomainId (SaHpiDomainIdT) 
+    Entity (SaHpiEntityPathT) 
+    EventState (SaHpiEventStateT) 
+    Mid (SaHpiManufacturerIdT) 
+    Name (SaHpiNameT) 
+        Length (SaHpiUint16T) 
+    ResourceId (SaHpiResourceIdT) 
+    SensorNum (SaHpiSensorNumT) 
+    Type (SaHpiStatusCondTypeT) 
+
+SaHpiCtrlDefaultModeT
+    Mode (SaHpiCtrlModeT) 
+    ReadOnly (SaHpiBoolT) 
+
+SaHpiCtrlRecAnalogT
+    Default (SaHpiCtrlStateAnalogT) 
+    Max (SaHpiCtrlStateAnalogT) 
+    Min (SaHpiCtrlStateAnalogT) 
+
+SaHpiCtrlRecDigitalT
+    Default (SaHpiCtrlStateDigitalT) 
+
+SaHpiCtrlRecDiscreteT
+    Default (SaHpiCtrlStateDiscreteT) 
+
+SaHpiCtrlRecOemT
+    Default (SaHpiCtrlStateOemT) 
+        BodyLength (SaHpiUint8T) 
+        MId (SaHpiManufacturerIdT) 
+    MId (SaHpiManufacturerIdT) 
+
+SaHpiCtrlRecStreamT
+    Default (SaHpiCtrlStateStreamT) 
+        Repeat (SaHpiBoolT) 
+        StreamLength (SaHpiUint32T) 
+
+SaHpiCtrlRecT
+    DefaultMode (SaHpiCtrlDefaultModeT) 
+        Mode (SaHpiCtrlModeT) 
+        ReadOnly (SaHpiBoolT) 
+    Num (SaHpiCtrlNumT) 
+    Oem (SaHpiUint32T) 
+    OutputType (SaHpiCtrlOutputTypeT) 
+    Type (SaHpiCtrlTypeT) 
+    TypeUnion (SaHpiCtrlRecUnionT) 
+      {
+        Digital (SaHpiCtrlRecDigitalT) 
+            Default (SaHpiCtrlStateDigitalT) 
+
+        Discrete (SaHpiCtrlRecDiscreteT) 
+            Default (SaHpiCtrlStateDiscreteT) 
+
+        Analog (SaHpiCtrlRecAnalogT) 
+            Default (SaHpiCtrlStateAnalogT) 
+            Max (SaHpiCtrlStateAnalogT) 
+            Min (SaHpiCtrlStateAnalogT) 
+
+        Stream (SaHpiCtrlRecStreamT) 
+            Default (SaHpiCtrlStateStreamT) 
+                Repeat (SaHpiBoolT) 
+                StreamLength (SaHpiUint32T) 
+
+        Text (SaHpiCtrlRecTextT) 
+            DataType (SaHpiTextTypeT) 
+            Default (SaHpiCtrlStateTextT) 
+                Line (SaHpiTxtLineNumT) 
+                Text (SaHpiTextBufferT) 
+                    DataLength (SaHpiUint8T) 
+                    DataType (SaHpiTextTypeT) 
+                    Language (SaHpiLanguageT) 
+            Language (SaHpiLanguageT) 
+            MaxChars (SaHpiUint8T) 
+            MaxLines (SaHpiUint8T) 
+
+        Oem (SaHpiCtrlRecOemT) 
+            Default (SaHpiCtrlStateOemT) 
+                BodyLength (SaHpiUint8T) 
+                MId (SaHpiManufacturerIdT) 
+            MId (SaHpiManufacturerIdT) 
+      }
+    WriteOnly (SaHpiBoolT) 
+
+SaHpiCtrlRecTextT
+    DataType (SaHpiTextTypeT) 
+    Default (SaHpiCtrlStateTextT) 
+        Line (SaHpiTxtLineNumT) 
+        Text (SaHpiTextBufferT) 
+            DataLength (SaHpiUint8T) 
+            DataType (SaHpiTextTypeT) 
+            Language (SaHpiLanguageT) 
+    Language (SaHpiLanguageT) 
+    MaxChars (SaHpiUint8T) 
+    MaxLines (SaHpiUint8T) 
+
+SaHpiCtrlStateOemT
+    BodyLength (SaHpiUint8T) 
+    MId (SaHpiManufacturerIdT) 
+
+SaHpiCtrlStateStreamT
+    Repeat (SaHpiBoolT) 
+    StreamLength (SaHpiUint32T) 
+
+SaHpiCtrlStateT
+    StateUnion (SaHpiCtrlStateUnionT) 
+      {
+        Digital (SaHpiCtrlStateDigitalT) 
+
+        Discrete (SaHpiCtrlStateDiscreteT) 
+
+        Analog (SaHpiCtrlStateAnalogT) 
+
+        Stream (SaHpiCtrlStateStreamT) 
+            Repeat (SaHpiBoolT) 
+            StreamLength (SaHpiUint32T) 
+
+        Text (SaHpiCtrlStateTextT) 
+            Line (SaHpiTxtLineNumT) 
+            Text (SaHpiTextBufferT) 
+                DataLength (SaHpiUint8T) 
+                DataType (SaHpiTextTypeT) 
+                Language (SaHpiLanguageT) 
+
+        Oem (SaHpiCtrlStateOemT) 
+            BodyLength (SaHpiUint8T) 
+            MId (SaHpiManufacturerIdT) 
+      }
+    Type (SaHpiCtrlTypeT) 
+
+SaHpiCtrlStateTextT
+    Line (SaHpiTxtLineNumT) 
+    Text (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+
+SaHpiDomainEventT
+    DomainId (SaHpiDomainIdT) 
+    Type (SaHpiDomainEventTypeT) 
+
+SaHpiDomainInfoT
+    ActiveAlarms (SaHpiUint32T) 
+    CriticalAlarms (SaHpiUint32T) 
+    DatOverflow (SaHpiBoolT) 
+    DatUpdateCount (SaHpiUint32T) 
+    DatUserAlarmLimit (SaHpiUint32T) 
+    DomainCapabilities (SaHpiDomainCapabilitiesT) 
+    DomainId (SaHpiDomainIdT) 
+    DomainTag (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+    DrtUpdateCount (SaHpiUint32T) 
+    Guid (SaHpiGuidT) 
+    IsPeer (SaHpiBoolT) 
+    MajorAlarms (SaHpiUint32T) 
+    MinorAlarms (SaHpiUint32T) 
+    RptUpdateCount (SaHpiUint32T) 
+
+SaHpiDrtEntryT
+    DomainId (SaHpiDomainIdT) 
+    EntryId (SaHpiEntryIdT) 
+    IsPeer (SaHpiBoolT) 
+
+SaHpiEntityT
+    EntityLocation (SaHpiEntityLocationT) 
+    EntityType (SaHpiEntityTypeT) 
+
+SaHpiEventLogEntryT
+    EntryId (SaHpiEventLogEntryIdT) 
+    Event (SaHpiEventT) 
+        EventDataUnion (SaHpiEventUnionT) 
+          {
+            ResourceEvent (SaHpiResourceEventT) 
+                ResourceEventType (SaHpiResourceEventTypeT) 
+
+            DomainEvent (SaHpiDomainEventT) 
+                DomainId (SaHpiDomainIdT) 
+                Type (SaHpiDomainEventTypeT) 
+
+            SensorEvent (SaHpiSensorEventT) 
+                Assertion (SaHpiBoolT) 
+                CurrentState (SaHpiEventStateT) 
+                EventCategory (SaHpiEventCategoryT) 
+                EventState (SaHpiEventStateT) 
+                Oem (SaHpiUint32T) 
+                OptionalDataPresent (SaHpiSensorOptionalDataT) 
+                PreviousState (SaHpiEventStateT) 
+                SensorNum (SaHpiSensorNumT) 
+                SensorSpecific (SaHpiUint32T) 
+                SensorType (SaHpiSensorTypeT) 
+                TriggerReading (SaHpiSensorReadingT) 
+                    IsSupported (SaHpiBoolT) 
+                    Type (SaHpiSensorReadingTypeT) 
+                    Value (SaHpiSensorReadingUnionT) 
+                      {
+                        SensorInt64 (SaHpiInt64T) 
+
+                        SensorUint64 (SaHpiUint64T) 
+
+                        SensorFloat64 (SaHpiFloat64T) 
+
+                        SensorBuffer (SaHpiUint8T) 
+                      }
+                TriggerThreshold (SaHpiSensorReadingT) 
+                    IsSupported (SaHpiBoolT) 
+                    Type (SaHpiSensorReadingTypeT) 
+                    Value (SaHpiSensorReadingUnionT) 
+                      {
+                        SensorInt64 (SaHpiInt64T) 
+
+                        SensorUint64 (SaHpiUint64T) 
+
+                        SensorFloat64 (SaHpiFloat64T) 
+
+                        SensorBuffer (SaHpiUint8T) 
+                      }
+
+            SensorEnableChangeEvent (SaHpiSensorEnableChangeEventT) 
+                AssertEventMask (SaHpiEventStateT) 
+                CurrentState (SaHpiEventStateT) 
+                DeassertEventMask (SaHpiEventStateT) 
+                EventCategory (SaHpiEventCategoryT) 
+                OptionalDataPresent (SaHpiSensorEnableOptDataT) 
+                SensorEnable (SaHpiBoolT) 
+                SensorEventEnable (SaHpiBoolT) 
+                SensorNum (SaHpiSensorNumT) 
+                SensorType (SaHpiSensorTypeT) 
+
+            HotSwapEvent (SaHpiHotSwapEventT) 
+                HotSwapState (SaHpiHsStateT) 
+                PreviousHotSwapState (SaHpiHsStateT) 
+
+            WatchdogEvent (SaHpiWatchdogEventT) 
+                WatchdogAction (SaHpiWatchdogActionEventT) 
+                WatchdogNum (SaHpiWatchdogNumT) 
+                WatchdogPreTimerAction (SaHpiWatchdogPretimerInterruptT) 
+                WatchdogUse (SaHpiWatchdogTimerUseT) 
+
+            HpiSwEvent (SaHpiHpiSwEventT) 
+                EventData (SaHpiTextBufferT) 
+                    DataLength (SaHpiUint8T) 
+                    DataType (SaHpiTextTypeT) 
+                    Language (SaHpiLanguageT) 
+                MId (SaHpiManufacturerIdT) 
+                Type (SaHpiSwEventTypeT) 
+
+            OemEvent (SaHpiOemEventT) 
+                MId (SaHpiManufacturerIdT) 
+                OemEventData (SaHpiTextBufferT) 
+                    DataLength (SaHpiUint8T) 
+                    DataType (SaHpiTextTypeT) 
+                    Language (SaHpiLanguageT) 
+
+            UserEvent (SaHpiUserEventT) 
+                UserEventData (SaHpiTextBufferT) 
+                    DataLength (SaHpiUint8T) 
+                    DataType (SaHpiTextTypeT) 
+                    Language (SaHpiLanguageT) 
+          }
+        EventType (SaHpiEventTypeT) 
+        Severity (SaHpiSeverityT) 
+        Source (SaHpiResourceIdT) 
+        available (not) 
+    relative (is) 
+
+SaHpiEventLogInfoT
+    Enabled (SaHpiBoolT) 
+    Entries (SaHpiUint32T) 
+    OverflowAction (SaHpiEventLogOverflowActionT) 
+    OverflowFlag (SaHpiBoolT) 
+    OverflowResetable (SaHpiBoolT) 
+    Size (SaHpiUint32T) 
+    UserEventMaxSize (SaHpiUint32T) 
+
+SaHpiEventT
+    EventDataUnion (SaHpiEventUnionT) 
+      {
+        ResourceEvent (SaHpiResourceEventT) 
+            ResourceEventType (SaHpiResourceEventTypeT) 
+
+        DomainEvent (SaHpiDomainEventT) 
+            DomainId (SaHpiDomainIdT) 
+            Type (SaHpiDomainEventTypeT) 
+
+        SensorEvent (SaHpiSensorEventT) 
+            Assertion (SaHpiBoolT) 
+            CurrentState (SaHpiEventStateT) 
+            EventCategory (SaHpiEventCategoryT) 
+            EventState (SaHpiEventStateT) 
+            Oem (SaHpiUint32T) 
+            OptionalDataPresent (SaHpiSensorOptionalDataT) 
+            PreviousState (SaHpiEventStateT) 
+            SensorNum (SaHpiSensorNumT) 
+            SensorSpecific (SaHpiUint32T) 
+            SensorType (SaHpiSensorTypeT) 
+            TriggerReading (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+            TriggerThreshold (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+
+        SensorEnableChangeEvent (SaHpiSensorEnableChangeEventT) 
+            AssertEventMask (SaHpiEventStateT) 
+            CurrentState (SaHpiEventStateT) 
+            DeassertEventMask (SaHpiEventStateT) 
+            EventCategory (SaHpiEventCategoryT) 
+            OptionalDataPresent (SaHpiSensorEnableOptDataT) 
+            SensorEnable (SaHpiBoolT) 
+            SensorEventEnable (SaHpiBoolT) 
+            SensorNum (SaHpiSensorNumT) 
+            SensorType (SaHpiSensorTypeT) 
+
+        HotSwapEvent (SaHpiHotSwapEventT) 
+            HotSwapState (SaHpiHsStateT) 
+            PreviousHotSwapState (SaHpiHsStateT) 
+
+        WatchdogEvent (SaHpiWatchdogEventT) 
+            WatchdogAction (SaHpiWatchdogActionEventT) 
+            WatchdogNum (SaHpiWatchdogNumT) 
+            WatchdogPreTimerAction (SaHpiWatchdogPretimerInterruptT) 
+            WatchdogUse (SaHpiWatchdogTimerUseT) 
+
+        HpiSwEvent (SaHpiHpiSwEventT) 
+            EventData (SaHpiTextBufferT) 
+                DataLength (SaHpiUint8T) 
+                DataType (SaHpiTextTypeT) 
+                Language (SaHpiLanguageT) 
+            MId (SaHpiManufacturerIdT) 
+            Type (SaHpiSwEventTypeT) 
+
+        OemEvent (SaHpiOemEventT) 
+            MId (SaHpiManufacturerIdT) 
+            OemEventData (SaHpiTextBufferT) 
+                DataLength (SaHpiUint8T) 
+                DataType (SaHpiTextTypeT) 
+                Language (SaHpiLanguageT) 
+
+        UserEvent (SaHpiUserEventT) 
+            UserEventData (SaHpiTextBufferT) 
+                DataLength (SaHpiUint8T) 
+                DataType (SaHpiTextTypeT) 
+                Language (SaHpiLanguageT) 
+      }
+    EventType (SaHpiEventTypeT) 
+    Severity (SaHpiSeverityT) 
+    Source (SaHpiResourceIdT) 
+    available (not) 
+
+SaHpiHotSwapEventT
+    HotSwapState (SaHpiHsStateT) 
+    PreviousHotSwapState (SaHpiHsStateT) 
+
+SaHpiHpiSwEventT
+    EventData (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+    MId (SaHpiManufacturerIdT) 
+    Type (SaHpiSwEventTypeT) 
+
+SaHpiIdrAreaHeaderT
+    AreaId (SaHpiEntryIdT) 
+    NumFields (SaHpiUint32T) 
+    ReadOnly (SaHpiBoolT) 
+    Type (SaHpiIdrAreaTypeT) 
+
+SaHpiIdrFieldT
+    AreaId (SaHpiEntryIdT) 
+    Field (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+    FieldId (SaHpiEntryIdT) 
+    ReadOnly (SaHpiBoolT) 
+    Type (SaHpiIdrFieldTypeT) 
+
+SaHpiIdrInfoT
+    IdrId (SaHpiIdrIdT) 
+    NumAreas (SaHpiUint32T) 
+    ReadOnly (SaHpiBoolT) 
+    UpdateCount (SaHpiUint32T) 
+
+SaHpiInventoryRecT
+    IdrId (SaHpiIdrIdT) 
+    Oem (SaHpiUint32T) 
+    Persistent (SaHpiBoolT) 
+    persisted (immediately) 
+
+SaHpiNameT
+    Length (SaHpiUint16T) 
+
+SaHpiOemEventT
+    MId (SaHpiManufacturerIdT) 
+    OemEventData (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+
+SaHpiRdrT
+    Entity (SaHpiEntityPathT) 
+    IdString (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+    IsFru (SaHpiBoolT) 
+    RdrType (SaHpiRdrTypeT) 
+    RdrTypeUnion (SaHpiRdrTypeUnionT) 
+      {
+        CtrlRec (SaHpiCtrlRecT) 
+            DefaultMode (SaHpiCtrlDefaultModeT) 
+                Mode (SaHpiCtrlModeT) 
+                ReadOnly (SaHpiBoolT) 
+            Num (SaHpiCtrlNumT) 
+            Oem (SaHpiUint32T) 
+            OutputType (SaHpiCtrlOutputTypeT) 
+            Type (SaHpiCtrlTypeT) 
+            TypeUnion (SaHpiCtrlRecUnionT) 
+              {
+                Digital (SaHpiCtrlRecDigitalT) 
+                    Default (SaHpiCtrlStateDigitalT) 
+
+                Discrete (SaHpiCtrlRecDiscreteT) 
+                    Default (SaHpiCtrlStateDiscreteT) 
+
+                Analog (SaHpiCtrlRecAnalogT) 
+                    Default (SaHpiCtrlStateAnalogT) 
+                    Max (SaHpiCtrlStateAnalogT) 
+                    Min (SaHpiCtrlStateAnalogT) 
+
+                Stream (SaHpiCtrlRecStreamT) 
+                    Default (SaHpiCtrlStateStreamT) 
+                        Repeat (SaHpiBoolT) 
+                        StreamLength (SaHpiUint32T) 
+
+                Text (SaHpiCtrlRecTextT) 
+                    DataType (SaHpiTextTypeT) 
+                    Default (SaHpiCtrlStateTextT) 
+                        Line (SaHpiTxtLineNumT) 
+                        Text (SaHpiTextBufferT) 
+                            DataLength (SaHpiUint8T) 
+                            DataType (SaHpiTextTypeT) 
+                            Language (SaHpiLanguageT) 
+                    Language (SaHpiLanguageT) 
+                    MaxChars (SaHpiUint8T) 
+                    MaxLines (SaHpiUint8T) 
+
+                Oem (SaHpiCtrlRecOemT) 
+                    Default (SaHpiCtrlStateOemT) 
+                        BodyLength (SaHpiUint8T) 
+                        MId (SaHpiManufacturerIdT) 
+                    MId (SaHpiManufacturerIdT) 
+              }
+            WriteOnly (SaHpiBoolT) 
+
+        SensorRec (SaHpiSensorRecT) 
+            Category (SaHpiEventCategoryT) 
+            DataFormat (SaHpiSensorDataFormatT) 
+                BaseUnits (SaHpiSensorUnitsT) 
+                IsSupported (SaHpiBoolT) 
+                ModifierUnits (SaHpiSensorUnitsT) 
+                ModifierUse (SaHpiSensorModUnitUseT) 
+                Percentage (SaHpiBoolT) 
+                Range (SaHpiSensorRangeT) 
+                    Flags (SaHpiSensorRangeFlagsT) 
+                    Max (SaHpiSensorReadingT) 
+                        IsSupported (SaHpiBoolT) 
+                        Type (SaHpiSensorReadingTypeT) 
+                        Value (SaHpiSensorReadingUnionT) 
+                          {
+                            SensorInt64 (SaHpiInt64T) 
+
+                            SensorUint64 (SaHpiUint64T) 
+
+                            SensorFloat64 (SaHpiFloat64T) 
+
+                            SensorBuffer (SaHpiUint8T) 
+                          }
+                    Min (SaHpiSensorReadingT) 
+                        IsSupported (SaHpiBoolT) 
+                        Type (SaHpiSensorReadingTypeT) 
+                        Value (SaHpiSensorReadingUnionT) 
+                          {
+                            SensorInt64 (SaHpiInt64T) 
+
+                            SensorUint64 (SaHpiUint64T) 
+
+                            SensorFloat64 (SaHpiFloat64T) 
+
+                            SensorBuffer (SaHpiUint8T) 
+                          }
+                    Nominal (SaHpiSensorReadingT) 
+                        IsSupported (SaHpiBoolT) 
+                        Type (SaHpiSensorReadingTypeT) 
+                        Value (SaHpiSensorReadingUnionT) 
+                          {
+                            SensorInt64 (SaHpiInt64T) 
+
+                            SensorUint64 (SaHpiUint64T) 
+
+                            SensorFloat64 (SaHpiFloat64T) 
+
+                            SensorBuffer (SaHpiUint8T) 
+                          }
+                    NormalMax (SaHpiSensorReadingT) 
+                        IsSupported (SaHpiBoolT) 
+                        Type (SaHpiSensorReadingTypeT) 
+                        Value (SaHpiSensorReadingUnionT) 
+                          {
+                            SensorInt64 (SaHpiInt64T) 
+
+                            SensorUint64 (SaHpiUint64T) 
+
+                            SensorFloat64 (SaHpiFloat64T) 
+
+                            SensorBuffer (SaHpiUint8T) 
+                          }
+                    NormalMin (SaHpiSensorReadingT) 
+                        IsSupported (SaHpiBoolT) 
+                        Type (SaHpiSensorReadingTypeT) 
+                        Value (SaHpiSensorReadingUnionT) 
+                          {
+                            SensorInt64 (SaHpiInt64T) 
+
+                            SensorUint64 (SaHpiUint64T) 
+
+                            SensorFloat64 (SaHpiFloat64T) 
+
+                            SensorBuffer (SaHpiUint8T) 
+                          }
+                ReadingType (SaHpiSensorReadingTypeT) 
+            EnableCtrl (SaHpiBoolT) 
+            EventCtrl (SaHpiSensorEventCtrlT) 
+            Events (SaHpiEventStateT) 
+            Num (SaHpiSensorNumT) 
+            Oem (SaHpiUint32T) 
+            ThresholdDefn (SaHpiSensorThdDefnT) 
+                IsAccessible (SaHpiBoolT) 
+                Nonlinear (SaHpiBoolT) 
+                ReadThold (SaHpiSensorThdMaskT) 
+                WriteThold (SaHpiSensorThdMaskT) 
+            Type (SaHpiSensorTypeT) 
+
+        InventoryRec (SaHpiInventoryRecT) 
+            IdrId (SaHpiIdrIdT) 
+            Oem (SaHpiUint32T) 
+            Persistent (SaHpiBoolT) 
+            persisted (immediately) 
+
+        WatchdogRec (SaHpiWatchdogRecT) 
+            Oem (SaHpiUint32T) 
+            WatchdogNum (SaHpiWatchdogNumT) 
+
+        AnnunciatorRec (SaHpiAnnunciatorRecT) 
+            AnnunciatorNum (SaHpiAnnunciatorNumT) 
+            AnnunciatorType (SaHpiAnnunciatorTypeT) 
+            MaxConditions (SaHpiUint32T) 
+            ModeReadOnly (SaHpiBoolT) 
+            Oem (SaHpiUint32T) 
+      }
+    RecordId (SaHpiEntryIdT) 
+
+SaHpiResourceEventT
+    ResourceEventType (SaHpiResourceEventTypeT) 
+
+SaHpiResourceInfoT
+    AuxFirmwareRev (SaHpiUint8T) 
+    DeviceSupport (SaHpiUint8T) 
+    FirmwareMajorRev (SaHpiUint8T) 
+    FirmwareMinorRev (SaHpiUint8T) 
+    Guid (SaHpiGuidT) 
+    ManufacturerId (SaHpiManufacturerIdT) 
+    ProductId (SaHpiUint16T) 
+    ResourceRev (SaHpiUint8T) 
+    SpecificVer (SaHpiUint8T) 
+
+SaHpiRptEntryT
+    EntryId (SaHpiEntryIdT) 
+    HotSwapCapabilities (SaHpiHsCapabilitiesT) 
+    ResourceCapabilities (SaHpiCapabilitiesT) 
+    ResourceEntity (SaHpiEntityPathT) 
+    ResourceFailed (SaHpiBoolT) 
+    ResourceId (SaHpiResourceIdT) 
+    ResourceInfo (SaHpiResourceInfoT) 
+        AuxFirmwareRev (SaHpiUint8T) 
+        DeviceSupport (SaHpiUint8T) 
+        FirmwareMajorRev (SaHpiUint8T) 
+        FirmwareMinorRev (SaHpiUint8T) 
+        Guid (SaHpiGuidT) 
+        ManufacturerId (SaHpiManufacturerIdT) 
+        ProductId (SaHpiUint16T) 
+        ResourceRev (SaHpiUint8T) 
+        SpecificVer (SaHpiUint8T) 
+    ResourceSeverity (SaHpiSeverityT) 
+    ResourceTag (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+
+SaHpiSensorDataFormatT
+    BaseUnits (SaHpiSensorUnitsT) 
+    IsSupported (SaHpiBoolT) 
+    ModifierUnits (SaHpiSensorUnitsT) 
+    ModifierUse (SaHpiSensorModUnitUseT) 
+    Percentage (SaHpiBoolT) 
+    Range (SaHpiSensorRangeT) 
+        Flags (SaHpiSensorRangeFlagsT) 
+        Max (SaHpiSensorReadingT) 
+            IsSupported (SaHpiBoolT) 
+            Type (SaHpiSensorReadingTypeT) 
+            Value (SaHpiSensorReadingUnionT) 
+              {
+                SensorInt64 (SaHpiInt64T) 
+
+                SensorUint64 (SaHpiUint64T) 
+
+                SensorFloat64 (SaHpiFloat64T) 
+
+                SensorBuffer (SaHpiUint8T) 
+              }
+        Min (SaHpiSensorReadingT) 
+            IsSupported (SaHpiBoolT) 
+            Type (SaHpiSensorReadingTypeT) 
+            Value (SaHpiSensorReadingUnionT) 
+              {
+                SensorInt64 (SaHpiInt64T) 
+
+                SensorUint64 (SaHpiUint64T) 
+
+                SensorFloat64 (SaHpiFloat64T) 
+
+                SensorBuffer (SaHpiUint8T) 
+              }
+        Nominal (SaHpiSensorReadingT) 
+            IsSupported (SaHpiBoolT) 
+            Type (SaHpiSensorReadingTypeT) 
+            Value (SaHpiSensorReadingUnionT) 
+              {
+                SensorInt64 (SaHpiInt64T) 
+
+                SensorUint64 (SaHpiUint64T) 
+
+                SensorFloat64 (SaHpiFloat64T) 
+
+                SensorBuffer (SaHpiUint8T) 
+              }
+        NormalMax (SaHpiSensorReadingT) 
+            IsSupported (SaHpiBoolT) 
+            Type (SaHpiSensorReadingTypeT) 
+            Value (SaHpiSensorReadingUnionT) 
+              {
+                SensorInt64 (SaHpiInt64T) 
+
+                SensorUint64 (SaHpiUint64T) 
+
+                SensorFloat64 (SaHpiFloat64T) 
+
+                SensorBuffer (SaHpiUint8T) 
+              }
+        NormalMin (SaHpiSensorReadingT) 
+            IsSupported (SaHpiBoolT) 
+            Type (SaHpiSensorReadingTypeT) 
+            Value (SaHpiSensorReadingUnionT) 
+              {
+                SensorInt64 (SaHpiInt64T) 
+
+                SensorUint64 (SaHpiUint64T) 
+
+                SensorFloat64 (SaHpiFloat64T) 
+
+                SensorBuffer (SaHpiUint8T) 
+              }
+    ReadingType (SaHpiSensorReadingTypeT) 
+
+SaHpiSensorEnableChangeEventT
+    AssertEventMask (SaHpiEventStateT) 
+    CurrentState (SaHpiEventStateT) 
+    DeassertEventMask (SaHpiEventStateT) 
+    EventCategory (SaHpiEventCategoryT) 
+    OptionalDataPresent (SaHpiSensorEnableOptDataT) 
+    SensorEnable (SaHpiBoolT) 
+    SensorEventEnable (SaHpiBoolT) 
+    SensorNum (SaHpiSensorNumT) 
+    SensorType (SaHpiSensorTypeT) 
+
+SaHpiSensorEventT
+    Assertion (SaHpiBoolT) 
+    CurrentState (SaHpiEventStateT) 
+    EventCategory (SaHpiEventCategoryT) 
+    EventState (SaHpiEventStateT) 
+    Oem (SaHpiUint32T) 
+    OptionalDataPresent (SaHpiSensorOptionalDataT) 
+    PreviousState (SaHpiEventStateT) 
+    SensorNum (SaHpiSensorNumT) 
+    SensorSpecific (SaHpiUint32T) 
+    SensorType (SaHpiSensorTypeT) 
+    TriggerReading (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    TriggerThreshold (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+
+SaHpiSensorRangeT
+    Flags (SaHpiSensorRangeFlagsT) 
+    Max (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    Min (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    Nominal (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    NormalMax (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    NormalMin (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+
+SaHpiSensorReadingT
+    IsSupported (SaHpiBoolT) 
+    Type (SaHpiSensorReadingTypeT) 
+    Value (SaHpiSensorReadingUnionT) 
+      {
+        SensorInt64 (SaHpiInt64T) 
+
+        SensorUint64 (SaHpiUint64T) 
+
+        SensorFloat64 (SaHpiFloat64T) 
+
+        SensorBuffer (SaHpiUint8T) 
+      }
+
+SaHpiSensorRecT
+    Category (SaHpiEventCategoryT) 
+    DataFormat (SaHpiSensorDataFormatT) 
+        BaseUnits (SaHpiSensorUnitsT) 
+        IsSupported (SaHpiBoolT) 
+        ModifierUnits (SaHpiSensorUnitsT) 
+        ModifierUse (SaHpiSensorModUnitUseT) 
+        Percentage (SaHpiBoolT) 
+        Range (SaHpiSensorRangeT) 
+            Flags (SaHpiSensorRangeFlagsT) 
+            Max (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+            Min (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+            Nominal (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+            NormalMax (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+            NormalMin (SaHpiSensorReadingT) 
+                IsSupported (SaHpiBoolT) 
+                Type (SaHpiSensorReadingTypeT) 
+                Value (SaHpiSensorReadingUnionT) 
+                  {
+                    SensorInt64 (SaHpiInt64T) 
+
+                    SensorUint64 (SaHpiUint64T) 
+
+                    SensorFloat64 (SaHpiFloat64T) 
+
+                    SensorBuffer (SaHpiUint8T) 
+                  }
+        ReadingType (SaHpiSensorReadingTypeT) 
+    EnableCtrl (SaHpiBoolT) 
+    EventCtrl (SaHpiSensorEventCtrlT) 
+    Events (SaHpiEventStateT) 
+    Num (SaHpiSensorNumT) 
+    Oem (SaHpiUint32T) 
+    ThresholdDefn (SaHpiSensorThdDefnT) 
+        IsAccessible (SaHpiBoolT) 
+        Nonlinear (SaHpiBoolT) 
+        ReadThold (SaHpiSensorThdMaskT) 
+        WriteThold (SaHpiSensorThdMaskT) 
+    Type (SaHpiSensorTypeT) 
+
+SaHpiSensorThdDefnT
+    IsAccessible (SaHpiBoolT) 
+    Nonlinear (SaHpiBoolT) 
+    ReadThold (SaHpiSensorThdMaskT) 
+    WriteThold (SaHpiSensorThdMaskT) 
+
+SaHpiSensorThresholdsT
+    LowCritical (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    LowMajor (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    LowMinor (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    NegThdHysteresis (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    PosThdHysteresis (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    UpCritical (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    UpMajor (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+    UpMinor (SaHpiSensorReadingT) 
+        IsSupported (SaHpiBoolT) 
+        Type (SaHpiSensorReadingTypeT) 
+        Value (SaHpiSensorReadingUnionT) 
+          {
+            SensorInt64 (SaHpiInt64T) 
+
+            SensorUint64 (SaHpiUint64T) 
+
+            SensorFloat64 (SaHpiFloat64T) 
+
+            SensorBuffer (SaHpiUint8T) 
+          }
+
+SaHpiTextBufferT
+    DataLength (SaHpiUint8T) 
+    DataType (SaHpiTextTypeT) 
+    Language (SaHpiLanguageT) 
+
+SaHpiUserEventT
+    UserEventData (SaHpiTextBufferT) 
+        DataLength (SaHpiUint8T) 
+        DataType (SaHpiTextTypeT) 
+        Language (SaHpiLanguageT) 
+
+SaHpiWatchdogEventT
+    WatchdogAction (SaHpiWatchdogActionEventT) 
+    WatchdogNum (SaHpiWatchdogNumT) 
+    WatchdogPreTimerAction (SaHpiWatchdogPretimerInterruptT) 
+    WatchdogUse (SaHpiWatchdogTimerUseT) 
+
+SaHpiWatchdogRecT
+    Oem (SaHpiUint32T) 
+    WatchdogNum (SaHpiWatchdogNumT) 
+
+SaHpiWatchdogT
+    InitialCount (SaHpiUint32T) 
+    Log (SaHpiBoolT) 
+    PreTimeoutInterval (SaHpiUint32T) 
+    PresentCount (SaHpiUint32T) 
+    PretimerInterrupt (SaHpiWatchdogPretimerInterruptT) 
+    Running (SaHpiBoolT) 
+    TimerAction (SaHpiWatchdogActionT) 
+    TimerUse (SaHpiWatchdogTimerUseT) 
+    TimerUseExpFlags (SaHpiWatchdogExpFlagsT) 
+
