@@ -31,6 +31,7 @@
 %revisions;
 
 <!ENTITY intro SYSTEM "introduction.sgml">
+<!ENTITY hpib SYSTEM "hpib.sgml">
 <!ENTITY library SYSTEM "library.sgml">
 <!ENTITY threads SYSTEM "threadmodel.sgml">
 <!ENTITY daemon SYSTEM "daemon.sgml">
@@ -47,6 +48,7 @@
 <book>
 <title>OpenHPI 2.0 Design Guide</title>
         &intro;
+&hpib;
 </book>
       
 
