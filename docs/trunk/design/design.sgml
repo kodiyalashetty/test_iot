@@ -33,6 +33,7 @@
 <!ENTITY intro SYSTEM "introduction.sgml">
 <!ENTITY hpib SYSTEM "hpib.sgml">
 <!ENTITY library SYSTEM "library.sgml">
+<!ENTITY config SYSTEM "configuration.sgml">
 <!ENTITY threads SYSTEM "threadmodel.sgml">
 <!ENTITY daemon SYSTEM "daemon.sgml">
 <!ENTITY plugins SYSTEM "plugins.sgml">
@@ -48,7 +49,8 @@
 <book>
 <title>OpenHPI 2.0 Design Guide</title>
         &intro;
-&hpib;
+        &hpib;
+        &config;
 </book>
       
 
