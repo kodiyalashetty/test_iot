@@ -1,0 +1,41 @@
+<!-- ...................................................................... -->
+<!-- $Id$ ................................................ -->
+<!-- 
+        This material may be distributed only subject to the terms and 
+        conditions set forth in the Open Publication License, v1.0 or later 
+        (the latest version is currently available at 
+        http://www.opencontent.org/openpub/).  Distribution of substantively 
+        modified version of this document is prohibited without the explicit 
+        permission of the copyright holder.
+
+        Other company, product, or service names may be trademarks or service 
+        marks of others.
+-->
+<chapter>
+  <title>HPI B Specification</title>
+  <sect1>
+    <title>Overview</title>
+    <para>
+      OpenHPI 2.0 will be based on the HPI B specification (currently
+      revision B.1.1 at the time of this writing).  The HPI B spec is
+      seen by the industry as a dramatic improvement over the HPI A
+      spec.  It includes many new concepts such as the Domain Alarm
+      Table, Annuciators, and a simplified domain model.
+    </para>
+    <para>
+      Unfortunately these changes are extensive enough that HPI B
+      isn't source or binarily compatible with HPI A.  This document
+      will provide some information in addressing porting from HPI A
+      to HPI B as it addresses specific changes between the two
+      specifications.
+    </para>
+  </sect1>
+  <sect1>
+    <title>Interpretations</title>
+    <para>
+      This section should include any interpretations made during the
+      course of implementing the specification so that it can be well
+      documented for future reference.
+    </para>
+  </sect1>
+</chapter>
