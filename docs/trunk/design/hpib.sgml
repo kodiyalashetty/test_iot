@@ -11,7 +11,7 @@
         Other company, product, or service names may be trademarks or service 
         marks of others.
 -->
-<chapter>
+  <chapter>
   <title>HPI B Specification</title>
   <sect1>
     <title>Overview</title>
@@ -28,6 +28,11 @@
       will provide some information in addressing porting from HPI A
       to HPI B as it addresses specific changes between the two
       specifications.
+    </para>
+  </sect1>
+  <sect1>
+    <title>Domain Model</title>
+    <para>
     </para>
   </sect1>
   <sect1>
