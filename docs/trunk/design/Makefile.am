@@ -28,12 +28,14 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  
-DIAGRAMS = $(shell echo $(srcdir)/images/*png $(srcdir)/images/*gif) 
+DIAGRAMS = $(shell echo $(srcdir)/*/*png $(srcdir)/*/*gif) 
 
 SERVER = shell1.sourceforge.net
 HLDDIR = /home/groups/o/op/openhpi/htdocs/design
 
-MAINTAINERCLEANFILES 	= Makefile.in  
+MAINTAINERCLEANFILES 	= Makefile.in
+
+MOSTLYCLEANFILES = design.pdf design.ps
 
 #openhpi_docsdir		= $(datadir)/openhpi/docs/hld
 
