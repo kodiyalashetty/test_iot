@@ -1,0 +1,171 @@
+<!-- ...................................................................... -->
+<!-- $Id$ ................................................ -->
+<!-- 
+        This material may be distributed only subject to the terms and 
+        conditions set forth in the Open Publication License, v1.0 or later 
+        (the latest version is currently available at 
+        http://www.opencontent.org/openpub/).  Distribution of substantively 
+        modified version of this document is prohibited without the explicit 
+        permission of the copyright holder.
+
+        Other company, product, or service names may be trademarks or service 
+        marks of others.
+-->
+  <chapter>
+  <title>OpenHPI Base Library</title>
+  <sect1>
+    <title>Plugin / Library Interface</title>
+    <para>
+      OpenHPI defines a very clean separation of the duties of plugins
+      and the base library.  This is extremely important given that
+      3rd party plugins are not only allowed, but encouraged.
+    </para>
+    <para>
+      The basic rules for the interface are:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            No pointers are shared between plugins and infrastructure.
+            </para>
+            </listitem>
+        <listitem><para>
+          Communication down to plugins is done via function calls
+          that provide, request, and return full SA HPI types.  These
+          function calls make up the plugin API.
+        </para></listitem>
+        <listitem><para>
+          Communication up from the plugins to infrastructure is done
+          via <structname>struct oh_event</structname>.  This is an
+          OpenHPI defined type that provides mechanisms for
+          propogating resource and rdr changes, as well as true HPI
+          events.  These events are returned via the
+          <function>get_event</function> function, which is the only
+            breakage of the previous rule.
+        </para></listitem>
+    </itemizedlist>
+    <para>
+      The plugin api is #### function pointers contained within a
+      structure.  This is the calling mechanism that the OpenHPI base
+      library will use to interface with hardware.
+    </para>
+  </sect1>
+  <sect1>
+    <title>OpenHPI Event Loop</title>
+    <para>
+      The communication mechanism up from plugins to the OpenHPI base
+      library is the event loop, which is a
+      series of event pulls from the plugins via the
+      <function>get_event</function> function call of the plugin API.
+      The event loop explicitly called whenever the SAHPI functions
+      <function>saHpiDiscover</function> or
+      <function>saHpiEventGet</function> are called.  It may be called
+      implicitly at other times depending on the running mode of OpenHPI.
+    </para>
+    <sect2>
+      <title>Mechanics of the Event Loop</title>
+    <para>
+      When the event loop is called it has the following effect:
+    </para>
+    <orderedlist>
+      <listitem><para>
+        Get the list of all active handlers
+        </para></listitem>
+      <listitem><para>
+        For each handler, call <function>get_event</function> until it
+        returns 0 (meaning no more events) or < 0 (meaning an error
+        has occurred).
+      </para></listitem>
+      <listitem><para>
+        As each event is found, determine if the event contains a
+        valid domain reference.  If it does, tag it with the handler
+        that originated it, then pass it to the processing queue.
+      </para></listitem>
+      <listitem><para>
+        Once all handlers have run out of events, run through the
+        process queue in order and process each event.
+      </para></listitem>
+      </orderedlist>
+    <para>
+      OpenHPI events come in 3 basic types, Resource, RDR, and HPI.
+      Each type ends up causing different actions during processing.
+    </para>
+      <itemizedlist>
+        <listitem><para>
+          Resource - adds or removes a resource from the domain's
+          Resource Presence Table.  This will generate an SAHPI event
+          of RESOURCE type for every session subscribed to the
+          domain. </para>
+          <note><para>In HPI A there was no HPI resource event,
+          hence the need for our own internal type.  For user simplicity we
+          don't require plugins to generate their own HPI RESOURCE
+          events</para></note>
+        </listitem>
+        <listitem><para>
+          RDR - adds or removes an RDR from the domain's Resource
+          Presence Table relating to a specific resource.  There is no
+          HPI event type generated for this.
+        </para></listitem>
+        <listitem><para>
+          HPI - this is a pass through HPI event which will be
+          propogated to every session that is subscribed for a
+          particular domain.  Certain HPI events (like hotswap) may
+          trigger other actions and state changes in the OpenHPI
+          library.  The specifics of this should be hidden from the
+          user.
+          </para></listitem>
+      </itemizedlist>
+    </sect2>
+  <sect2>
+    <title>Threaded OpenHPI</title>
+    <para>
+      OpenHPI is thread safe for all applications.  A lot of work has
+      been done to make this efficient, and yet not so granular that 
+      deadlocks will happen.
+    </para>
+    <para>
+      In addition, OpenHPI can run in an optional threaded mode.  In
+      this mode an event thread is spawned during initialization of
+      the library. This event thread will periodically poll for
+      events from the plugins.  It will also wait on a conditional
+      variable that can be signaled by the plugins when events are
+      ready to be processed.
+    </para>
+  </sect2>
+  </sect1>
+  <sect1>
+    <title>Root Data Structures</title>
+    <para>
+      <literallayout>
+        How to handler domains?
+
+        Top Level Domain Table
+
+        oh_domain_get(id, out *domain);
+       
+
+        Session Structure
+        ----------------------------
+        
+
+        DomainTable
+        ------------------
+        Id
+        
+        
+      OpenHPI 2.0 will be based on the HPI B specification (currently
+      revision B.1.1 at the time of this writing).  The HPI B spec is
+      seen by the industry as a dramatic improvement over the HPI A
+      spec.  It includes many new concepts such as the Domain Alarm
+      Table, Annuciators, and a simplified domain model.
+    </literallayout>
+    </para>
+    <para>
+      Unfortunately these changes are extensive enough that HPI B
+      isn't source or binarily compatible with HPI A.  This document
+      will provide some information in addressing porting from HPI A
+      to HPI B as it addresses specific changes between the two
+      specifications.
+    </para>
+  </sect1>
+</chapter>
