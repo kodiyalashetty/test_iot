@@ -1,0 +1,19 @@
+There are a number of infrastructure TODOs for the design document to
+make this more clean.  Please feel free to accomplish any of these to
+help move us along.
+
+Autoconf
+---------------------
+* detect docbook utils
+* detect docbook pdf tools
+* detect tidy (disable html publish without it)
+
+
+Utilities
+---------------------
+* generate a revisions chapter based on cvs logs
+
+
+Formatting
+--------------------
+* 
