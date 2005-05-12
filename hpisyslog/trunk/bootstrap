@@ -31,9 +31,6 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  
  
-
-
-libtoolize --copy --force --automake
 aclocal
 autoheader
 automake --add-missing --copy --foreign
