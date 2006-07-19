@@ -1,0 +1,102 @@
+
+
+	How to install
+cd <this directory>
+./bootstrap
+./configure
+./make install
+
+
+        What is it?
+
+This is Python/C extention module to work with SAF HPI API structures and SAF HPI API like functions.
+Python 2.3 or higher is needed.
+
+To load this module just print in python:
+
+>>> from ohpi import *
+
+There is sample file:
+funcs - provides some python functions to show resource list, show domain info etc. 
+
+All HPI structures are represented by python classes with the same name, i.e if C structure is
+
+typedef struct {
+	...........
+} SaHpiSensorRecT;
+
+you can use in python class
+oh> sensorrec = SaHpiSensorRecT()
+python class members have the names of corresponding C structure members.
+You can write in python:
+>>> a = sensorrec.ThresholdDefn.IsAccessible
+>>> sensorrec.ThresholdDefn.IsAccessible = a
+
+
+
+The difference is in SaHpiTextBufferT handlig. Now only text DataType is supported
+>>> tb = SaHpiTextBufferT()
+>>> tb.Data = "new textbuffer data"
+>>> tb.Data
+'new textbuffer data'
+oh>   
+Assigning to the SaHpiTextBufferT Data field sets DataType and DataLength fields correspondingly.
+>>> tb.DataLength
+19
+>>> tb.DataType
+3
+>>>
+
+SaHpiEntityPathT fields of structures are represented by python typles of 2-members tuples (type, instance)
+for example:
+oh> saHpiSessionOpen(1)
+{'rv': 0, 'SessionId': 2}
+oh> ohpi.saHpiDiscover(2)
+0
+>>> rpt = SaHpiRptEntryT()
+>>> saHpiRptEntryGetByResourceId(2, 14, rpt)
+0
+>>> rpt.ResourceEntity
+((23, 3), (12, 1))
+>>>
+Asighning to SaHpiEntityPathT fields is not implemented
+
+All enums and #defines are represented by python variables with the same names:
+>>> SA_OK
+0
+
+Functions described in SaHpi.h and oh_get_default_domain_id() are implemented.
+There is the distinction in representation of python functions and their C prototypes.
+If the function doesn't have integer class pointers arguments(SaHpi*IdT *, SAHPiTimeoutT *, ...)
+the representation of python function is identical to its C prototype, the fucnction has
+the same arguments and returns the integer error:
+oh> ohpi.saHpiDiscover(2)
+0
+
+
+If the C prototype has integer class pointers arguments, these arguments are ommited in function call
+but the function returns python dictionary. This dictionary has the member "rv", which is 
+the result of C prototype, and the integer members with the names of ommited C arguments as
+they described in SaHpi.h file:
+oh> ohpi.saHpiSessionOpen(1)
+{'rv': 0, 'SessionId': 2}
+
+Thre are some additional functions in ohpi module:
+1. And(a,b), Or(a,b), Not(a) implement bit logic operations on integers:
+>>> Or(8,6)
+14
+>>>
+2. StrTime(time) returns string representation of HPI time.
+oh> di.RptUpdateTimestamp
+1118046227809176000L
+oh> StrTime(di.RptUpdateTimestamp)
+'2005-06-06 12:23:47'
+>>>
+
+3. OpenHPI utilities functions oh_lookup_* are implemented as well.
+
+>>> oh_lookup_error(-1010)
+'INVALID_DATA'
+>>>
+  
+
