@@ -1,0 +1,8 @@
+include Makefile
+include README
+include COPYING
+include *.i
+include swigify.py
+include deps.py
+include setup.py
+recursive-include examples *.py
