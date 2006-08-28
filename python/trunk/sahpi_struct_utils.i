@@ -132,6 +132,11 @@ SaErrorT oh_fprint_eventlogentry(FILE *stream,
 
 SaErrorT oh_fprint_ctrlstate(FILE *stream, const SaHpiCtrlStateT *thisctrlstate, int offsets);
 
+SaErrorT oh_fprint_thresholds(FILE *stream,
+                              const SaHpiSensorThresholdsT *thresholds,
+                              const SaHpiSensorDataFormatT *format,
+                              int offsets);
+
 SaErrorT oh_print_text(const SaHpiTextBufferT *buffer);
 SaErrorT oh_print_bigtext(const oh_big_textbuffer *big_buffer);
 SaErrorT oh_print_event(const SaHpiEventT *event, const SaHpiEntityPathT *entitypath, int offsets);
@@ -147,6 +152,9 @@ SaErrorT oh_print_watchdogrec(const SaHpiWatchdogRecT *watchdog, int offsets);
 SaErrorT oh_print_eventloginfo(const SaHpiEventLogInfoT *thiselinfo, int offsets);
 SaErrorT oh_print_eventlogentry(const SaHpiEventLogEntryT *thiseventlog, const SaHpiEntityPathT *entitypath, int offsets);
 SaErrorT oh_print_ctrlstate(const SaHpiCtrlStateT *thisctrlstate, int offsets);
+SaErrorT oh_print_thresholds(const SaHpiSensorThresholdsT *thresholds,
+                             const SaHpiSensorDataFormatT *format,
+                             int offsets);
 
 SaErrorT oh_build_event(oh_big_textbuffer *buffer, const SaHpiEventT *event, const SaHpiEntityPathT *entitypath, int offsets);
 SaErrorT oh_build_threshold_mask(oh_big_textbuffer *buffer, const SaHpiSensorThdMaskT tmask, int offsets);
