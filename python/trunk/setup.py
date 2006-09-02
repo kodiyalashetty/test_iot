@@ -3,7 +3,7 @@ from deps import *
 from distutils.core import setup, Extension
 
 reqglibver = '2.2.0'
-reqopenhpiver = '2.5.3'
+reqopenhpiver = '2.6.1'
 reqswigver = '1.3.27'
 reqpythonver = '2.3.0'
 
