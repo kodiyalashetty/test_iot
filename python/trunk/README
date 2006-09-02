@@ -16,7 +16,7 @@ Requirements
 Python >= 2.3
 SWIG >= 1.3.27
 GLIB >= 2.2.0
-OpenHPI >= 2.5.3
+OpenHPI >= 2.6.1
 
 Note: If any of these requirements are installed on non-standard
 directories (e.g. not in /usr or /usr/local) the extension will not build.
