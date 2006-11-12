@@ -20,26 +20,54 @@
 #include <glib.h>
 #include <SaHpi.h>
 
+/* Character for blanking out normalized strings based on entity path */
+#define OH_DERIVE_BLANK_CHAR 'x'
+#define OH_DERIVE_BLANK_STR "x"
+
+/* Max number of digits an enitity instance has */
+#define OH_MAX_LOCATION_DIGITS 6
+
+/* Definitions for describing entity path patterns */
+typedef struct {
+        SaHpiBoolT is_dot;
+        SaHpiEntityTypeT type;
+} oh_entity_type_pattern;
+
+typedef struct {
+        SaHpiBoolT is_dot;
+        SaHpiEntityLocationT location;
+} oh_entity_location_pattern;
+
+typedef struct {
+        SaHpiBoolT is_splat;
+        oh_entity_type_pattern etp;
+        oh_entity_location_pattern elp;
+} oh_entity_pattern;
+
+typedef struct {
+        oh_entity_pattern epattern[SAHPI_MAX_ENTITY_PATH];
+} oh_entitypath_pattern;
+
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif 
 
 SaHpiBoolT oh_cmp_ep(const SaHpiEntityPathT *ep1,
 		     const SaHpiEntityPathT *ep2);
-
+	
 SaErrorT oh_concat_ep(SaHpiEntityPathT *dest,
 		      const SaHpiEntityPathT *append);
 
 SaErrorT oh_decode_entitypath(const SaHpiEntityPathT *ep,
 			      oh_big_textbuffer *bigbuf);
 
-SaErrorT oh_encode_entitypath(const char *epstr,
+SaErrorT oh_encode_entitypath(const gchar *epstr,
 			      SaHpiEntityPathT *ep);
 
 SaErrorT oh_init_ep(SaHpiEntityPathT *ep);
 
+#define oh_print_ep(ep_ptr, offsets) oh_fprint_ep(stdout, ep_ptr, offsets)
 SaErrorT oh_fprint_ep(FILE *stream, const SaHpiEntityPathT *ep, int offsets);
-SaErrorT oh_print_ep(const SaHpiEntityPathT *ep, int offsets);
 
 SaErrorT oh_set_ep_location(SaHpiEntityPathT *ep,
 			    SaHpiEntityTypeT et,
@@ -47,10 +75,15 @@ SaErrorT oh_set_ep_location(SaHpiEntityPathT *ep,
 
 SaHpiBoolT oh_valid_ep(const SaHpiEntityPathT *ep);
 
-char * oh_derive_string(SaHpiEntityPathT *ep,
+gchar * oh_derive_string(SaHpiEntityPathT *ep,
 			 SaHpiEntityLocationT offset,
 			 int base,
-			 const char *str);
+			 const gchar *str);
+                     
+SaErrorT oh_compile_entitypath_pattern(const char *epp_str,
+                                       oh_entitypath_pattern *epp);
+SaHpiBoolT oh_match_entitypath_pattern(oh_entitypath_pattern *epp,
+                                       SaHpiEntityPathT *ep);
 
 #ifdef __cplusplus
 }
