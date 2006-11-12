@@ -4,6 +4,7 @@
 #include <SaHpiAtca.h>
 #include <SaHpiBladeCenter.h>
 #include <oHpi.h>
+#include <oh_utils.h>
 #include <string.h>
 %}
 int memcmp(const void *s1, const void *s2, size_t n);
@@ -249,6 +250,7 @@ int memcmp(const void *s1, const void *s2, size_t n);
 }
 %include "ohpi.i"
 /* SaHpi Utils typemaps */
+%apply char * { gchar * }
 %apply long long *OUTPUT { SaHpiTimeT *time }
 %include "sahpi_time_utils.i"
 %apply unsigned short *OUTPUT { SaHpiEventStateT *event_state }
@@ -299,6 +301,46 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %include "sahpi_enum_utils.i"
 %include "sahpiatca_enum_utils.i"
 /* OpenHPI Utils typemaps */
+%typemap (in) oh_entity_pattern epattern[ANY] {
+        int i, datalen;
+        oh_entity_pattern temp[SAHPI_MAX_ENTITY_PATH];
+        memset(temp, 0, sizeof(oh_entity_pattern)*SAHPI_MAX_ENTITY_PATH);
+        datalen = PyList_Size($input);
+        if (!PyList_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list");
+                return NULL;
+        }
+        if (datalen > $1_dim0) {
+                PyErr_SetString(PyExc_ValueError, "Size mismatch. Expected no more than 16 elements");
+                return NULL;
+        }
+        for (i = 0; i < datalen; i++) {
+                PyObject *o = PyList_GetItem($input, i);
+                oh_entity_pattern *entry = NULL;
+                int conv_res = SWIG_ConvertPtr(o, (void *)(void *)&entry, SWIGTYPE_p_oh_entity_pattern, 0 |  0 );
+                if (!SWIG_IsOK(conv_res)) {
+                        SWIG_exception_fail(SWIG_ArgError(res1),
+                                "List element is not of oh_entity_pattern type");
+
+                } else {
+                        memcpy(temp + i, entry, sizeof(oh_entity_pattern));
+                }
+        }
+        $1 = temp;
+}
+%typemap (memberin) oh_entity_pattern epattern[ANY] {
+        memcpy($1, $input, sizeof(oh_entity_pattern)*$1_dim0);
+}
+%typemap (out) oh_entity_pattern epattern[ANY] {
+        int i;
+        $result = PyList_New($1_dim0);
+        for (i = 0; i < $1_dim0; i++) {
+                PyObject *entityobj = SWIG_NewPointerObj(SWIG_as_voidptr(&$1[i]),
+                                                         SWIGTYPE_p_oh_entity_pattern,
+                                                         0);
+                PyList_SetItem($result, i, entityobj);
+        }
+}
 %include "epath_utils.i"
 %include "uid_utils.i"
 %typemap (in, numinputs=0) GSList **res_new (GSList *new_res) {

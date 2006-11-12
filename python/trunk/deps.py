@@ -16,11 +16,12 @@ __author__ = 'Renier Morales <renierm@users.sf.net>'
 
 import sys, os, re
 
+pkg_config_path = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig:/opt/gnome/lib/pkgconfig'
+
 def get_glib_cflags():
 	"""Gets the cflags needed to use glib"""
-	pkgcmd = os.popen('PKG_CONFIG_PATH=$PKG_CONFIG_PATH:' +
-                          '/usr/local/lib/pkgconfig ' +
-                          'pkg-config --cflags glib-2.0', 'r')
+	pkgcmd = os.popen(pkg_config_path +
+                          ' pkg-config --cflags glib-2.0', 'r')
         pkgcmd_text = pkgcmd.read()
         pkgcmd.close()
 	includes = pkgcmd_text.split()
@@ -32,9 +33,8 @@ def get_glib_cflags():
 def check_pkgcfg_ver(reqver_text, pkgname):
 	"""Check for requried version using pkg-config"""
 	reqver = map(int, reqver_text.split('.'))
-	pkgcmd = os.popen('PKG_CONFIG_PATH=$PKG_CONFIG_PATH:' +
-                          '/usr/local/lib/pkgconfig ' +
-                          'pkg-config --modversion ' + pkgname, 'r')
+	pkgcmd = os.popen(pkg_config_path +
+                          ' pkg-config --modversion ' + pkgname, 'r')
 	pkgcmd_text = pkgcmd.read()
 	pkgcmd.close()
 	match = re.search(r'^([0-9]+)\.([0-9]+)\.([0-9]+)', pkgcmd_text)
@@ -56,7 +56,7 @@ def check_openhpiver(reqver_text):
 def check_swigver(reqver_text):
 	"""Check for required SWIG version"""
 	reqver = map(int, reqver_text.split('.'))
-	swigcmd = os.popen('swig -version', 'r')
+	swigcmd = os.popen('PATH=$PATH:/usr/local/bin swig -version', 'r')
 	swigcmd_text = swigcmd.read()
 	swigcmd.close()
 	match = re.search(r'\sSWIG\sVersion\s([0-9]+)\.([0-9]+)\.([0-9]+)',
