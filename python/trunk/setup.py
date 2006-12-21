@@ -44,7 +44,7 @@ setup(name='py-openhpi',
       			     ['openhpi.i'],
 			     libraries=['openhpi'],
 			     include_dirs=includes,
-			     extra_link_args=['-export-dynamic']
+			     extra_link_args=['-rdynamic']
 			    )
 		  ],
       py_modules=['openhpi']
