@@ -4,7 +4,7 @@ from distutils.core import setup, Extension
 
 reqglibver = '2.2.0'
 reqopenhpiver = '2.6.1'
-reqswigver = '1.3.27'
+reqswigver = '1.3.29'
 reqpythonver = '2.3.0'
 
 check = check_glibver(reqglibver)
@@ -43,7 +43,8 @@ setup(name='py-openhpi',
       ext_modules=[Extension('_openhpi',
       			     ['openhpi.i'],
 			     libraries=['openhpi'],
-			     include_dirs=includes
+			     include_dirs=includes,
+			     extra_link_args=['-export-dynamic']
 			    )
 		  ],
       py_modules=['openhpi']
