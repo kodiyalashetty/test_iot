@@ -76,13 +76,13 @@ def check_pythonver(reqver_text):
 
 def check_ver(ver, reqver):
 	if ver[0] < reqver[0]:
-		return '.'.join(ver)
+		return '.'.join(map(str,ver))
 	elif ver[0] == reqver[0]:
 		if ver[1] < reqver[1]:
-			return '.'.join(ver)
+			return '.'.join(map(str,ver))
 		elif ver[1] == reqver[1]:
 			if ver[2] < reqver[2]:
-				return '.'.join(ver)
+				return '.'.join(map(str,ver))
 		
 	return None
 
