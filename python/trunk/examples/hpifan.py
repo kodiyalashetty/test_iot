@@ -16,7 +16,7 @@ This is a port from the C version of hpifan over to Python.
 The C version comes bundled with the OpenHPI package.
 
 Author(s):
-	Renier Morales <renierm@users.sf.net>
+	Renier Morales <renier@openhpi.org>
 """
 
 import sys
@@ -27,8 +27,13 @@ parser = OptionParser()
 parser.add_option('-s',
 		  '--set',
 		  dest='fan_speed',
-		  help='set the fan speed level',
+		  help='set the fan speed level (also sets manual mode)',
 		  metavar='<fan speed>')
+parser.add_option('-a',
+		  '--auto',
+		  dest='auto_mode',
+		  action='store_true',
+		  help='sets the fan to auto mode')
 
 options, args = parser.parse_args()
 
@@ -40,61 +45,74 @@ def get_fan_speed(sid, rid, num):
 		return error
 	
 	if state.Type != SAHPI_CTRL_TYPE_ANALOG:
-		print 'Cannot handler non-analog fan state!'
+		print 'Cannot handle non-analog fan state!'
 		return SA_ERR_HPI_ERROR
 
 	speed = state.StateUnion.Analog
 
 	return SA_OK, speed, mode
 
-def set_fan_speed(sid, rid, num, speed, mode):
+def set_fan(sid, rid, num, speed=None):
 	state = SaHpiCtrlStateT()
 	state.Type = SAHPI_CTRL_TYPE_ANALOG
-	state.StateUnion.Analog = speed
+	mode = SAHPI_CTRL_MODE_AUTO
+	if speed:
+		state.StateUnion.Analog = speed
+		mode = SAHPI_CTRL_MODE_MANUAL
+	
 	error = saHpiControlSet(sid, rid, num, mode, state)
 	if error != SA_OK:
-		print 'Cannot set fan state: %s' % oh_lookup_error(error)
+		print 'Cannot set fan state or mode: (%s, %s)' % (oh_lookup_error(error),
+								  oh_lookup_ctrlmode(mode))
 		return error
 
 	return SA_OK
 
 def do_fan(sid, rid, rdr):
 	ctrl_rec = rdr.RdrTypeUnion.CtrlRec
-	print '\tFan: Num %d, Id %s' % (ctrl_rec.Num, rdr.IdString.Data)
+	print '\tFan: Num %d, Id "%s"' % (ctrl_rec.Num, rdr.IdString.Data)
 	if ctrl_rec.Type != SAHPI_CTRL_TYPE_ANALOG:
-		print 'Cannot handler non analog fan controls!'
+		print 'Cannot handle non analog fan controls!'
 		return 0
 	
 	print '\t\tMin       %d' % ctrl_rec.TypeUnion.Analog.Min
 	print '\t\tMax       %d' % ctrl_rec.TypeUnion.Analog.Max
 	print '\t\tDefault   %d' % ctrl_rec.TypeUnion.Analog.Default
 
-	error, speed, ctrl_mode = get_fan_speed(sid, rid, ctrl_rec.Num)
+	error, fan_speed, ctrl_mode = get_fan_speed(sid, rid, ctrl_rec.Num)
 	if error != SA_OK:
 		return 0
 	
-	print '\t\tCurrent   %d' % speed
-	if options.fan_speed == None:
-		return 0
+	print '\t\tCurrent   %d (%s)' % (fan_speed, oh_lookup_ctrlmode(ctrl_mode))
 	
-	fan_speed = options.fan_speed
-	if (fan_speed < ctrl_rec.TypeUnion.Analog.Min or
-	    fan_speed > ctrl_rec.TypeUnion.AnalogMax):
-	    	print 'Fan speed %d is out of range [%d, %d] !' % (fan_speed,
-			ctrl_rec.TypeUnion.Analog.Min,
-			ctrl_rec.TypeUnion.AnalogMax)
+	if options.fan_speed:
+		fan_speed = int(options.fan_speed)
+		if (fan_speed < ctrl_rec.TypeUnion.Analog.Min or
+		    fan_speed > ctrl_rec.TypeUnion.Analog.Max):
+			print 'Fan speed %d is out of range [%d, %d] !' % (
+				fan_speed,
+				ctrl_rec.TypeUnion.Analog.Min,
+				ctrl_rec.TypeUnion.Analog.Max)
+			return 0
+
+		error = set_fan(sid, rid, ctrl_rec.Num, fan_speed)
+		if error != SA_OK:
+			return 0
+	
+	elif options.auto_mode:
+		error = set_fan(sid, rid, ctrl_rec.Num)
+		if error != SA_OK:
+			return 0
+	
+	else:
 		return 0
 
-	speed = fan_speed
-	error = set_fan_speed(sid, rid, ctrl_rec.Num, speed, ctrl_mode)
+	error, fan_speed, ctrl_mode = get_fan_speed(sid, rid, ctrl_rec.Num)
 	if error != SA_OK:
 		return 0
 
-	error, speed, ctrl_mode = get_fan_speed(sid, rid, ctrl_rec.Num)
-	if error != SA_OK:
-		return 0
-
-	print '\t\tNew speed %d set' % speed
+	print '\t\tNew speed %d (%s) set' % (fan_speed,
+					     oh_lookup_ctrlmode(ctrl_mode))
 	return 0
 	
 def discover_domain(sid):

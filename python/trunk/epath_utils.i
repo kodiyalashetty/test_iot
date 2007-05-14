@@ -66,8 +66,8 @@ SaErrorT oh_encode_entitypath(const gchar *epstr,
 
 SaErrorT oh_init_ep(SaHpiEntityPathT *ep);
 
-#define oh_print_ep(ep_ptr, offsets) oh_fprint_ep(stdout, ep_ptr, offsets)
 SaErrorT oh_fprint_ep(FILE *stream, const SaHpiEntityPathT *ep, int offsets);
+SaErrorT oh_print_ep(const SaHpiEntityPathT *ep_ptr, int offsets);
 
 SaErrorT oh_set_ep_location(SaHpiEntityPathT *ep,
 			    SaHpiEntityTypeT et,
