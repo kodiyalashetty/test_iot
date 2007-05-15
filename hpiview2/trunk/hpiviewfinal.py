@@ -38,20 +38,20 @@ class MyFrame(wx.Frame):
         # Tool Bar
         self.frame_1_toolbar = wx.ToolBar(self, -1, style=wx.TB_HORIZONTAL|wx.TB_FLAT|wx.TB_3DBUTTONS|wx.TB_TEXT|wx.TB_HORZ_LAYOUT|wx.TB_HORZ_TEXT)
         self.SetToolBar(self.frame_1_toolbar)
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Close", wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\close.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Discover", wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\discover.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Subscribe events", wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\unsubscribe events.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Get event", wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\Get event.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Close", wx.Bitmap("close.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Discover", wx.Bitmap("discover.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Subscribe events", wx.Bitmap("unsubscribe events.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Get event", wx.Bitmap("Get event.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
 
         # Tool Bar end
-        self.bitmap_button_1 = wx.BitmapButton(self, -1, wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\Side toolbar1.bmp", wx.BITMAP_TYPE_ANY))
-        self.bitmap_button_2 = wx.BitmapButton(self, -1, wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\Side toolbar2.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_button_1 = wx.BitmapButton(self, -1, wx.Bitmap("Side toolbar1.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_button_2 = wx.BitmapButton(self, -1, wx.Bitmap("Side toolbar2.bmp", wx.BITMAP_TYPE_ANY))
         self.list_box_1 = wx.ListBox(self, -1, choices=["DEFAULT"], style=wx.LB_SINGLE|wx.LB_HSCROLL)
         self.tree_ctrl_1 = wx.TreeCtrl(self.notebook_1_pane_1, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_LINES_AT_ROOT|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.text_ctrl_1 = wx.TextCtrl(self.panel_1, -1, "", style=wx.TE_MULTILINE|wx.TE_RICH2|wx.TE_LINEWRAP)
-        self.bitmap_1 = wx.StaticBitmap(self, -1, wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\Bottom toolbar1.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_1 = wx.StaticBitmap(self, -1, wx.Bitmap("Bottom toolbar1.bmp", wx.BITMAP_TYPE_ANY))
         self.button_1 = wx.Button(self, -1, "Messages", style=wx.BU_LEFT|wx.NO_BORDER)
-        self.bitmap_2 = wx.StaticBitmap(self, -1, wx.Bitmap("C:\Documents and Settings\Administrator\My Documents\My Pictures\Bottom toolbar2.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_2 = wx.StaticBitmap(self, -1, wx.Bitmap("Bottom toolbar2.bmp", wx.BITMAP_TYPE_ANY))
         self.button_2 = wx.Button(self, -1, "Events", style=wx.BU_LEFT|wx.NO_BORDER)
 
         self.__set_properties()
