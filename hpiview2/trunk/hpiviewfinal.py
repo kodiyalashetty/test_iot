@@ -7,12 +7,14 @@ import sys
 
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
-        # begin wxGlade: MyFrame.__init__
+    # begin wxGlade: MyFrame.__init__
         kwds["style"] = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.MAXIMIZE_BOX|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.RESIZE_BORDER|wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.notebook_1 = wx.Notebook(self, -1, style=0)
         self.notebook_1_pane_1 = wx.Panel(self.notebook_1, -1)
         self.panel_1 = wx.Panel(self.notebook_1_pane_1, -1)
+        # end wxGlade
+        
 
         # Menu Bar
         self.frame_1_menubar = wx.MenuBar()
@@ -38,20 +40,20 @@ class MyFrame(wx.Frame):
         # Tool Bar
         self.frame_1_toolbar = wx.ToolBar(self, -1, style=wx.TB_HORIZONTAL|wx.TB_FLAT|wx.TB_3DBUTTONS|wx.TB_TEXT|wx.TB_HORZ_LAYOUT|wx.TB_HORZ_TEXT)
         self.SetToolBar(self.frame_1_toolbar)
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Close", wx.Bitmap("close.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Discover", wx.Bitmap("discover.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Subscribe events", wx.Bitmap("unsubscribe events.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
-        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Get event", wx.Bitmap("Get event.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Close", wx.Bitmap("./images/close.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Discover", wx.Bitmap("./images/discover.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Subscribe events", wx.Bitmap("./images/unsubscribe events.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
+        self.frame_1_toolbar.AddLabelTool(wx.NewId(), "Get event", wx.Bitmap("./images/Get event.bmp", wx.BITMAP_TYPE_ANY), wx.NullBitmap, wx.ITEM_NORMAL, "", "")
 
         # Tool Bar end
-        self.bitmap_button_1 = wx.BitmapButton(self, -1, wx.Bitmap("Side toolbar1.bmp", wx.BITMAP_TYPE_ANY))
-        self.bitmap_button_2 = wx.BitmapButton(self, -1, wx.Bitmap("Side toolbar2.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_button_1 = wx.BitmapButton(self, -1, wx.Bitmap("./images/Side toolbar1.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_button_2 = wx.BitmapButton(self, -1, wx.Bitmap("./images/Side toolbar2.bmp", wx.BITMAP_TYPE_ANY))
         self.list_box_1 = wx.ListBox(self, -1, choices=["DEFAULT"], style=wx.LB_SINGLE|wx.LB_HSCROLL)
         self.tree_ctrl_1 = wx.TreeCtrl(self.notebook_1_pane_1, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_LINES_AT_ROOT|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.text_ctrl_1 = wx.TextCtrl(self.panel_1, -1, "", style=wx.TE_MULTILINE|wx.TE_RICH2|wx.TE_LINEWRAP)
-        self.bitmap_1 = wx.StaticBitmap(self, -1, wx.Bitmap("Bottom toolbar1.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_1 = wx.StaticBitmap(self, -1, wx.Bitmap("./images/Bottom toolbar1.bmp", wx.BITMAP_TYPE_ANY))
         self.button_1 = wx.Button(self, -1, "Messages", style=wx.BU_LEFT|wx.NO_BORDER)
-        self.bitmap_2 = wx.StaticBitmap(self, -1, wx.Bitmap("Bottom toolbar2.bmp", wx.BITMAP_TYPE_ANY))
+        self.bitmap_2 = wx.StaticBitmap(self, -1, wx.Bitmap("./images/Bottom toolbar2.bmp", wx.BITMAP_TYPE_ANY))
         self.button_2 = wx.Button(self, -1, "Events", style=wx.BU_LEFT|wx.NO_BORDER)
 
         self.__set_properties()
@@ -59,6 +61,7 @@ class MyFrame(wx.Frame):
     
     # Binding of the events to the Components
         self.Bind(wx.EVT_BUTTON, self.New_Session_Handler, self.bitmap_button_2)
+        self.Bind(wx.EVT_BUTTON, self.Hide_Domain_Handler, self.bitmap_button_1)
         self.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, self.list_box_1)
         self.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler, id=-1)   
         self.Bind(wx.EVT_TOOL, self.CLose_Button_Handler, id=-1)
@@ -66,7 +69,12 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, self.tree_ctrl_1)
         self.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, self.tree_ctrl_1)
 
-        # end wxGlade
+    # initially clean up the window , ie having no elements
+        self.list_box_1.Delete(self.list_box_1.GetSelection())
+        self.tree_ctrl_1.DeleteAllItems()
+        self.text_ctrl_1.Clear()
+        self.notebook_1.Show(False)
+    # end wxGlade
 
     def __set_properties(self):
         # begin wxGlade: MyFrame.__set_properties
@@ -135,25 +143,90 @@ class MyFrame(wx.Frame):
     def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
         self.list_box_1.Delete(self.list_box_1.GetSelection())
         self.tree_ctrl_1.DeleteAllItems()
-    
+        self.text_ctrl_1.Clear()
+        self.notebook_1.Show(False)
+        event.Skip()
 
     def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
         #print "Event handler `Menu_Session_Quit_Handler' not implemented"
-        #event.Skip()
-        sys.exit()
+        sys.quit()
 
+      
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
-        self.tree_ctrl_1.AddRoot("ListItem #"+str(self.list_box_1.GetCount()),-1,-1,None)
+        self.tree_ctrl_1.AddRoot("SYSTEM_CHASIS #1",-1,-1,None)
         self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
         self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Planar CPU Area tmeperature Sensor",-1,-1,None)
         self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Digital Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Discrete Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Analog Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Stream Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Text Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Oem Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Annuciator 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Watchdog 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Simulator Inv 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"PROCESSOR 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"CPU temperature sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"DISK_DRIVE #1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"DASD temperature sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"DISK_DRIVE #2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"HS DASD temperature sensor 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"HS DASD temperature sensor 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Digital Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Discrete Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Analog Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Stream Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Text Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Oem Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Annuciator 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Watchdog 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Simulator HS DASD Inv 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"FAN #1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Blower fan speed - percent of maximun RPM",-1,-1,None)
         event.Skip()
     
+    def Hide_Domain_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+        if(self.list_box_1.IsShown() == False):
+            self.list_box_1.Show(show=True)
+        else:
+	    if(self.list_box_1.IsShown() == True):
+	    	self.list_box_1.Show(show=False)
 
     def New_Session_Handler(self, event): # wxGlade: MyFrame.<event_handler>
         self.tree_ctrl_1.DeleteAllItems()
-        self.list_box_1.Insert("ListItem #"+str(self.list_box_1.GetCount()+1),self.list_box_1.GetCount(),None)
-
+	if(self.list_box_1.GetCount() < 1):
+	        self.list_box_1.Insert("DEFAULT",self.list_box_1.GetCount(),None)
+        self.notebook_1.Show(True)
+        self.tree_ctrl_1.AddRoot("SYSTEM_CHASIS #1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Planar CPU Area tmeperature Sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Digital Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Discrete Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Analog Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Stream Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Text Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Oem Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Annuciator 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Watchdog 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Simulator Inv 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"PROCESSOR 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"CPU temperature sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"DISK_DRIVE #1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"DASD temperature sensor",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"DISK_DRIVE #2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"HS DASD temperature sensor 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"HS DASD temperature sensor 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Digital Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Discrete Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Analog Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Stream Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Text Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Oem Control",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Annuciator 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Watchdog 2",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Simulator HS DASD Inv 1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"FAN #1",-1,-1,None)
+        self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetLastChild(self.tree_ctrl_1.GetRootItem()),"Blower fan speed - percent of maximun RPM",-1,-1,None)
 
 # end of class MyFrame
 
