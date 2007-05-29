@@ -60,11 +60,11 @@ class MyFrame(wx.Frame):
         self.__do_layout()
     
     # Binding of the events to the Components
+        self.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler, id=-1)
+        self.Bind(wx.EVT_TOOL, self.CLose_Button_Handler, id=-1)   
         self.Bind(wx.EVT_BUTTON, self.New_Session_Handler, self.bitmap_button_2)
         self.Bind(wx.EVT_BUTTON, self.Hide_Domain_Handler, self.bitmap_button_1)
         self.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, self.list_box_1)
-        self.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler, id=-1)   
-        self.Bind(wx.EVT_TOOL, self.CLose_Button_Handler, id=-1)
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, self.tree_ctrl_1)
         self.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, self.tree_ctrl_1)
         self.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, self.tree_ctrl_1)
@@ -130,7 +130,9 @@ class MyFrame(wx.Frame):
     def sys_activated(self, event): # wxGlade: MyFrame.<event_handler>
         #print "Event handler `sys_activated' not implemented!"
         self.text_ctrl_1.ChangeValue(self.tree_ctrl_1.GetItemText(self.tree_ctrl_1.GetSelection()))
-        #event.Skip()
+	if(self.text_ctrl_1.GetValue()=="SYSTEM_CHASIS #1"):
+		self.text_ctrl_1.ChangeValue("ResourceID			1\nEntity pat			{SYSTEM CHASIS #1}\n					resource\n					deasserts\n					watchdog\n					control\n					annuciator\nCapabilities			power\n					reset\n					inventory_data\n					event_log\n					RDR\n					sensor\nHotSwapCapabalities	none\nResourceTag		Chasis 1\nSeverity				critical\nResource reset state	deassert")
+        event.Skip()
 
     def sys_collapsed(self, event): # wxGlade: MyFrame.<event_handler>
         print "Event handler `sys_collapsed' not implemented!"
@@ -140,18 +142,16 @@ class MyFrame(wx.Frame):
         print "Event handler `sys_expanded' not implemented!"
         event.Skip()
 
+    def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+        #print "Event handler `Menu_Session_Quit_Handler' not implemented"
+        self.Destroy()
+
     def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
         self.list_box_1.Delete(self.list_box_1.GetSelection())
         self.tree_ctrl_1.DeleteAllItems()
         self.text_ctrl_1.Clear()
         self.notebook_1.Show(False)
-        event.Skip()
-
-    def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
-        #print "Event handler `Menu_Session_Quit_Handler' not implemented"
-        sys.quit()
-
-      
+ 
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
         self.tree_ctrl_1.AddRoot("SYSTEM_CHASIS #1",-1,-1,None)
         self.tree_ctrl_1.AppendItem(self.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
