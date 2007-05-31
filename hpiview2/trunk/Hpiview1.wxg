@@ -55,7 +55,7 @@
                     <type>0</type>
                     <short_help></short_help>
                     <long_help></long_help>
-                    <bitmap1>C:\Documents and Settings\Administrator\My Documents\My Pictures\close.bmp</bitmap1>
+                    <bitmap1>images/close.bmp</bitmap1>
                     <bitmap2></bitmap2>
                 </tool>
                 <tool>
@@ -64,7 +64,7 @@
                     <type>0</type>
                     <short_help></short_help>
                     <long_help></long_help>
-                    <bitmap1>C:\Documents and Settings\Administrator\My Documents\My Pictures\discover.bmp</bitmap1>
+                    <bitmap1>images/discover.bmp</bitmap1>
                     <bitmap2></bitmap2>
                 </tool>
                 <tool>
@@ -73,7 +73,7 @@
                     <type>0</type>
                     <short_help></short_help>
                     <long_help></long_help>
-                    <bitmap1>C:\Documents and Settings\Administrator\My Documents\My Pictures\unsubscribe events.bmp</bitmap1>
+                    <bitmap1>images/unsubscribe events.bmp</bitmap1>
                     <bitmap2></bitmap2>
                 </tool>
                 <tool>
@@ -82,7 +82,7 @@
                     <type>0</type>
                     <short_help></short_help>
                     <long_help></long_help>
-                    <bitmap1>C:\Documents and Settings\Administrator\My Documents\My Pictures\Get event.bmp</bitmap1>
+                    <bitmap1>images/Get event.bmp</bitmap1>
                     <bitmap2></bitmap2>
                 </tool>
             </tools>
@@ -108,7 +108,7 @@
                                 <object class="wxBitmapButton" name="bitmap_button_1" base="EditBitmapButton">
                                     <tooltip>Hide domain list</tooltip>
                                     <id>-1</id>
-                                    <bitmap>C:\Documents and Settings\Administrator\My Documents\My Pictures\Side toolbar1.bmp</bitmap>
+                                    <bitmap>images/Side toolbar1.bmp</bitmap>
                                 </object>
                             </object>
                             <object class="sizeritem">
@@ -116,7 +116,7 @@
                                 <option>0</option>
                                 <object class="wxBitmapButton" name="bitmap_button_2" base="EditBitmapButton">
                                     <tooltip>Open new session</tooltip>
-                                    <bitmap>C:\Documents and Settings\Administrator\My Documents\My Pictures\Side toolbar2.bmp</bitmap>
+                                    <bitmap>images/Side toolbar2.bmp</bitmap>
                                 </object>
                             </object>
                         </object>
@@ -194,7 +194,7 @@
                         <option>0</option>
                         <object class="wxStaticBitmap" name="bitmap_1" base="EditStaticBitmap">
                             <attribute>1</attribute>
-                            <bitmap>C:\Documents and Settings\Administrator\My Documents\My Pictures\Bottom toolbar1.bmp</bitmap>
+                            <bitmap>images/Bottom toolbar1.bmp</bitmap>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -210,7 +210,7 @@
                         <option>0</option>
                         <object class="wxStaticBitmap" name="bitmap_2" base="EditStaticBitmap">
                             <attribute>1</attribute>
-                            <bitmap>C:\Documents and Settings\Administrator\My Documents\My Pictures\Bottom toolbar2.bmp</bitmap>
+                            <bitmap>images/Bottom toolbar2.bmp</bitmap>
                         </object>
                     </object>
                     <object class="sizeritem">
