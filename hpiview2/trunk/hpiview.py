@@ -3,6 +3,7 @@
 import wx
 import sys
 import hpiview_window
+import hpiview_callbacks
 
 
 if __name__ == "__main__":

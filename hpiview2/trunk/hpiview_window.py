@@ -6,8 +6,6 @@ import hpiview_callbacks
 
 class Hpiview_Window(wx.Frame):
 
-    # Instantiate the callbacks class
-    ccallback = hpiview_callbacks.Hpiview_Callbacks(self)
 
     def __init__(self, *args, **kwds):
     # begin wxGlade: Hpiview_Window.__init__
@@ -60,7 +58,11 @@ class Hpiview_Window(wx.Frame):
 
         self.__set_properties()
         self.__do_layout()
-    
+        self.Layout()
+        self.Centre()
+    # Instantiate the callbacks class
+	ccallback = hpiview_callbacks.Hpiview_Callbacks()
+   
     # Binding of the events to the Components
         self.Bind(wx.EVT_MENU, ccallback.Menu_Session_Quit_Handler, id=-1)
         self.Bind(wx.EVT_TOOL, ccallback.CLose_Button_Handler, id=-1)   
@@ -123,8 +125,5 @@ class Hpiview_Window(wx.Frame):
         sizer_4.Add(sizer_1, 1, wx.EXPAND, 0)
         self.SetSizer(sizer_4)
         sizer_4.Fit(self)
-        self.Layout()
-        self.Centre()
-
 
         # end wxGlade
