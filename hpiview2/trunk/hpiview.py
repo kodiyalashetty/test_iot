@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import wx
-import sys
 import hpiview_window
 import hpiview_callbacks
 
