@@ -20,7 +20,7 @@ class Hpiview_Window(wx.Frame):
         self.frame_1_menubar = wx.MenuBar()
         self.SetMenuBar(self.frame_1_menubar)
         wxglade_tmp_menu = wx.Menu()
-        wxglade_tmp_menu.Append(wx.NewId(), "Quit", "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(101, "Quit", "", wx.ITEM_NORMAL)
         self.frame_1_menubar.Append(wxglade_tmp_menu, "Session")
         wxglade_tmp_menu = wx.Menu()
         wxglade_tmp_menu.Append(wx.NewId(), "Clear log", "", wx.ITEM_NORMAL)
@@ -62,10 +62,12 @@ class Hpiview_Window(wx.Frame):
         self.Centre()
     # Instantiate the callbacks class
 	ccallback = hpiview_callbacks.Hpiview_Callbacks()
+	fr=self
+	ccallback.setFrame(fr)
    
     # Binding of the events to the Components
-        self.Bind(wx.EVT_MENU, ccallback.Menu_Session_Quit_Handler, id=-1)
-        self.Bind(wx.EVT_TOOL, ccallback.CLose_Button_Handler, id=-1)   
+        self.Bind(wx.EVT_MENU, ccallback.Menu_Session_Quit_Handler)
+        self.Bind(wx.EVT_TOOL, ccallback.CLose_Button_Handler)   
         self.Bind(wx.EVT_BUTTON, ccallback.New_Session_Handler, self.bitmap_button_2)
         self.Bind(wx.EVT_BUTTON, ccallback.Hide_Domain_Handler, self.bitmap_button_1)
         self.Bind(wx.EVT_LISTBOX_DCLICK, ccallback.Set_TreeOnNewSession, self.list_box_1)

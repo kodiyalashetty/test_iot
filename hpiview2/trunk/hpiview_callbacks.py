@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 
 import wx
+import sys
 
 class Hpiview_Callbacks:
 
     frame = None
 
-    def __init__(self, mainFrame):
+    def setFrame(self, mainFrame):
+	global frame 
 	frame = mainFrame
-	print "entered"
 
     def sys_activated(self, event): # wxGlade: MyFrame.<event_handler>
         #print "Event handler `sys_activated' not implemented!"
+	global frame
         frame.text_ctrl_1.ChangeValue(frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()))
 	if(frame.text_ctrl_1.GetValue()=="SYSTEM_CHASIS #1"):
 		frame.text_ctrl_1.ChangeValue("ResourceID			1\nEntity path			{SYSTEM CHASIS #1}\n					resource\n					deasserts\n					watchdog\n					control\n					annuciator\nCapabilities			power\n					reset\n					inventory_data\n					event_log\n					RDR\n					sensor\nHotSwapCapabalities	none\nResourceTag		Chasis 1\nSeverity				critical\nResource reset state	deassert")
@@ -112,16 +114,21 @@ class Hpiview_Callbacks:
         event.Skip()
 
     def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
         #print "Event handler `Menu_Session_Quit_Handler' not implemented"
-        frame.Destroy()
+        frame.DestroyChildren()
+	frame.Destroy()
+	#event.Skip(True)
 
     def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
         frame.list_box_1.Delete(frame.list_box_1.GetSelection())
         frame.tree_ctrl_1.DeleteAllItems()
         frame.text_ctrl_1.Clear()
         frame.notebook_1.Show(False)
  
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
         frame.tree_ctrl_1.AddRoot("SYSTEM_CHASIS #1",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar CPU area temperature sensor",-1,-1,None)
@@ -155,6 +162,7 @@ class Hpiview_Callbacks:
         event.Skip()
     
     def Hide_Domain_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
         if(frame.list_box_1.IsShown() == False):
             frame.list_box_1.Show(show=True)
         else:
@@ -162,6 +170,7 @@ class Hpiview_Callbacks:
 	    	frame.list_box_1.Show(show=False)
 
     def New_Session_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
         frame.tree_ctrl_1.DeleteAllItems()
 	if(frame.list_box_1.GetCount() < 1):
 	        frame.list_box_1.Insert("DEFAULT",frame.list_box_1.GetCount(),None)
@@ -169,6 +178,7 @@ class Hpiview_Callbacks:
         frame.tree_ctrl_1.AddRoot("SYSTEM_CHASIS #1",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar CPU area temperature sensor",-1,-1,None)
+	print "ddd"
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Digital Control",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Discrete Control",-1,-1,None)
         frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Analog Control",-1,-1,None)
