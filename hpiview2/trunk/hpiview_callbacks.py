@@ -85,7 +85,7 @@ class Hpiview_Callbacks:
 		print format % vals
 
     def errorout(format, error):
-	"""Prints HPI error and exits"""
+	"""Prints OpenHPI error and exits"""
 	if error != SA_OK:
 		print format % oh_lookup_error(error)
 		sys.exit(-1)
