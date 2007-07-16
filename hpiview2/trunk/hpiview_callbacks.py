@@ -2,7 +2,6 @@
 
 import wx
 import sys, os
-from optparse import OptionParser
 from openhpi import *
 
 
@@ -15,9 +14,23 @@ class Hpiview_Callbacks:
     res = None
     rdr = None
 
+    def __init__(self, fr):
+	global frame
+	frame = fr
+	frame.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler)
+	frame.Bind(wx.EVT_TOOL, self.CLose_Button_Handler)   
+	frame.Bind(wx.EVT_BUTTON, self.New_Session_Handler, frame.bitmap_button_2)
+	frame.Bind(wx.EVT_BUTTON, self.Hide_Domain_Handler, frame.bitmap_button_1)	
+	frame.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, frame.list_box_1)
+	frame.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, frame.tree_ctrl_1)	
+	frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
+	frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)	
+
+
     def openHpiSession(self):
 	global sid
 	error, sid = saHpiSessionOpen(SAHPI_UNSPECIFIED_DOMAIN_ID, None)
+	print "Session opened"
 	return 
 		
     def discover(self):
@@ -44,7 +57,7 @@ class Hpiview_Callbacks:
 	global rdr
     	res = SaHpiRptEntryT()
     	rdr = SaHpiRdrT()
-
+	eid = SAHPI_FIRST_ENTRY
 	error = SA_OK
 	error1 = SA_OK
 	while error == SA_OK and eid != SAHPI_LAST_ENTRY:
@@ -64,7 +77,13 @@ class Hpiview_Callbacks:
 
 					error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
 				
-					oh_print_rdr(rdr, 4)
+					#oh_print_rdr(rdr, 4)
+					textbuffer = oh_big_textbuffer()
+					oh_init_bigtext(textbuffer)
+					frame.tree_ctrl_1.AddRoot(oh_decode_entitypath(rdr.Entity, textbuffer),-1,-1,None)
+					print rdr.Entity #oh_decode_entitypath(rdr.Entity, textbuffer)
+					break
+					#frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
 		
 					erid = nextrdrid
 		
@@ -72,12 +91,12 @@ class Hpiview_Callbacks:
 			else:
 				dbg('Resource doesn\'t have RDR')
 
-
+			break
 			eid = nexteid
 	return	
 
     def popualateRDRData(self):	
-
+	return
 
     def dbg(format, vals=()):
 	"""Prints message only if verbose is turned on"""
@@ -85,14 +104,10 @@ class Hpiview_Callbacks:
 		print format % vals
 
     def errorout(format, error):
-	"""Prints OpenHPI error and exits"""
+	"""Prints HPI error and exits"""
 	if error != SA_OK:
 		print format % oh_lookup_error(error)
 		sys.exit(-1)
-
-    def setFrame(self, mainFrame):
-	global frame 
-	frame = mainFrame
 
     def sys_activated(self, event): # wxGlade: MyFrame.<event_handler>
         #print "Event handler `sys_activated' not implemented!"
@@ -125,7 +140,7 @@ class Hpiview_Callbacks:
  
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
-	polpulateResAndRdrTypeData()
+	self.polpulateResAndRdrTypeData()
 
     
     def Hide_Domain_Handler(self, event): # wxGlade: MyFrame.<event_handler>
@@ -142,3 +157,5 @@ class Hpiview_Callbacks:
 	if(frame.list_box_1.GetCount() < 1):
 	        frame.list_box_1.Insert("DEFAULT",frame.list_box_1.GetCount(),None)
         frame.notebook_1.Show(True)
+	self.openHpiSession()
+	self.polpulateResAndRdrTypeData()
