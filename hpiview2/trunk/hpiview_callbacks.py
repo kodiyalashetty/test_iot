@@ -55,6 +55,8 @@ class Hpiview_Callbacks:
 	global sid
 	global res
 	global rdr
+	first = True
+	textbuffer = oh_big_textbuffer()
     	res = SaHpiRptEntryT()
     	rdr = SaHpiRdrT()
 	eid = SAHPI_FIRST_ENTRY
@@ -78,20 +80,23 @@ class Hpiview_Callbacks:
 					error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
 				
 					#oh_print_rdr(rdr, 4)
-					textbuffer = oh_big_textbuffer()
-					oh_init_bigtext(textbuffer)
-					frame.tree_ctrl_1.AddRoot(oh_decode_entitypath(rdr.Entity, textbuffer),-1,-1,None)
-					print rdr.Entity #oh_decode_entitypath(rdr.Entity, textbuffer)
-					break
-					#frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Planar Temperature Sensor",-1,-1,None)
-		
+					if(first):
+						textbuffer = oh_big_textbuffer()
+						oh_init_bigtext(textbuffer)
+						oh_decode_entitypath(rdr.Entity, textbuffer)
+						frame.tree_ctrl_1.AddRoot(textbuffer.Data,-1,-1,None)
+						first = False
+						break
+					oh_el_clear(textbuffer)
+					frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),rdr.RdrType,-1,-1,None)
+	
 					erid = nextrdrid
 		
 
 			else:
 				dbg('Resource doesn\'t have RDR')
 
-			break
+
 			eid = nexteid
 	return	
 

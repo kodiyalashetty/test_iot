@@ -2,7 +2,6 @@
 
 import wx
 import sys
-import hpiview_callbacks
 
 class Hpiview_Window(wx.Frame):
 
@@ -60,20 +59,7 @@ class Hpiview_Window(wx.Frame):
         self.__do_layout()
         self.Layout()
         self.Centre()
-    # Instantiate the callbacks class
-	ccallback = hpiview_callbacks.Hpiview_Callbacks()
-	fr=self
-	ccallback.setFrame(fr)
-   
-    # Binding of the events to the Components
-        self.Bind(wx.EVT_MENU, ccallback.Menu_Session_Quit_Handler)
-        self.Bind(wx.EVT_TOOL, ccallback.CLose_Button_Handler)   
-        self.Bind(wx.EVT_BUTTON, ccallback.New_Session_Handler, self.bitmap_button_2)
-        self.Bind(wx.EVT_BUTTON, ccallback.Hide_Domain_Handler, self.bitmap_button_1)
-        self.Bind(wx.EVT_LISTBOX_DCLICK, ccallback.Set_TreeOnNewSession, self.list_box_1)
-        self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, ccallback.sys_activated, self.tree_ctrl_1)
-        self.Bind(wx.EVT_TREE_ITEM_COLLAPSED, ccallback.sys_collapsed, self.tree_ctrl_1)
-        self.Bind(wx.EVT_TREE_ITEM_EXPANDED, ccallback.sys_expanded, self.tree_ctrl_1)
+  
 
     # initially clean up the window , ie having no elements
         self.list_box_1.Delete(self.list_box_1.GetSelection())
