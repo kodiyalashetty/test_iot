@@ -12,8 +12,8 @@ class Hpiview_Callbacks:
     dinfo = None
     Status = None	    	
     res = None
-    rdr = None
-
+    rdr = None		
+		
     def __init__(self, fr):
 	global frame
 	frame = fr
@@ -56,6 +56,7 @@ class Hpiview_Callbacks:
 	global res
 	global rdr
 	first = True
+	firstroot = True
 	textbuffer = oh_big_textbuffer()
     	res = SaHpiRptEntryT()
     	rdr = SaHpiRdrT()
@@ -80,23 +81,39 @@ class Hpiview_Callbacks:
 					error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
 				
 					#oh_print_rdr(rdr, 4)
-					if(first):
+					if(firstroot):
 						textbuffer = oh_big_textbuffer()
 						oh_init_bigtext(textbuffer)
 						oh_decode_entitypath(rdr.Entity, textbuffer)
 						frame.tree_ctrl_1.AddRoot(textbuffer.Data,-1,-1,None)
-						first = False
-						break
-					oh_el_clear(textbuffer)
-					frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),rdr.RdrType,-1,-1,None)
-	
+						firstroot=False
+
+#SAHPI_NO_RECORD,
+#SAHPI_CTRL_RDR,
+#SAHPI_SENSOR_RDR,
+#SAHPI_INVENTORY_RDR,
+#SAHPI_WATCHDOG_RDR,
+#SAHPI_ANNUNCIATOR_RDR,
+#SAHPI_DIMI_RDR,
+#SAHPI_FUMI_RDR
+
+	#					if(rdr.RdrType == SAHPI_SENSOR_RDR):
+	#						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrTypeUnion.SensorRec.Type),-1,-1,None)
+					if(first):
+						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrType),-1,-1,None)
+
+					if(first==False):
+						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(rdr.RdrType),-1,-1,None)
+
 					erid = nextrdrid
 		
 
 			else:
 				dbg('Resource doesn\'t have RDR')
 
-
+			first = False
+		        #frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(rdr.RdrType),-1,-1,None)
+			frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrType),-1,-1,None)
 			eid = nexteid
 	return	
 
