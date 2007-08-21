@@ -13,9 +13,11 @@ class Hpiview_Callbacks:
     Status = None	    	
     res = None
     rdr = None		
+    rdrlist = None
 		
     def __init__(self, fr):
 	global frame
+	global rdrlist
 	frame = fr
 	frame.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler)
 	frame.Bind(wx.EVT_TOOL, self.CLose_Button_Handler)   
@@ -25,7 +27,7 @@ class Hpiview_Callbacks:
 	frame.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, frame.tree_ctrl_1)	
 	frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
 	frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)	
-
+	rdrlist=[["x",0,0,0]]
 
     def openHpiSession(self):
 	global sid
@@ -51,12 +53,11 @@ class Hpiview_Callbacks:
 	return	
 
     def polpulateResAndRdrTypeData(self):
-	global frame
-	global sid
-	global res
-	global rdr
+	global frame,sid , res , rdr ,rdrlist
 	first = True
 	firstroot = True
+	addChildsToRoot = False
+	tbuff = None
 	textbuffer = oh_big_textbuffer()
     	res = SaHpiRptEntryT()
     	rdr = SaHpiRdrT()
@@ -67,43 +68,67 @@ class Hpiview_Callbacks:
 
 		erid = SAHPI_FIRST_ENTRY
 
-		print 'rptentry[%u] tag: %s' % (res.ResourceId, res.ResourceTag.Data)
-
 		error, nexteid = saHpiRptEntryGet(sid, eid, res)
 
 		if error == SA_OK:
 			rid = res.ResourceId
 
+
 			if res.ResourceCapabilities & SAHPI_CAPABILITY_RDR:
-				
+			
 				while error1 == SA_OK and  erid != SAHPI_LAST_ENTRY:
 
 					error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
-				
-					#oh_print_rdr(rdr, 4)
+
 					if(firstroot):
-						textbuffer = oh_big_textbuffer()
-						oh_init_bigtext(textbuffer)
-						oh_decode_entitypath(rdr.Entity, textbuffer)
-						frame.tree_ctrl_1.AddRoot(textbuffer.Data,-1,-1,None)
+						tbuff = oh_big_textbuffer()
+						oh_init_bigtext(tbuff)
+						oh_decode_entitypath(rdr.Entity, tbuff)
+						frame.tree_ctrl_1.AddRoot(tbuff.Data,-1,-1,None)
 						firstroot=False
+						tbuff = None
 
-#SAHPI_NO_RECORD,
-#SAHPI_CTRL_RDR,
-#SAHPI_SENSOR_RDR,
-#SAHPI_INVENTORY_RDR,
-#SAHPI_WATCHDOG_RDR,
-#SAHPI_ANNUNCIATOR_RDR,
-#SAHPI_DIMI_RDR,
-#SAHPI_FUMI_RDR
+					if(addChildsToRoot):				
+						tbuff = oh_big_textbuffer()
+						oh_init_bigtext(tbuff)
+						oh_decode_entitypath(rdr.Entity, tbuff)
+						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),tbuff.Data,-1,-1,None)
+						addChildsToRoot=False
+						tbuff = None
 
-	#					if(rdr.RdrType == SAHPI_SENSOR_RDR):
-	#						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrTypeUnion.SensorRec.Type),-1,-1,None)
 					if(first):
-						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrType),-1,-1,None)
+						if(rdr.RdrType == SAHPI_SENSOR_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",-1,-1,None)			
+							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_CTRL_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type)) + " Control",-1,-1,None)			
+							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+ " Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_WATCHDOG_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"WatchDog # "+ str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),-1,-1,None)			
+							rdrlist.append(["WatchDog # "+str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),rdr.RdrTypeUnion.WatchdogRec.WatchdogNum,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_INVENTORY_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrType),-1,-1,None)			
+							rdrlist.append([str(rdr.RdrType),rdr.RdrType,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_ANNUNCIATOR_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"Annunciator #"+ str(rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum),-1,-1,None)			
+							rdrlist.append(["Annunciator #"+ str(rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum),rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum,rid,rdr.RdrType])
 
-					if(first==False):
-						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(rdr.RdrType),-1,-1,None)
+					if(first == False):
+						if(rdr.RdrType == SAHPI_SENSOR_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",-1,-1,None)			
+							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type))+" Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_CTRL_RDR):						
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type)) + " Control",-1,-1,None)			
+							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+" Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_WATCHDOG_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),"WatchDog # "+ str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),-1,-1,None)			
+							rdrlist.append(["WatchDog # "+str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),rdr.RdrTypeUnion.WatchdogRec.WatchdogNum,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_INVENTORY_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(rdr.RdrType),-1,-1,None)			
+							rdrlist.append([str(rdr.RdrType),rdr.RdrType,rid,rdr.RdrType])
+						if(rdr.RdrType == SAHPI_ANNUNCIATOR_RDR):
+							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),"Annunciator #"+ str(rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum),-1,-1,None)			
+							rdrlist.append(["Annunciator #"+ str(rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum),rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum,rid,rdr.RdrType])
 
 					erid = nextrdrid
 		
@@ -111,10 +136,13 @@ class Hpiview_Callbacks:
 			else:
 				dbg('Resource doesn\'t have RDR')
 
-			first = False
-		        #frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(rdr.RdrType),-1,-1,None)
-			frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(rdr.RdrType),-1,-1,None)
-			eid = nexteid
+		first = False
+		eid = nexteid
+		if(eid > 1):
+			addChildsToRoot=True
+	
+		print 'rptentry[%u] tag: %s' % (res.ResourceId, res.ResourceTag.Data)
+
 	return	
 
     def popualateRDRData(self):	
@@ -132,9 +160,32 @@ class Hpiview_Callbacks:
 		sys.exit(-1)
 
     def sys_activated(self, event): # wxGlade: MyFrame.<event_handler>
-        #print "Event handler `sys_activated' not implemented!"
 	global frame
-
+	global rdrlist
+	global sid
+	reading = None
+	evtState = None
+	textbuffer = oh_big_textbuffer()
+	error = SA_OK
+	frame.text_ctrl_1.ChangeValue(frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()))
+	for ind in range(0,len(rdrlist)):
+		if(rdrlist[ind][0] == frame.text_ctrl_1.GetValue()):
+			if(rdrlist[ind][3]==SAHPI_SENSOR_RDR):
+				oh_init_bigtext(textbuffer)
+				reading = SaHpiSensorReadingT()
+				textbuffer = SaHpiTextBufferT()
+				error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2],rdrlist[ind][1],reading)
+				oh_decode_sensorreading(reading,rdr.RdrTypeUnion.SensorRec.DataFormat,textbuffer)
+				oh_append_textbuffer(textbuffer,"\n"+"Type \t"+str(oh_lookup_sensortype(reading.Type))+"\n"+str(reading.Value.SensorBuffer))
+				oh_append_textbuffer(textbuffer,"Sensor Type \t"+str(oh_lookup_sensorreadingtype(reading.Type))+"\n")
+				oh_append_textbuffer(textbuffer,str(oh_lookup_sensorunits(rdr.RdrTypeUnion.SensorRec.DataFormat.BaseUnits))+"\n")
+				oh_append_textbuffer(textbuffer,"Event Control \t"+str(oh_lookup_sensoreventctrl(rdr.RdrTypeUnion.SensorRec.EventCtrl))+"\n")
+				oh_append_textbuffer(textbuffer,"Min Value \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64)+"\n")
+				oh_append_textbuffer(textbuffer,"Max Value \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64)+"\n")
+				oh_append_textbuffer(textbuffer,"Nominal Value \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64)+"\n")
+				oh_append_textbuffer(textbuffer,"Normal MinValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
+				oh_append_textbuffer(textbuffer,"Normal MaxValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
+				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
 
     def sys_collapsed(self, event): # wxGlade: MyFrame.<event_handler>
         print "Event handler `sys_collapsed' not implemented!"
@@ -146,24 +197,27 @@ class Hpiview_Callbacks:
 
     def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
-        #print "Event handler `Menu_Session_Quit_Handler' not implemented"
+	global sid
+        print "Event handler `Menu_Session_Quit_Handler' not implemented"
+	saHpiSessionClose(sid)
         frame.DestroyChildren()
 	frame.Destroy()
 	#event.Skip(True)
-
-    def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
-	global frame
-	global sid
-	error = saHpiSessionClose(sid)
-        frame.list_box_1.Delete(frame.list_box_1.GetSelection())
-        frame.tree_ctrl_1.DeleteAllItems()
-        frame.text_ctrl_1.Clear()
-        frame.notebook_1.Show(False)
- 
+    
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
 	self.polpulateResAndRdrTypeData()
 
+    
+    def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	global frame
+	global sid
+	#error = saHpiSessionClose(sid)
+	frame.list_box_1.Delete(frame.list_box_1.GetSelection())
+        frame.tree_ctrl_1.DeleteAllItems()
+        frame.text_ctrl_1.Clear()
+        frame.notebook_1.Show(False)
+	#event.Skip(True)
     
     def Hide_Domain_Handler(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
