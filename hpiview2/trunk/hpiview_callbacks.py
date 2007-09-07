@@ -169,7 +169,7 @@ class Hpiview_Callbacks:
 	evtState = None
 	textbuffer = oh_big_textbuffer()
 	error = SA_OK
-	frame.text_ctrl_1.ChangeValue(frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()))
+	frame.text_ctrl_1.SetValue(frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()))
 	for ind in range(0,len(rdrlist)):
 		if(rdrlist[ind][0] == frame.text_ctrl_1.GetValue()):
 			if(rdrlist[ind][3]==SAHPI_SENSOR_RDR):
@@ -181,17 +181,25 @@ class Hpiview_Callbacks:
 				oh_append_textbuffer(textbuffer,"\n"+" Type 			\t"+"Sensor \n")
 				#stype = SaHpiSensorTypeT()
 				#stype ,evtState = saHpiSensorTypeGet(sid,rdrlist[ind][2],rdrlist[ind][1])
-				oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][14])+"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][14])+"\n")
+				if(rdrlist[ind][14]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "True" +"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Sensor Type 		\t"+str(oh_lookup_sensortype(rdrlist[ind][6]))+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Sensor Base Unit 	\t"+str(oh_lookup_sensorunits(rdrlist[ind][5]))+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+str(rdrlist[ind][7])+"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+str(rdrlist[ind][7])+"\n")
+				if(rdrlist[ind][7]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+ "True" +"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Event Control 	\t"+str(oh_lookup_sensoreventctrl(rdrlist[ind][8]))+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Min Value 		\t"+str(rdrlist[ind][9])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Max Value 		\t"+str(rdrlist[ind][10])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Nominal Value 	\t"+str(rdrlist[ind][11])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MinValue 	\t"+str(rdrlist[ind][12])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MaxValue 	\t"+str(rdrlist[ind][13])+"\n")
-				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
 			if(rdrlist[ind][3]==SAHPI_CTRL_RDR):
 				#textbuffer = oh_init_bigtext(textbuffer)
 				ctrlState = SaHpiCtrlStateT()
@@ -199,7 +207,11 @@ class Hpiview_Callbacks:
 				error ,Mode = saHpiControlGet(sid,rdrlist[ind][2],rdrlist[ind][1],ctrlState)
 				#oh_decode_sensorreading(reading,rdr.RdrTypeUnion.SensorRec.DataFormat,textbuffer)
 				oh_append_textbuffer(textbuffer,"\n"+" Type 			\t"+"Control"+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][6])+"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][6])+"\n")
+				if(rdrlist[ind][6]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "True" +"\n")
 				oh_append_textbuffer(textbuffer,"\n" +" Control Type 		\t"+str(oh_lookup_ctrltype(rdrlist[ind][4]))+"\n")
 				oh_append_textbuffer(textbuffer,"\n" +" Control Output Type \t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][5]))+"\n")
 				oh_append_textbuffer(textbuffer,"\n" +" Control State Digital\t"+str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital))+"\n")
@@ -208,14 +220,18 @@ class Hpiview_Callbacks:
 				#oh_append_textbuffer(textbuffer,"Nominal Value \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MinValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MaxValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
-				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
 			if(rdrlist[ind][3]==SAHPI_WATCHDOG_RDR):
 				textbuffer = SaHpiTextBufferT()
 				watchdogt = SaHpiWatchdogT()
 				error = saHpiWatchdogTimerGet(sid,rdrlist[ind][2],rdrlist[ind][1],watchdogt)
 				#oh_decode_sensorreading(reading,rdr.RdrTypeUnion.SensorRec.DataFormat,textbuffer)
 				oh_append_textbuffer(textbuffer,"\n"+ " Type 			\t"+"WatchDog"+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][4])+"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][4])+"\n")
+				if(rdrlist[ind][4]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "True" +"\n")
 				oh_append_textbuffer(textbuffer,"\n"+ " Watch Dog Action 	\t"+str(oh_lookup_watchdogaction(watchdogt.TimerAction))+"\n")
 				#oh_append_textbuffer(textbuffer,"Watch Dog Action Event \t" + str(oh_lookup_watchdogactionevent())+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+ " Pre timer interrupt \t"+str(oh_lookup_watchdogpretimerinterrupt(watchdogt.PretimerInterrupt))+"\n")
@@ -224,25 +240,37 @@ class Hpiview_Callbacks:
 				#oh_append_textbuffer(textbuffer,"Nominal Value \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MinValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MaxValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
-				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
 			if(rdrlist[ind][3]==SAHPI_ANNUNCIATOR_RDR):
 				textbuffer = SaHpiTextBufferT()
 				annunt = SaHpiAnnouncementT()
 				error = saHpiAnnunciatorGet(sid,rdrlist[ind][2],rdrlist[ind][1],SAHPI_FIRST_ENTRY,annunt)
 				#oh_decode_sensorreading(reading,rdr.RdrTypeUnion.SensorRec.DataFormat,textbuffer)
 				oh_append_textbuffer(textbuffer,"\n"+" Type 			\t"+"Annunciator"+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][5])+"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][5])+"\n")
+				if(rdrlist[ind][5]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "True" +"\n")
 				#oh_append_textbuffer(textbuffer,"Annunciator Mode \t"+str(oh_lookup_annunciatormode(watchdogt.TimerAction))+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Annunciator Type 	\t" + str(oh_lookup_annunciatortype(rdrlist[ind][4]))+"\n")
-				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
 			if(rdrlist[ind][3]==SAHPI_INVENTORY_RDR):
 				textbuffer = SaHpiTextBufferT()
 				idrinfo = SaHpiIdrInfoT()
 				error = saHpiIdrInfoGet(sid,rdrlist[ind][2],rdrlist[ind][1],idrinfo)
 				oh_append_textbuffer(textbuffer,"\n"+" Type 			\t"+"Inventory"+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][4])+"\n")
-				oh_append_textbuffer(textbuffer,"\n"+" Inventory's Persistent 	\t"+str(rdrlist[ind][5])+"\n")
-				frame.text_ctrl_1.ChangeValue(textbuffer.Data)
+				#oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+str(rdrlist[ind][4])+"\n")
+				if(rdrlist[ind][4]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" FRU Entity 		\t"+ "True" +"\n")
+				#oh_append_textbuffer(textbuffer,"\n"+" Inventory's Persistent \t"+str(rdrlist[ind][5])+"\n")
+				if(rdrlist[ind][5]==0):
+					oh_append_textbuffer(textbuffer,"\n"+" Inventory's Persistent \t"+ "False" +"\n")
+				else:
+					oh_append_textbuffer(textbuffer,"\n"+" Inventory's Persistent \t"+ "True" +"\n")
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
 
 
 
