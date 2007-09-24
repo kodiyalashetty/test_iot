@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
+
 import wx
 import sys, os
 from openhpi import *
-
+import ResourcePref
+import SensorPref
+import ControlPref
+import InventoryPref
+import WatchdogPref
 
 class Hpiview_Callbacks:
 
@@ -14,6 +19,16 @@ class Hpiview_Callbacks:
     res = None
     rdr = None		
     rdrlist = None
+    item_clicked = None	
+    menu_titles = {}
+    ResourceTitles = ["EventLog","Event Log Timestamp", "Event Log Clear", "-", "Parameter Control", "Power", "reset", "-", "Preferences"] 	
+    SensorTitles = ["Read Sensor", "-", "Preferences"]
+    ControlTitles = ["Preferences"]
+    WatchdogTitles = ["Reset Watchdog", "-", "Preferences"]
+    InventoryTitles = ["Preferences"]
+    menu_type = ""	
+	
+    menu_title_by_id = {}
 		
     def __init__(self, fr):
 	global frame
@@ -26,7 +41,8 @@ class Hpiview_Callbacks:
 	frame.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, frame.list_box_1)
 	frame.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, frame.tree_ctrl_1)	
 	frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
-	frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)	
+	frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)
+	frame.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.RightClickCb ,frame.tree_ctrl_1)
 	rdrlist=[["x",0,0,0]]
 
     def openHpiSession(self):
@@ -85,7 +101,7 @@ class Hpiview_Callbacks:
 						oh_init_bigtext(tbuff)
 						oh_decode_entitypath(rdr.Entity, tbuff)
 						frame.tree_ctrl_1.AddRoot(tbuff.Data,-1,-1,None)
-						rdrlist.append([tbuff.Data])
+						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity])
 						firstroot=False
 						tbuff = None
 
@@ -94,7 +110,7 @@ class Hpiview_Callbacks:
 						oh_init_bigtext(tbuff)
 						oh_decode_entitypath(rdr.Entity, tbuff)
 						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),tbuff.Data,-1,-1,None)
-						rdrlist.append([tbuff.Data])
+						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity])
 						addChildsToRoot=False
 						tbuff = None
 
@@ -200,6 +216,7 @@ class Hpiview_Callbacks:
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MinValue 	\t"+str(rdrlist[ind][12])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MaxValue 	\t"+str(rdrlist[ind][13])+"\n")
 				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				continue
 			if(rdrlist[ind][3]==SAHPI_CTRL_RDR):
 				#textbuffer = oh_init_bigtext(textbuffer)
 				ctrlState = SaHpiCtrlStateT()
@@ -221,6 +238,7 @@ class Hpiview_Callbacks:
 				#oh_append_textbuffer(textbuffer,"Normal MinValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MaxValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
 				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				continue
 			if(rdrlist[ind][3]==SAHPI_WATCHDOG_RDR):
 				textbuffer = SaHpiTextBufferT()
 				watchdogt = SaHpiWatchdogT()
@@ -241,6 +259,7 @@ class Hpiview_Callbacks:
 				#oh_append_textbuffer(textbuffer,"Normal MinValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
 				#oh_append_textbuffer(textbuffer,"Normal MaxValue \t"+str(rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
 				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				continue
 			if(rdrlist[ind][3]==SAHPI_ANNUNCIATOR_RDR):
 				textbuffer = SaHpiTextBufferT()
 				annunt = SaHpiAnnouncementT()
@@ -255,6 +274,7 @@ class Hpiview_Callbacks:
 				#oh_append_textbuffer(textbuffer,"Annunciator Mode \t"+str(oh_lookup_annunciatormode(watchdogt.TimerAction))+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Annunciator Type 	\t" + str(oh_lookup_annunciatortype(rdrlist[ind][4]))+"\n")
 				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				continue
 			if(rdrlist[ind][3]==SAHPI_INVENTORY_RDR):
 				textbuffer = SaHpiTextBufferT()
 				idrinfo = SaHpiIdrInfoT()
@@ -271,9 +291,21 @@ class Hpiview_Callbacks:
 				else:
 					oh_append_textbuffer(textbuffer,"\n"+" Inventory's Persistent \t"+ "True" +"\n")
 				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				continue
 
-
-
+  			textbuffer = SaHpiTextBufferT()
+  			t1 = SaHpiTextBufferT()
+			#entryid = SaHpiEntryIdT()
+			#error = saHpiRptEntryGet(
+			oh_append_textbuffer(textbuffer,"\n"+" ResourceID	\t" + str(rdrlist[ind][1])+"\n")
+			oh_append_textbuffer(textbuffer,"\n"+" Entity Path 	\t" + rdrlist[ind][0]+"\n")
+			oh_decode_capabilities(rdrlist[ind][3],t1)
+			oh_append_textbuffer(textbuffer,"\n"+" Capabilities	\t" + t1.Data+"\n")
+			oh_append_textbuffer(textbuffer,"\n"+" HotSwap Capabilities \t" + str(rdrlist[ind][4])+"\n")
+			oh_append_textbuffer(textbuffer,"\n"+" Resource Tag	\t" + rdrlist[ind][5]+"\n")
+			oh_append_textbuffer(textbuffer,"\n"+" Severity		\t" + str(rdrlist[ind][6])+"\n")
+			frame.text_ctrl_1.SetValue(textbuffer.Data)
+				
     def sys_collapsed(self, event): # wxGlade: MyFrame.<event_handler>
         print "Event handler `sys_collapsed' not implemented!"
         event.Skip()
@@ -322,3 +354,68 @@ class Hpiview_Callbacks:
         frame.notebook_1.Show(True)
 	self.openHpiSession()
 	self.polpulateResAndRdrTypeData()
+
+    def RightClickCb( self, event ):
+
+	global frame,item_clicked
+
+        # record what was clicked
+        item_clicked = frame.tree_ctrl_1.GetItemText(event.GetItem())
+
+	self.menu_titles={}
+	self.menu_title_by_id={}
+
+	if(item_clicked.find(",") > 0 ):
+	   self.menu_titles = self.ResourceTitles
+	   self.menu_type="Resource"	
+	if(item_clicked.find("Sensor") > 0):
+	   self.menu_titles = self.SensorTitles	
+	   self.menu_type="Sensor"	
+	if(item_clicked.find("Control") > 0):
+	   self.menu_titles = self.ControlTitles	
+	   self.menu_type="Control"	
+	if(item_clicked.find("Dog") > 0):
+	   self.menu_titles = self.WatchdogTitles	
+	   self.menu_type="WatchDog"	
+	if(item_clicked.find("Inv") > 0):
+	   self.menu_titles = self.InventoryTitles	
+	   self.menu_type="Inventory"	
+
+	for title in self.menu_titles:
+	  self.menu_title_by_id[ wx.NewId() ] = title
+
+	print item_clicked
+ 
+        ### 2. Launcher creates wxMenu. ###
+        menu = wx.Menu()
+        for (id,title) in self.menu_title_by_id.items():
+            ### 3. Launcher packs menu with Append. ###
+            menu.Append( id, title )
+            ### 4. Launcher registers menu handlers with EVT_MENU, on the menu. ###
+            wx.EVT_MENU( menu, id, self.MenuSelectionCb )
+ 
+        ### 5. Launcher displays menu with call to PopupMenu, invoked on the source component, passing event's GetPoint. ###
+        frame.tree_ctrl_1.PopupMenu( menu, event.GetPoint() )
+
+    def MenuSelectionCb( self, event ):
+
+        # do something
+        operation = self.menu_title_by_id[ event.GetId() ]
+        target    = self.item_clicked
+        print 'Perform "%(operation)s" on "%(target)s."' % vars()
+
+	if(self.menu_type == "Resource" and operation == self.ResourceTitles[len(self.ResourceTitles)-1]):
+		frm = ResourcePref.frmResPref(frame,-1,"")
+		frm.Show()
+	if(self.menu_type == "Sensor" and operation == self.SensorTitles[len(self.SensorTitles)-1]):
+		frm = SensorPref.frmSenPref(frame,-1,"")
+		frm.Show()
+	if(self.menu_type == "Control" and operation == self.ControlTitles[len(self.ControlTitles)-1]):
+		frm = ControlPref.frmCtrlPref(frame,-1,"")
+		frm.Show()
+	if(self.menu_type == "Inventory" and operation == self.InventoryTitles[len(self.InventoryTitles)-1]):
+		frm = InventoryPref.frmInvPref(frame,-1,"")
+		frm.Show()
+	if(self.menu_type == "WatchDog" and operation == self.WatchdogTitles[len(self.WatchdogTitles)-1]):
+		frm = WatchdogPref.frmWatchdogPref(frame,-1,"")
+		frm.Show()
