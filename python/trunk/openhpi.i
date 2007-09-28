@@ -14,6 +14,10 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %typemap (default) void *SecurityParams {
 	$1 = NULL;
 }
+%apply unsigned int *INOUT { SaHpiUint32T *InstanceId }
+%apply unsigned int *OUTPUT { SaHpiInstrumentIdT *InstrumentId }
+%apply unsigned int *OUTPUT { SaHpiUint32T *RptUpdateCount }
+%apply unsigned int *OUTPUT { SaHpiEventLogCapabilitiesT *EventLogCapabilities }
 %apply unsigned int *OUTPUT { SaHpiEvtQueueStatusT *EventQueueStatus }
 %apply unsigned int *OUTPUT { SaHpiEntryIdT *NextEntryId }
 %apply unsigned int *OUTPUT { SaHpiEntryIdT *NextAreaId }
@@ -340,22 +344,6 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %include "sahpiatca.i"
 %include "sahpibladecenter.i"
 /* oHpi.h typemaps */
-%typemap (in, numinputs=0) int size {
-	$1 = MAX_PLUGIN_NAME_LENGTH;
-}
-%typemap (in, numinputs=0) char *next_name (char name_data[MAX_PLUGIN_NAME_LENGTH]) {
-	memset(name_data, '\0', MAX_PLUGIN_NAME_LENGTH);
-	$1 = name_data;
-}
-%typemap (argout) char *next_name {
-	PyObject *rc = NULL, *pname = NULL, *tuple = NULL;
-	rc = $result;
-	pname = PyString_FromString($1);
-	tuple = PyTuple_New(2);
-	PyTuple_SetItem(tuple, 0, rc);
-	PyTuple_SetItem(tuple, 1, pname);
-	$result = tuple;
-}
 %apply unsigned int *OUTPUT { oHpiHandlerIdT *next_id }
 %apply unsigned int *OUTPUT { oHpiHandlerIdT *id }
 %typemap (in) GHashTable *config (GHashTable *stanza) {
