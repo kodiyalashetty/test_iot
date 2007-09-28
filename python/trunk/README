@@ -99,10 +99,13 @@ two exceptions:
 		# Also, event will have the returned event
 
 		# Printing the names of all plugins loaded
-		error = SA_OK; plugin = None
+		error = SA_OK; hid = 0;
 		while error == SA_OK:
-			error, plugin = oHpiPluginGetNext(plugin)
-			print plugin
+			error, hid = oHpiHandlerGetNext(hid)
+			hinfo = oHpiHandlerInfoT()
+			error = oHpiHandlerInfo(hid, hinfo)
+			if error == SA_OK:
+				print hinfo.plugin_name
 
 		# Creating a handler (instance to a plugin)
 		config = { 'plugin': 'libsimulator',
