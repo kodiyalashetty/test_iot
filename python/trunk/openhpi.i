@@ -39,6 +39,10 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %apply int *OUTPUT { SaHpiHsIndicatorStateT *State }
 %apply int *OUTPUT { SaHpiResetActionT *ResetAction }
 %apply int *OUTPUT { SaHpiPowerStateT *State }
+%apply unsigned int *OUTPUT { SaHpiDimiReadyT *DimiReady }
+%apply unsigned char *OUTPUT { SaHpiDimiTestPercentCompletedT *PercentCompleted }
+%apply unsigned int *OUTPUT { SaHpiDimiTestRunStatusT *RunStatus }
+%apply unsigned int *OUTPUT { SaHpiFumiUpgradeStatusT *UpgradeStatus }
 %typemap (in) SaHpiUint8T Data[ANY] (int datalen) {
 	datalen = PyString_Size($input);
 	if (!PyString_Check($input)) {
@@ -204,6 +208,133 @@ int memcmp(const void *s1, const void *s2, size_t n);
 					                 0);
 		PyList_SetItem($result, i, entityobj);
 	}
+}
+%typemap (in) SaHpiUint8T ParamName[ANY] (int datalen) {
+        datalen = PyString_Size($input);
+        if (!PyString_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expected a string");
+                return NULL;
+        }
+        if (datalen > $1_dim0) {
+                PyErr_SetString(PyExc_ValueError, "Size mismatch. Expected no more than SAHPI_DIMITEST_PARAM_NAME_LEN characters");
+                return NULL;
+        }
+        $1 = (SaHpiUint8T *)PyString_AsString($input);
+}
+%typemap (memberin) SaHpiUint8T ParamName[ANY] {
+        memset($1, 0, $1_dim0);
+        memcpy($1, $input, datalen2);
+}
+%typemap (out) SaHpiUint8T ParamName[ANY] {
+        $result = PyString_FromStringAndSize((char *)$1, strnlen((char *)$1, SAHPI_DIMITEST_PARAM_NAME_LEN));
+}
+%typemap (in) SaHpiDimiTestAffectedEntityT EntitiesImpacted[ANY] {
+        int i, datalen;
+        SaHpiDimiTestAffectedEntityT temp[SAHPI_DIMITEST_MAX_ENTITIESIMPACTED];
+        memset(temp, 0, sizeof(SaHpiDimiTestAffectedEntityT)*SAHPI_DIMITEST_MAX_ENTITIESIMPACTED);
+        datalen = PyList_Size($input);
+        if (!PyList_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list");
+                return NULL;
+        }
+        if (datalen > $1_dim0) {
+                PyErr_SetString(PyExc_ValueError, "Size mismatch. Expected no more than 16 elements");
+                return NULL;
+        }
+        for (i = 0; i < datalen; i++) {
+                PyObject *o = PyList_GetItem($input, i);
+                SaHpiDimiTestAffectedEntityT *entry = NULL;
+                int conv_res = SWIG_ConvertPtr(o, (void *)(void *)&entry, SWIGTYPE_p_SaHpiDimiTestAffectedEntityT, 0 |  0 );
+                if (!SWIG_IsOK(conv_res)) {
+                        SWIG_exception_fail(SWIG_ArgError(res1),
+                                "List element is not of SaHpiDimiTestAffectedEntityT type");
+
+                } else {
+                        temp[i].EntityImpacted = entry->EntityImpacted;
+                        temp[i].ServiceImpact = entry->ServiceImpact;
+                }
+        }
+        $1 = temp;
+}
+%typemap (memberin) SaHpiDimiTestAffectedEntityT EntitiesImpacted[ANY] {
+        memcpy($1, $input, sizeof(SaHpiDimiTestAffectedEntityT)*$1_dim0);
+}
+%typemap (out) SaHpiDimiTestAffectedEntityT EntitiesImpacted[ANY] {
+        int i;
+        $result = PyList_New($1_dim0);
+        for (i = 0; i < $1_dim0; i++) {
+                PyObject *entityobj = SWIG_NewPointerObj(SWIG_as_voidptr(&$1[i]),
+                                                         SWIGTYPE_p_SaHpiDimiTestAffectedEntityT,
+                                                         0);
+                PyList_SetItem($result, i, entityobj);
+        }
+}
+%typemap (in) SaHpiDimiTestParamsDefinitionT TestParameters[ANY] {
+        int i, datalen;
+        SaHpiDimiTestParamsDefinitionT temp[SAHPI_DIMITEST_MAX_PARAMETERS];
+        memset(temp, 0, sizeof(SaHpiDimiTestParamsDefinitionT)*SAHPI_DIMITEST_MAX_PARAMETERS);
+        datalen = PyList_Size($input);
+        if (!PyList_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list");
+                return NULL;
+        }
+        if (datalen > $1_dim0) {
+                PyErr_SetString(PyExc_ValueError, "Size mismatch. Expected no more than 16 elements");
+                return NULL;
+        }
+        for (i = 0; i < datalen; i++) {
+                PyObject *o = PyList_GetItem($input, i);
+                SaHpiDimiTestParamsDefinitionT *entry = NULL;
+                int conv_res = SWIG_ConvertPtr(o, (void *)(void *)&entry, SWIGTYPE_p_SaHpiDimiTestParamsDefinitionT, 0 |  0 );
+                if (!SWIG_IsOK(conv_res)) {
+                        SWIG_exception_fail(SWIG_ArgError(res1),
+                                "List element is not of SaHpiDimiTestParamsDefinitionT type");
+
+                } else {
+                        strncpy((char *)temp[i].ParamName, (char *)entry->ParamName, SAHPI_DIMITEST_PARAM_NAME_LEN);
+                        temp[i].ParamInfo = entry->ParamInfo;
+                        temp[i].ParamType = entry->ParamType;
+                        temp[i].MinValue = entry->MinValue;
+                        temp[i].MaxValue = entry->MaxValue;
+                        temp[i].DefaultParam = entry->DefaultParam;
+                }
+        }
+        $1 = temp;
+}
+%typemap (memberin) SaHpiDimiTestParamsDefinitionT TestParameters[ANY] {
+        memcpy($1, $input, sizeof(SaHpiDimiTestParamsDefinitionT)*$1_dim0);
+}
+%typemap (out) SaHpiDimiTestParamsDefinitionT TestParameters[ANY] {
+        int i;
+        $result = PyList_New($1_dim0);
+        for (i = 0; i < $1_dim0; i++) {
+                PyObject *entityobj = SWIG_NewPointerObj(SWIG_as_voidptr(&$1[i]),
+                                                         SWIGTYPE_p_SaHpiDimiTestParamsDefinitionT,
+                                                         0);
+                PyList_SetItem($result, i, entityobj);
+        }
+}
+%typemap (in) SaHpiDimiTestVariableParamsT *ParamsList (SaHpiDimiTestVariableParamsT *params) {
+        int pos = 0;
+        PyObject *value = 0;
+        if (!PyList_Check($input)) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list");
+                return NULL;
+        }
+        params = (SaHpiDimiTestVariableParamsT *)malloc(sizeof(SaHpiDimiTestVariableParamsT)*PyList_Size($input));
+        for (pos = 0; pos < PyList_Size($input); pos++) {
+                value = PyList_GetItem($input, pos);
+                SaHpiDimiTestVariableParamsT *param = NULL;
+                int conv_res = SWIG_ConvertPtr(value, (void *)(void *)&param, SWIGTYPE_p_SaHpiDimiTestVariableParamsT, 0 |  0 );
+                if (!SWIG_IsOK(conv_res)) {
+                        SWIG_exception_fail(SWIG_ArgError(conv_res),
+                                "List element is not of SaHpiDimiTestVariableParamsT type");
+
+                } else {
+                        params[pos] = *param;
+                }
+        }
+        $1 = params;
 }
 %include "sahpi.i"
 %include "sahpiatca.i"
