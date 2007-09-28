@@ -3,7 +3,7 @@ from deps import *
 from distutils.core import setup, Extension
 
 reqglibver = '2.2.0'
-reqopenhpiver = '2.6.1'
+reqopenhpiver = '2.10.0'
 reqswigver = '1.3.29'
 reqpythonver = '2.3.0'
 
@@ -35,7 +35,7 @@ includes = ['/usr/include/openhpi', '/usr/local/include/openhpi']
 includes += get_glib_cflags()
 
 setup(name='py-openhpi',
-      version='1.0',
+      version='1.1',
       description='Python extension for OpenHPI',
       author='Renier Morales',
       author_email='renierm@users.sf.net',
