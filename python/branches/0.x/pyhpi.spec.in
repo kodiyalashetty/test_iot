@@ -1,0 +1,52 @@
+
+Name: pyhpi
+Summary: %{name} - interpreter for OpenHPI (HPI)
+Version: @VERSION@
+Release: 1
+License: BSD
+URL: http://openhpi.sourceforge.net
+Group: Utilities
+Vendor: OpenHPI Project
+Packager: Vadim
+Source: %{name}-@VERSION@.tar.gz
+Buildroot: /var/tmp/OHPI-root
+BuildRequires: glib2-devel
+Summary: An interpreter for  OpenHPI
+Group: Utilities
+AutoReq: yes
+Requires: libc.so.6
+
+%description 
+This is an interpreter for  OpenHPI.
+
+###################################################
+%prep
+###################################################
+
+###################################################
+%setup
+###################################################
+
+###################################################
+%build
+###################################################
+./configure 
+make
+
+###################################################
+%install
+###################################################
+
+#################################################
+%post
+###################################################
+
+###################################################
+%files
+###################################################
+%defattr(-,root,root)
+
+###################################################
+%clean
+###################################################
+
