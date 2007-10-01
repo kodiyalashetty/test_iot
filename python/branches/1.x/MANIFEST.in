@@ -1,0 +1,9 @@
+include Makefile
+include README
+include COPYING
+include *.i
+include swigify.py
+include deps.py
+include setup.py
+include get_hpi_sizeof.sh
+recursive-include examples *.py
