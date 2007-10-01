@@ -8,7 +8,7 @@ import ResourcePref
 import SensorPref
 import ControlPref
 import InventoryPref
-import WatchdogPref
+import WatchDogPref
 
 class Hpiview_Callbacks:
 
@@ -19,6 +19,7 @@ class Hpiview_Callbacks:
     res = None
     rdr = None		
     rdrlist = None
+    rdrevtlist = None
     item_clicked = None	
     menu_titles = {}
     ResourceTitles = ["EventLog","Event Log Timestamp", "Event Log Clear", "-", "Parameter Control", "Power", "reset", "-", "Preferences"] 	
@@ -34,10 +35,12 @@ class Hpiview_Callbacks:
 	global frame
 	global rdrlist
 	frame = fr
-	frame.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler)
-	frame.Bind(wx.EVT_TOOL, self.CLose_Button_Handler)   
+	frame.Bind(wx.EVT_MENU, self.Menu_Session_Quit_Handler,id=101)
+	frame.Bind(wx.EVT_TOOL, self.CLose_Button_Handler,id=201)   
 	frame.Bind(wx.EVT_BUTTON, self.New_Session_Handler, frame.bitmap_button_2)
-	frame.Bind(wx.EVT_BUTTON, self.Hide_Domain_Handler, frame.bitmap_button_1)	
+	frame.Bind(wx.EVT_BUTTON, self.Hide_Domain_Handler, frame.bitmap_button_1)
+	frame.Bind(wx.EVT_BUTTON, self.Hide_Events_Handler, frame.bitmap_button_3)
+	frame.Bind(wx.EVT_BUTTON, self.Hide_Messages_Handler, frame.bitmap_button_4)
 	frame.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, frame.list_box_1)
 	frame.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, frame.tree_ctrl_1)	
 	frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
@@ -77,9 +80,14 @@ class Hpiview_Callbacks:
 	textbuffer = oh_big_textbuffer()
     	res = SaHpiRptEntryT()
     	rdr = SaHpiRdrT()
+	rdr1 = SaHpiRdrT()
 	eid = SAHPI_FIRST_ENTRY
 	error = SA_OK
 	error1 = SA_OK
+	error2 = SA_OK
+	event = SaHpiEventT()
+	rid=None
+	
 	while error == SA_OK and eid != SAHPI_LAST_ENTRY:
 
 		erid = SAHPI_FIRST_ENTRY
@@ -95,13 +103,17 @@ class Hpiview_Callbacks:
 				while error1 == SA_OK and  erid != SAHPI_LAST_ENTRY:
 
 					error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
+					Timeout = SAHPI_TIMEOUT_IMMEDIATE
+					tempres = SaHpiRptEntryT()
+					temprdr = SaHpiRdrT()
+					error2, qstatus = saHpiEventGet(sid, Timeout, event, temprdr, tempres)
 
 					if(firstroot):
 						tbuff = oh_big_textbuffer()
 						oh_init_bigtext(tbuff)
 						oh_decode_entitypath(rdr.Entity, tbuff)
 						frame.tree_ctrl_1.AddRoot(tbuff.Data,-1,-1,None)
-						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity])
+						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity,res.ResourceInfo])
 						firstroot=False
 						tbuff = None
 
@@ -110,17 +122,17 @@ class Hpiview_Callbacks:
 						oh_init_bigtext(tbuff)
 						oh_decode_entitypath(rdr.Entity, tbuff)
 						frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),tbuff.Data,-1,-1,None)
-						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity])
+						rdrlist.append([tbuff.Data,res.ResourceId,res.ResourceEntity,res.ResourceCapabilities,res.HotSwapCapabilities,res.ResourceTag.Data,res.ResourceSeverity,res.ResourceInfo])
 						addChildsToRoot=False
 						tbuff = None
 
 					if(first):
 						if(rdr.RdrType == SAHPI_SENSOR_RDR):
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",-1,-1,None)			
-							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.SensorRec.DataFormat,rdr.RdrTypeUnion.SensorRec.DataFormat.BaseUnits,rdr.RdrTypeUnion.SensorRec.Type,rdr.RdrTypeUnion.SensorRec.EnableCtrl,rdr.RdrTypeUnion.SensorRec.EventCtrl,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64,rdr.IsFru])
+							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.SensorRec.DataFormat,rdr.RdrTypeUnion.SensorRec.DataFormat.BaseUnits,rdr.RdrTypeUnion.SensorRec.Type,rdr.RdrTypeUnion.SensorRec.EnableCtrl,rdr.RdrTypeUnion.SensorRec.EventCtrl,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64,rdr.IsFru,rdr.RdrTypeUnion.SensorRec.Category])
 						if(rdr.RdrType == SAHPI_CTRL_RDR):
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type)) + " Control",-1,-1,None)			
-							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+ " Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.CtrlRec.Type,rdr.RdrTypeUnion.CtrlRec.OutputType,rdr.IsFru])
+							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+ " Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.CtrlRec.Type,rdr.RdrTypeUnion.CtrlRec.OutputType,rdr.IsFru,rdr.RdrTypeUnion.CtrlRec.DefaultMode,rdr.RdrTypeUnion.CtrlRec.WriteOnly])
 						if(rdr.RdrType == SAHPI_WATCHDOG_RDR):
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),"WatchDog  "+ str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),-1,-1,None)			
 							rdrlist.append(["WatchDog  "+str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),rdr.RdrTypeUnion.WatchdogRec.WatchdogNum,rid,rdr.RdrType,rdr.IsFru])
@@ -132,12 +144,12 @@ class Hpiview_Callbacks:
 							rdrlist.append(["Annunciator "+ str(rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum),rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum,rid,rdr.RdrType,rdr.RdrTypeUnion.AnnunciatorRec.AnnunciatorType,rdr.IsFru])
 
 					if(first == False):
-						if(rdr.RdrType == SAHPI_SENSOR_RDR):
+						if(rdr.RdrType == SAHPI_SENSOR_RDR			):
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",-1,-1,None)			
-							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type))+" Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.SensorRec.DataFormat,rdr.RdrTypeUnion.SensorRec.DataFormat.BaseUnits,rdr.RdrTypeUnion.SensorRec.Type,rdr.RdrTypeUnion.SensorRec.EnableCtrl,rdr.RdrTypeUnion.SensorRec.EventCtrl,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64,rdr.IsFru])
+							rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type))+" Sensor",rdr.RdrTypeUnion.SensorRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.SensorRec.DataFormat,rdr.RdrTypeUnion.SensorRec.DataFormat.BaseUnits,rdr.RdrTypeUnion.SensorRec.Type,rdr.RdrTypeUnion.SensorRec.EnableCtrl,rdr.RdrTypeUnion.SensorRec.EventCtrl,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64,rdr.RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64,rdr.IsFru,rdr.RdrTypeUnion.SensorRec.Category])
 						if(rdr.RdrType == SAHPI_CTRL_RDR):						
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type)) + " Control",-1,-1,None)			
-							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+" Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.CtrlRec.Type,rdr.RdrTypeUnion.CtrlRec.OutputType,rdr.IsFru])
+							rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+" Control",rdr.RdrTypeUnion.CtrlRec.Num,rid,rdr.RdrType,rdr.RdrTypeUnion.CtrlRec.Type,rdr.RdrTypeUnion.CtrlRec.OutputType,rdr.IsFru,rdr.RdrTypeUnion.CtrlRec.DefaultMode,rdr.RdrTypeUnion.CtrlRec.WriteOnly])
 						if(rdr.RdrType == SAHPI_WATCHDOG_RDR):
 							frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),"WatchDog  "+ str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),-1,-1,None)			
 							rdrlist.append(["WatchDog  "+str(rdr.RdrTypeUnion.WatchdogRec.WatchdogNum),rdr.RdrTypeUnion.WatchdogRec.WatchdogNum,rid,rdr.RdrType,rdr.IsFru])
@@ -160,7 +172,7 @@ class Hpiview_Callbacks:
 			addChildsToRoot=True
 	
 		print 'rptentry[%u] tag: %s' % (res.ResourceId, res.ResourceTag.Data)
-
+				
 	return	
 
     def popualateRDRData(self):	
@@ -209,13 +221,15 @@ class Hpiview_Callbacks:
 					oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+ "False" +"\n")
 				else:
 					oh_append_textbuffer(textbuffer,"\n"+" Sensor Control 	\t"+ "True" +"\n")
+				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				textbuffer = SaHpiTextBufferT()
 				oh_append_textbuffer(textbuffer,"\n"+" Event Control 	\t"+str(oh_lookup_sensoreventctrl(rdrlist[ind][8]))+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Min Value 		\t"+str(rdrlist[ind][9])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Max Value 		\t"+str(rdrlist[ind][10])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Nominal Value 	\t"+str(rdrlist[ind][11])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MinValue 	\t"+str(rdrlist[ind][12])+"\n")
 				oh_append_textbuffer(textbuffer,"\n"+" Normal MaxValue 	\t"+str(rdrlist[ind][13])+"\n")
-				frame.text_ctrl_1.SetValue(textbuffer.Data)
+				frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+textbuffer.Data)
 				continue
 			if(rdrlist[ind][3]==SAHPI_CTRL_RDR):
 				#textbuffer = oh_init_bigtext(textbuffer)
@@ -300,11 +314,13 @@ class Hpiview_Callbacks:
 			oh_append_textbuffer(textbuffer,"\n"+" ResourceID	\t" + str(rdrlist[ind][1])+"\n")
 			oh_append_textbuffer(textbuffer,"\n"+" Entity Path 	\t" + rdrlist[ind][0]+"\n")
 			oh_decode_capabilities(rdrlist[ind][3],t1)
-			oh_append_textbuffer(textbuffer,"\n"+" Capabilities	\t" + t1.Data+"\n")
+			frame.text_ctrl_1.SetValue(textbuffer.Data)
+			frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+"\n"+" Capabilities	\t" + t1.Data+"\n")
+			textbuffer = SaHpiTextBufferT()
 			oh_append_textbuffer(textbuffer,"\n"+" HotSwap Capabilities \t" + str(rdrlist[ind][4])+"\n")
 			oh_append_textbuffer(textbuffer,"\n"+" Resource Tag	\t" + rdrlist[ind][5]+"\n")
 			oh_append_textbuffer(textbuffer,"\n"+" Severity		\t" + str(rdrlist[ind][6])+"\n")
-			frame.text_ctrl_1.SetValue(textbuffer.Data)
+			frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+textbuffer.Data)
 				
     def sys_collapsed(self, event): # wxGlade: MyFrame.<event_handler>
         print "Event handler `sys_collapsed' not implemented!"
@@ -315,13 +331,13 @@ class Hpiview_Callbacks:
         event.Skip()
 
     def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
-	global frame
-	global sid
-        print "Event handler `Menu_Session_Quit_Handler' not implemented"
-	saHpiSessionClose(sid)
+	global frame,sid
+	if(sid != None):
+		print "closed"
+		saHpiSessionClose(sid)
         frame.DestroyChildren()
 	frame.Destroy()
-	#event.Skip(True)
+
     
     def Set_TreeOnNewSession(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
@@ -331,7 +347,7 @@ class Hpiview_Callbacks:
     def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
 	global frame
 	global sid
-	#error = saHpiSessionClose(sid)
+	error = saHpiSessionClose(sid)
 	frame.list_box_1.Delete(frame.list_box_1.GetSelection())
         frame.tree_ctrl_1.DeleteAllItems()
         frame.text_ctrl_1.Clear()
@@ -352,14 +368,26 @@ class Hpiview_Callbacks:
 	if(frame.list_box_1.GetCount() < 1):
 	        frame.list_box_1.Insert("DEFAULT",frame.list_box_1.GetCount(),None)
         frame.notebook_1.Show(True)
+	frame.Layout()
 	self.openHpiSession()
 	self.polpulateResAndRdrTypeData()
+
+    def Hide_Events_Handler(self,event):
+	global frame
+	frame.window_1.Unsplit(frame.window_1.GetWindow1())
+	frame.window_2.Unsplit(frame.window_2.GetWindow2())
+	
+    def Hide_Messages_Handler(self,event):
+	global frame
+	frame.window_1.Unsplit(frame.window_1.GetWindow1())
+	frame.window_2.Unsplit(frame.window_2.GetWindow1())
 
     def RightClickCb( self, event ):
 
 	global frame,item_clicked
 
         # record what was clicked
+	
         item_clicked = frame.tree_ctrl_1.GetItemText(event.GetItem())
 
 	self.menu_titles={}
@@ -405,17 +433,89 @@ class Hpiview_Callbacks:
         print 'Perform "%(operation)s" on "%(target)s."' % vars()
 
 	if(self.menu_type == "Resource" and operation == self.ResourceTitles[len(self.ResourceTitles)-1]):
-		frm = ResourcePref.frmResPref(frame,-1,"")
-		frm.Show()
+		#frm = ResourcePref.frmResPref(frame,-1,"")
+		#frm.Show()
+		self.ShowResInfo(self.item_clicked)
 	if(self.menu_type == "Sensor" and operation == self.SensorTitles[len(self.SensorTitles)-1]):
-		frm = SensorPref.frmSenPref(frame,-1,"")
-		frm.Show()
+		#frm = SensorPref.MyDialog(frame,-1,"")
+		#frm.ShowModal()
+		self.ShowSensorInfo(self.item_clicked)
 	if(self.menu_type == "Control" and operation == self.ControlTitles[len(self.ControlTitles)-1]):
-		frm = ControlPref.frmCtrlPref(frame,-1,"")
-		frm.Show()
+		#frm = ControlPref.MyDialog(frame,-1,"")
+		#frm.ShowModal()
+		self.ShowControlInfo(self.item_clicked)
 	if(self.menu_type == "Inventory" and operation == self.InventoryTitles[len(self.InventoryTitles)-1]):
-		frm = InventoryPref.frmInvPref(frame,-1,"")
-		frm.Show()
+		frm = InventoryPref.MyDialog(frame,-1,"")
+		frm.ShowModal()
 	if(self.menu_type == "WatchDog" and operation == self.WatchdogTitles[len(self.WatchdogTitles)-1]):
-		frm = WatchdogPref.frmWatchdogPref(frame,-1,"")
-		frm.Show()
+		frm = WatchDogPref.MyDialog(frame,-1,"")
+		frm.ShowModal()
+
+    def ShowResInfo(self, selection):
+	global item_clicked
+	frm = ResourcePref.MyDialog(frame,-1,"")
+	#frm.panel_1.SetAutoLayout(True);
+	print item_clicked
+	for ind in range(0,len(rdrlist)):
+		 if(rdrlist[ind][0] == item_clicked):
+			frm.label_1.SetLabel(frm.label_1.GetLabelText() + " : " + str(rdrlist[ind][7].AuxFirmwareRev))
+			frm.label_2.SetLabel(frm.label_2.GetLabelText() + " : " + str(rdrlist[ind][7].FirmwareMinorRev))
+			frm.label_3.SetLabel(frm.label_3.GetLabelText() + " : " + str(rdrlist[ind][7].FirmwareMajorRev))
+			frm.label_4.SetLabel(frm.label_4.GetLabelText() + " : " + str(rdrlist[ind][7].ProductId))
+			frm.label_5.SetLabel(frm.label_5.GetLabelText() + " : " + str(rdrlist[ind][7].ManufacturerId))
+			frm.label_6.SetLabel(frm.label_6.GetLabelText() + " : " + str(rdrlist[ind][7].DeviceSupport))
+			frm.label_7.SetLabel(frm.label_7.GetLabelText() + " : " + str(rdrlist[ind][7].SpecificVer))
+			frm.label_8.SetLabel(frm.label_8.GetLabelText() + " : " + str(rdrlist[ind][7].ResourceRev))
+	frm.ShowModal()
+    
+    def ShowSensorInfo(self, selection):
+	global item_clicked
+	frm = SensorPref.MyDialog(frame,-1,"")
+	print item_clicked
+	for ind in range(0,len(rdrlist)):
+		if(rdrlist[ind][0] == item_clicked):
+			reading = SaHpiSensorReadingT()
+			error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2],rdrlist[ind][1],reading)
+			frm.label_1.SetLabel(frm.label_1.GetLabelText() + " : " + "Sensor")
+			frm.label_2.SetLabel(frm.label_2.GetLabelText() + " : " + str(oh_lookup_sensortype(rdrlist[ind][6])))
+			if(rdrlist[ind][7]==0):
+				frm.label_3.SetLabel(frm.label_3.GetLabelText() + " : " + "False")
+				frm.label_11.SetLabel(frm.label_11.GetLabelText() + " : " + "False")
+			else:
+				frm.label_3.SetLabel(frm.label_3.GetLabelText() + " : " + "True")
+				frm.label_11.SetLabel(frm.label_11.GetLabelText() + " : " + "True")
+			frm.label_4.SetLabel(frm.label_4.GetLabelText() + " : " + str(oh_lookup_sensorunits(rdrlist[ind][5])))
+			frm.label_5.SetLabel(frm.label_5.GetLabelText() + " : " + str(rdrlist[ind][9]))
+			frm.label_6.SetLabel(frm.label_6.GetLabelText() + " : " + str(rdrlist[ind][10]))
+			frm.label_7.SetLabel(frm.label_7.GetLabelText() + " : " + str(rdrlist[ind][12]))
+			frm.label_8.SetLabel(frm.label_8.GetLabelText() + " : " + str(rdrlist[ind][13]))
+			frm.label_9.SetLabel(frm.label_9.GetLabelText() + " : " + str(rdrlist[ind][11]))
+			frm.label_10.SetLabel(frm.label_10.GetLabelText() + " : " + str(oh_lookup_eventcategory(rdrlist[ind][14])))
+			frm.label_12.SetLabel(frm.label_12.GetLabelText() + " : " + str(rdrlist[ind][15]))
+			break
+	frm.ShowModal()
+	
+    def ShowInvInfo(self, selection):
+	global item_clicked
+	frm = InventoryPref.frmInvPref(frame,-1,"")
+	print item_clicked
+	#for ind in range(0,len(rdrlist)):
+		#if(rdrlist[ind][0] == item_clicked):
+	frm.ShowModal()
+
+    def ShowControlInfo(self, selection):
+	global item_clicked
+	frm = ControlPref.MyDialog(frame,-1,"")
+	for ind in range(0,len(rdrlist)):
+		if(rdrlist[ind][0] == item_clicked):
+			#textbuffer = oh_init_bigtext(textbuffer)
+			ctrlState = SaHpiCtrlStateT()
+			error ,Mode = saHpiControlGet(sid,rdrlist[ind][2],rdrlist[ind][1],ctrlState)
+			frm.label_1.SetLabel(frm.label_1.GetLabelText() + " : " + str(oh_lookup_ctrltype(rdrlist[ind][4])))
+			frm.label_2.SetLabel(frm.label_2.GetLabelText() + " : " + str(oh_lookup_ctrloutputtype(rdrlist[ind][5])))
+			frm.label_3.SetLabel(frm.label_3.GetLabelText() + " : " + str(rdrlist[ind][7].ReadOnly))
+			frm.label_4.SetLabel(frm.label_4.GetLabelText() + " : " + str(rdrlist[ind][8]))
+			frm.label_5.SetLabel(frm.label_5.GetLabelText() + " : " + str(oh_lookup_ctrlmode(Mode)))
+			frm.label_6.SetLabel(frm.label_6.GetLabelText() + " : " + str(""))
+			break
+	frm.ShowModal()
