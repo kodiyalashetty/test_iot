@@ -25,10 +25,11 @@ class MyDialog(wx.Dialog):
         self.label_27 = wx.StaticText(self.notebook_1_pane_1, -1, "Pretimer interrupt")
         self.combo_box_7 = wx.ComboBox(self.notebook_1_pane_1, -1, choices=["none", "SMI", "NMI", "Message interrupt", "OEM interrupt"], style=wx.CB_DROPDOWN|wx.CB_DROPDOWN)
         self.label_28 = wx.StaticText(self.notebook_1_pane_1, -1, "Pretimeout interval")
-        self.spin_button_3 = wx.SpinButton(self.notebook_1_pane_1, -1 )
+        self.spin_ctrl_3 = wx.SpinCtrl(self.notebook_1_pane_1, -1 )
         self.label_31 = wx.StaticText(self.notebook_1_pane_1, -1, "(ms)")
         self.label_29 = wx.StaticText(self.notebook_1_pane_1, -1, "Initial counter")
-        self.spin_button_4 = wx.SpinButton(self.notebook_1_pane_1, -1 )
+        self.spin_ctrl_4 = wx.SpinCtrl(self.notebook_1_pane_1, -1 )
+	self.spin_ctrl_5 = wx.SpinCtrl(self.notebook_1_pane_1, -1 )
         self.label_32 = wx.StaticText(self.notebook_1_pane_1, -1, "(ms)")
         self.label_30 = wx.StaticText(self.notebook_1_pane_1, -1, "Present counter")
         self.checkbox_4 = wx.CheckBox(self.notebook_1_pane_2, -1, "BIOS FRB2")
@@ -41,6 +42,10 @@ class MyDialog(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+
+	# Binding the OK and Cancel buttons to the methods 
+	self.Bind(wx.EVT_BUTTON, self.Ok_Button_Handler, self.button_14)
+	self.Bind(wx.EVT_BUTTON, self.Cancel_Button_Handler, self.button_13)
         # end wxGlade
 
     def __set_properties(self):
@@ -51,10 +56,10 @@ class MyDialog(wx.Dialog):
         self.combo_box_5.SetSelection(0)
         self.combo_box_6.SetSelection(0)
         self.combo_box_7.SetSelection(0)
-        self.checkbox_5.SetValue(1)
-        self.checkbox_6.SetValue(1)
-        self.checkbox_7.SetValue(1)
-        self.checkbox_8.SetValue(1)
+        self.checkbox_5.SetValue(0)
+        self.checkbox_6.SetValue(0)
+        self.checkbox_7.SetValue(0)
+        self.checkbox_8.SetValue(0)
         # end wxGlade
 
     def __do_layout(self):
@@ -78,18 +83,19 @@ class MyDialog(wx.Dialog):
         grid_sizer_19.Add(self.label_27, 0, 0, 0)
         grid_sizer_19.Add(self.combo_box_7, 0, 0, 0)
         grid_sizer_19.Add(self.label_28, 0, 0, 0)
-        grid_sizer_20.Add(self.spin_button_3, 0, wx.EXPAND, 0)
+        grid_sizer_20.Add(self.spin_ctrl_3, 0, wx.EXPAND, 0)
         grid_sizer_20.Add(self.label_31, 0, 0, 0)
         grid_sizer_20.AddGrowableRow(0)
         grid_sizer_20.AddGrowableCol(0)
         grid_sizer_19.Add(grid_sizer_20, 1, wx.EXPAND, 0)
         grid_sizer_19.Add(self.label_29, 0, 0, 0)
-        grid_sizer_21.Add(self.spin_button_4, 0, 0, 0)
+        grid_sizer_21.Add(self.spin_ctrl_4, 0, 0, 0)
         grid_sizer_21.Add(self.label_32, 0, 0, 0)
-        grid_sizer_21.AddGrowableRow(0)
+	grid_sizer_21.AddGrowableRow(0)
         grid_sizer_21.AddGrowableCol(0)
         grid_sizer_19.Add(grid_sizer_21, 1, wx.EXPAND, 0)
         grid_sizer_19.Add(self.label_30, 0, 0, 0)
+	grid_sizer_19.Add(self.spin_ctrl_5, 0, 0, 0)
         grid_sizer_19.AddGrowableRow(0)
         grid_sizer_19.AddGrowableCol(0)
         sizer_3.Add(grid_sizer_19, 1, wx.EXPAND, 0)
@@ -119,5 +125,11 @@ class MyDialog(wx.Dialog):
         self.Layout()
         # end wxGlade
 
+    def Ok_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	print "destroy the child frame"	
+	self.Destroy()
+		
+    def Cancel_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
 # end of class MyDialog3
 

@@ -6,7 +6,7 @@ import wx
 
 class MyDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
-        # begin wxGlade: MyDialog.__init__
+	# begin wxGlade: MyDialog.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.sizer_3_staticbox = wx.StaticBox(self, -1, "Resource Severity")
@@ -27,6 +27,9 @@ class MyDialog(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+	# Binding the OK and Cancel buttons to the methods 
+	self.Bind(wx.EVT_BUTTON, self.Ok_Button_Handler, self.button_2)
+	self.Bind(wx.EVT_BUTTON, self.Cancel_Button_Handler, self.button_3)
         # end wxGlade
 
     def __set_properties(self):
@@ -69,13 +72,12 @@ class MyDialog(wx.Dialog):
         self.Layout()
         # end wxGlade
 
+
+    def Ok_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
+	
+    def Cancel_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
+
 # end of class MyDialog
 
-
-if __name__ == "__main__":
-    app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
-    frame_1 = (None, -1, "")
-    app.SetTopWindow(frame_1)
-    frame_1.Show()
-    app.MainLoop()

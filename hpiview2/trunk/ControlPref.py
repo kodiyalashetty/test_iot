@@ -27,6 +27,9 @@ class MyDialog(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+	# Binding the OK and Cancel buttons to the methods 
+	self.Bind(wx.EVT_BUTTON, self.Ok_Button_Handler, self.button_3)
+	self.Bind(wx.EVT_BUTTON, self.Cancel_Button_Handler, self.button_4)
         # end wxGlade
 
     def __set_properties(self):
@@ -71,14 +74,14 @@ class MyDialog(wx.Dialog):
         self.Layout()
         self.Centre()
         # end wxGlade
+    
+    def Ok_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
+	
+    def Cancel_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
 
 # end of class MyDialog
 
 
-if __name__ == "__main__":
-    app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
-    frame_1 = MyDialog(None, -1, "")
-    app.SetTopWindow(frame_1)
-    frame_1.Show()
-    app.MainLoop()
+

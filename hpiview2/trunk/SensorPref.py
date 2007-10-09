@@ -5,8 +5,9 @@
 import wx
 
 class MyDialog(wx.Dialog):
+
     def __init__(self, *args, **kwds):
-        # begin wxGlade: MyDialog.__init__
+	# begin wxGlade: MyDialog.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.notebook_1 = wx.Notebook(self, -1, style=0)
@@ -36,26 +37,29 @@ class MyDialog(wx.Dialog):
         self.button_5 = wx.Button(self.notebook_1_pane_2, -1, "Get/Set")
         self.checkbox_2 = wx.CheckBox(self.notebook_1_pane_2, -1, "Sensor Event Enable Status")
         self.label_22 = wx.StaticText(self.notebook_1_pane_3, -1, "Low Hysteresis")
-        self.label_15 = wx.StaticText(self.notebook_1_pane_3, -1, "label_15")
+        self.spin_ctrl_6 = wx.SpinCtrl(self.notebook_1_pane_3, -1,)
         self.label_23 = wx.StaticText(self.notebook_1_pane_3, -1, "Up Hysteresis")
-        self.spin_button_1 = wx.SpinButton(self.notebook_1_pane_3, -1 )
+        self.spin_ctrl_1 = wx.SpinCtrl(self.notebook_1_pane_3, -1 )
         self.label_24 = wx.StaticText(self.notebook_1_pane_3, -1, "Up Critical")
-        self.spin_button_2 = wx.SpinButton(self.notebook_1_pane_3, -1 )
+        self.spin_ctrl_2 = wx.SpinCtrl(self.notebook_1_pane_3, -1 )
         self.label_25 = wx.StaticText(self.notebook_1_pane_3, -1, "Up Major")
-        self.spin_button_3 = wx.SpinButton(self.notebook_1_pane_3, -1 )
+        self.spin_ctrl_3 = wx.SpinCtrl(self.notebook_1_pane_3, -1 )
         self.label_26 = wx.StaticText(self.notebook_1_pane_3, -1, "Up Minor")
-        self.label_16 = wx.StaticText(self.notebook_1_pane_3, -1, "label_16")
+        self.spin_ctrl_7 = wx.SpinCtrl(self.notebook_1_pane_3, -1,)
         self.label_27 = wx.StaticText(self.notebook_1_pane_3, -1, "Low Critical")
-        self.spin_button_4 = wx.SpinButton(self.notebook_1_pane_3, -1 )
+        self.spin_ctrl_4 = wx.SpinCtrl(self.notebook_1_pane_3, -1 )
         self.label_28 = wx.StaticText(self.notebook_1_pane_3, -1, "Low Major")
-        self.spin_button_5 = wx.SpinButton(self.notebook_1_pane_3, -1 )
-        self.label_29 = wx.StaticText(self.notebook_1_pane_3, -1, "Low MInor")
-        self.label_17 = wx.StaticText(self.notebook_1_pane_3, -1, "label_17")
-        self.button_2 = wx.Button(self, -1, "OK")
+        self.spin_ctrl_5 = wx.SpinCtrl(self.notebook_1_pane_3, -1 )
+        self.label_29 = wx.StaticText(self.notebook_1_pane_3, -1, "Low Minor")
+        self.spin_ctrl_8 = wx.SpinCtrl(self.notebook_1_pane_3, -1,)
+        self.button_2 = wx.Button(self, -1, "OK", style=wx.BU_BOTTOM)
         self.button_3 = wx.Button(self, -1, "Cancel", style=wx.BU_BOTTOM)
 
         self.__set_properties()
         self.__do_layout()
+	# Binding the OK and Cancel buttons to the methods 
+	self.Bind(wx.EVT_BUTTON, self.Ok_Button_Handler, self.button_2)
+	self.Bind(wx.EVT_BUTTON, self.Cancel_Button_Handler, self.button_3)
         # end wxGlade
 
     def __set_properties(self):
@@ -114,21 +118,21 @@ class MyDialog(wx.Dialog):
         grid_sizer_5.AddGrowableRow(0)
         grid_sizer_5.AddGrowableCol(0)
         grid_sizer_8.Add(self.label_22, 0, 0, 0)
-        grid_sizer_8.Add(self.label_15, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_6, 0, 0, 0)
         grid_sizer_8.Add(self.label_23, 0, 0, 0)
-        grid_sizer_8.Add(self.spin_button_1, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_1, 0, 0, 0)
         grid_sizer_8.Add(self.label_24, 0, 0, 0)
-        grid_sizer_8.Add(self.spin_button_2, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_2, 0, 0, 0)
         grid_sizer_8.Add(self.label_25, 0, 0, 0)
-        grid_sizer_8.Add(self.spin_button_3, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_3, 0, 0, 0)
         grid_sizer_8.Add(self.label_26, 0, 0, 0)
-        grid_sizer_8.Add(self.label_16, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_7, 0, 0, 0)
         grid_sizer_8.Add(self.label_27, 0, 0, 0)
-        grid_sizer_8.Add(self.spin_button_4, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_4, 0, 0, 0)
         grid_sizer_8.Add(self.label_28, 0, 0, 0)
-        grid_sizer_8.Add(self.spin_button_5, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_5, 0, 0, 0)
         grid_sizer_8.Add(self.label_29, 0, 0, 0)
-        grid_sizer_8.Add(self.label_17, 0, 0, 0)
+        grid_sizer_8.Add(self.spin_ctrl_8, 0, 0, 0)
         grid_sizer_8.AddGrowableRow(0)
         grid_sizer_8.AddGrowableCol(0)
         sizer_4.Add(grid_sizer_8, 1, wx.EXPAND, 0)
@@ -149,15 +153,17 @@ class MyDialog(wx.Dialog):
         grid_sizer_1.AddGrowableCol(0)
         self.Layout()
         self.Centre()
-        # end wxGlade
+        # end wxGladeOk_Button_Handler
 
+
+    def Ok_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	print "destroy the child frame"	
+	self.Destroy()
+		
+    def Cancel_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
+	self.Destroy()
+		
 # end of class MyDialog
 
 
-if __name__ == "__main__":
-    app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
-    dialog_2 = (None, -1, "")
-    app.SetTopWindow(dialog_2)
-    dialog_2.Show()
-    app.MainLoop()
+
