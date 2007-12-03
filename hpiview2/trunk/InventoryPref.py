@@ -42,6 +42,7 @@ class MyDialog(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: MyDialog1.__set_properties
         self.SetTitle("Inventory Preferences")
+	self.SetSize((400,500))
         # end wxGlade
 
     def __do_layout(self):

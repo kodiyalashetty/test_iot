@@ -19,6 +19,11 @@ class MyDialog(wx.Dialog):
         self.label_5 = wx.StaticText(self.notebook_1_pane_1, -1, "Read only control mode")
         self.label_6 = wx.StaticText(self.notebook_1_pane_1, -1, "Control default state")
         self.label_7 = wx.StaticText(self.notebook_1_pane_2, -1, "Control current state")
+	
+	self.label_21 = wx.StaticText(self.notebook_1_pane_1, -1, "")
+	self.label_22 = wx.StaticText(self.notebook_1_pane_1, -1, "")
+	self.label_23 = wx.StaticText(self.notebook_1_pane_1, -1, "")
+	
         self.combo_box_2 = wx.ComboBox(self.notebook_1_pane_2, -1, choices=["on", "off", "pulse on"], style=wx.CB_DROPDOWN|wx.CB_DROPDOWN)
         self.label_8 = wx.StaticText(self.notebook_1_pane_2, -1, "Control current mode")
         self.combo_box_3 = wx.ComboBox(self.notebook_1_pane_2, -1, choices=["auto", "manual"], style=wx.CB_DROPDOWN|wx.CB_DROPDOWN)
@@ -27,10 +32,12 @@ class MyDialog(wx.Dialog):
 
         self.__set_properties()
         self.__do_layout()
+        
 	# Binding the OK and Cancel buttons to the methods 
 	self.Bind(wx.EVT_BUTTON, self.Ok_Button_Handler, self.button_3)
 	self.Bind(wx.EVT_BUTTON, self.Cancel_Button_Handler, self.button_4)
-        # end wxGlade
+	
+	# end wxGlade
 
     def __set_properties(self):
         # begin wxGlade: MyDialog.__set_properties
@@ -44,13 +51,16 @@ class MyDialog(wx.Dialog):
         grid_sizer_2 = wx.FlexGridSizer(2, 1, 0, 0)
         grid_sizer_3 = wx.FlexGridSizer(1, 3, 0, 0)
         grid_sizer_5 = wx.FlexGridSizer(2, 2, 0, 0)
-        grid_sizer_4 = wx.FlexGridSizer(6, 1, 0, 0)
+        grid_sizer_4 = wx.FlexGridSizer(12, 1, 0, 0)
         grid_sizer_4.Add(self.label_1, 0, 0, 0)
         grid_sizer_4.Add(self.label_2, 0, 0, 0)
         grid_sizer_4.Add(self.label_3, 0, 0, 0)
         grid_sizer_4.Add(self.label_4, 0, 0, 0)
         grid_sizer_4.Add(self.label_5, 0, 0, 0)
         grid_sizer_4.Add(self.label_6, 0, 0, 0)
+	grid_sizer_4.Add(self.label_21, 0, 0, 0)
+	grid_sizer_4.Add(self.label_22, 0, 0, 0)
+	grid_sizer_4.Add(self.label_23, 0, 0, 0)
         self.notebook_1_pane_1.SetSizer(grid_sizer_4)
         grid_sizer_4.AddGrowableRow(0)
         grid_sizer_5.Add(self.label_7, 0, 0, 0)
@@ -74,14 +84,10 @@ class MyDialog(wx.Dialog):
         self.Layout()
         self.Centre()
         # end wxGlade
-    
+
+# end of class MyDialog
     def Ok_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
 	self.Destroy()
 	
     def Cancel_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
 	self.Destroy()
-
-# end of class MyDialog
-
-
-
