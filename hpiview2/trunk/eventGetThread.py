@@ -85,7 +85,7 @@ class EventGetThread(Thread):
         sensorchangeevt.SensorEnable = True
 
         textbuffer = SaHpiTextBufferT()
-        oh_append_textbuffer(textbuffer," Adding Jaysjree s own event to have look at how the events work. ofcourse written by prashanth ")
+        oh_append_textbuffer(textbuffer,"Custom Event")
 
         userevt.UserEventData = textbuffer
 
