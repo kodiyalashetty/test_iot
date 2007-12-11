@@ -18,12 +18,14 @@ class EventGetThread(Thread):
     rptentry = SaHpiRptEntryT()
 
     listctrl = None
+    frame = None
 
 
-    def __init__(self,lstctrl,sessionid):
-        global listctrl,sid
+    def __init__(self,lstctrl,sessionid,frm):
+        global listctrl,sid,frame
         Thread.__init__(self)
         listctrl = lstctrl
+        frame = frm
         sid=sessionid
         self.AddEvent()
 
@@ -35,17 +37,17 @@ class EventGetThread(Thread):
         global event
         global listctrl
 
-	print "Listening for Events .... "
+	self.Msg("Listening for Events .... ")
         self.rdr.RdrType = SAHPI_NO_RECORD
         error, qstatus = saHpiEventGet(sid, self.timeout, self.event, self.rdr, self.res)
         if error != SA_OK:
             if error != SA_ERR_HPI_TIMEOUT:
-                print 'ERROR during EventGet: %s' % oh_lookup_error(error)
+                self.Msg('ERROR during EventGet: %s' % oh_lookup_error(error))
             else:
                 if self.timeout == SAHPI_TIMEOUT_BLOCK:
-                    print 'ERROR: Timeout while infinite wait'
+                    self.Msg('ERROR: Timeout while infinite wait')
                 elif self.timeout != SAHPI_TIMEOUT_IMMEDIATE:
-                    print 'ERROR: Time, %u seconds, expired waiting for event' % options.timeout
+                    self.Msg('ERROR: Time, %u seconds, expired waiting for event' % options.timeout)
         else:
             if self.rdr.RdrType == SAHPI_NO_RECORD:
                 tbuff = oh_big_textbuffer()
@@ -90,12 +92,16 @@ class EventGetThread(Thread):
         userevt.UserEventData = textbuffer
 
 
-        ##event.EventDataUnion.SensorEvent = sensorevt
-        ##event.EventDataUnion.SensorEnableChangeEvent = sensorchangeevt
+##        event.EventDataUnion.SensorEvent = sensorevt
+##        event.EventDataUnion.SensorEnableChangeEvent = sensorchangeevt
         event.EventDataUnion.UserEvent = userevt
 
 
         error = saHpiEventAdd(sid, event)
         error = saHpiEventLogEntryAdd (sid , SAHPI_UNSPECIFIED_RESOURCE_ID , event)
         
-        print "Added the Custom User Event onto the Events Stack"
+        self.Msg("Added the Custom User Event onto the Events Stack")
+
+    def Msg(self , message):
+        global frame
+        frame.text_ctrl_2.SetValue(frame.text_ctrl_2.GetValue()+"\r\n"+message)
