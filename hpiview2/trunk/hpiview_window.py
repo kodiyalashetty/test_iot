@@ -152,3 +152,4 @@ class Hpiview_Window(wx.Frame):
 
         self.Layout()
         # end wxGlade
+        
