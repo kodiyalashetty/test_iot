@@ -10,12 +10,12 @@ class Hpiview_Window(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.panel_2 = wx.Panel(self, -1)
-        self.window_1 = wx.SplitterWindow(self, -1, style=wx.SP_3D|wx.SP_BORDER)
+        self.window_1 = wx.SplitterWindow(self, -1, style=wx.SP_3D|wx.SP_3DBORDER)
         self.window_1_pane_2 = wx.Panel(self.window_1, -1)
         self.window_1_pane_1 = wx.Panel(self.window_1, -1)
         self.notebook_1 = wx.Notebook(self, -1, style=0)
         self.notebook_1_pane_1 = wx.Panel(self.notebook_1, -1)
-        self.panel_1 = wx.Panel(self, -1)
+        self.panel_1 = wx.Panel(self, wx.DOUBLE_BORDER)
         
         # Menu Bar
         self.frame_2_menubar = wx.MenuBar()
@@ -61,7 +61,6 @@ class Hpiview_Window(wx.Frame):
         self.button_2 = wx.ToggleButton(self.panel_2, -1, "Events")
 	self.button_2.SetToolTipString("Events")
 
-
         self.list_ctrl_1.InsertColumn(1,"Time",wx.LIST_FORMAT_LEFT,-1)
         self.list_ctrl_1.InsertColumn(1,"Source",wx.LIST_FORMAT_LEFT,-1)
         self.list_ctrl_1.InsertColumn(1,"Severity",wx.LIST_FORMAT_LEFT,-1)
@@ -85,10 +84,10 @@ class Hpiview_Window(wx.Frame):
         self.frame_2_toolbar.Realize()
         self.bitmap_button_1.SetSize(self.bitmap_button_1.GetBestSize())
         self.bitmap_button_2.SetSize(self.bitmap_button_2.GetBestSize())
-        self.panel_1.SetMinSize((60, 187))
+        self.panel_1.SetMinSize((36, 187))
         self.list_box_1.SetMinSize((150, 182))
-        self.tree_ctrl_1.SetMinSize((200, 147))
-        self.text_ctrl_1.SetMinSize((650, 152))
+        self.tree_ctrl_1.SetMinSize((300, 147))
+        self.text_ctrl_1.SetMinSize((550, 152))
         self.notebook_1.SetMinSize((850, 182))
 	self.SetMinSize((800,600))
         # end wxGlade
@@ -148,7 +147,7 @@ class Hpiview_Window(wx.Frame):
 
 
 	self.window_1.Show(False)
-	self.notebook_1.Show(False)
+	self.notebook_1.Show(True)
 
         self.Layout()
         # end wxGlade
