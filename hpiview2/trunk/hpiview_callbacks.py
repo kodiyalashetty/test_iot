@@ -38,6 +38,8 @@ class Hpiview_Callbacks():
 	Reset = ["Cold", "Warm", "Assert", "Deassert"]
 	menu_type = ""
 	eventgetthread = None
+	tempsensnum = None
+	tempresid = None
 	
 	menu_title_by_id = {}
 	menu_title_by_id1 = {}
@@ -55,13 +57,17 @@ class Hpiview_Callbacks():
 			frame.Bind(wx.EVT_TOGGLEBUTTON, self.Hide_Messages_Handler, frame.button_2)
 			frame.Bind(wx.EVT_TOOL, self.Subscribe_Handler, id=203)
 			frame.Bind(wx.EVT_LISTBOX_DCLICK, self.Set_TreeOnNewSession, frame.list_box_1)
-			frame.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.sys_activated, frame.tree_ctrl_1)   
-			frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
-			frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)
+			frame.Bind(wx.EVT_TREE_SEL_CHANGED, self.sys_activated, frame.tree_ctrl_1)
+                        frame.Bind(wx.EVT_LISTBOX_DCLICK, self.New_Session_Handler, frame.list_box_1)   
+##			frame.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.sys_collapsed, frame.tree_ctrl_1)
+##			frame.Bind(wx.EVT_TREE_ITEM_EXPANDED, self.sys_expanded, frame.tree_ctrl_1)
 			frame.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.RightClickCb ,frame.tree_ctrl_1)
 			frame.Bind(wx.EVT_TOOL, self.Domain_Discover ,id=202)
 			rdrlist=[["x",0,0,0]]
-			self.New_Session_Handler(None)
+                        frame.list_box_1.Insert("Default",frame.list_box_1.GetCount(),None)
+                        frame.Layout()
+
+##			self.New_Session_Handler(None)
 
 	def openHpiSession(self):
 			global sid
@@ -70,39 +76,64 @@ class Hpiview_Callbacks():
 			return 
                         
 	def discover(self):
-			global dinfo,sid
+                	global dinfo,sid
+
                         if(sid == None):
                                 self.Msg("No Sessions Active")
                                 return
 			error = saHpiDiscover(sid)
 			self.errorMsg(error ,"Domain Discovered")
                         dinfo = SaHpiDomainInfoT()
-                        error = saHpiDomainInfoGet(self.sid, dinfo)
+                        error = saHpiDomainInfoGet(sid, dinfo)
                         self.errorMsg(error ,"Populated the Domain Info")
                 	return
 
 	def SubscribeEvents(self):
-        	global sid,frame,eventgetthread
-##                print "ddd" + str(sid)
+        	global sid,frame,eventgetthread,tempsensnum,tempresid
                 if(sid != None):
                         error = saHpiSubscribe(sid)
                         self.errorMsg(error ,"Events Subscribed")
+
+                        rdr = SaHpiRdrT()
+                        sensorevt = SaHpiSensorEventT()
+                        sensorchangeevt = SaHpiSensorEnableChangeEventT()
+                        userevt = SaHpiUserEventT()
+                        event = SaHpiEventT()
+
+                        event.Source = tempresid
+                        event.EventType=SAHPI_ET_USER
+
+        		sensorevt.SensorNum = tempsensnum
+		        sensorevt.SensorType = SAHPI_TEMPERATURE
+		        sensorevt.EventCategory = SAHPI_EC_THRESHOLD
+		        sensorevt.Assertion = True
+
+		        sensorchangeevt.SensorNum = tempsensnum
+		        sensorchangeevt.SensorEnable = True
+
+		        error = saHpiEventAdd(sid, event)
+		        error = saHpiEventLogEntryAdd (sid ,tempresid , event)
+
+		        self.Msg("Added the Sensor Event for the sensor" + str(tempsensnum))
+
                         eventgetthread =  eventGetThread.EventGetThread(frame.list_ctrl_1,sid,frame)
                         eventgetthread.setDaemon(True)
                         eventgetthread.start()
         	return  
 
 	def unSubscribeEvents(self):
-                global sid
-                if(self.sid != None):
-                        error = saHpiUnsubscribe(self.sid)
+                global sid,frame
+                if(sid != None):
+                        error = saHpiUnsubscribe(sid)
                         self.errorMsg(error ,"Events Unsubscribed")
+                        frame.list_ctrl_1.DeleteAllItems()
+                        frame.Layout()
                 return  
 
 ##    # Traversing through the RDRs and populating them in the List.
 	def polpulateResAndRdrTypeData(self):
                 global frame,sid , res , rdr
-                global rdrlist
+                global rdrlist,tempsensnum,tempresid
                 first = True
                 firstroot = True
                 addChildsToRoot = False
@@ -136,6 +167,7 @@ class Hpiview_Callbacks():
                                 
                                         while error1 == SA_OK and  erid != SAHPI_LAST_ENTRY:
 
+
                                                 rdr = SaHpiRdrT()
 
                                                 error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
@@ -166,7 +198,9 @@ class Hpiview_Callbacks():
                                                                 Id = frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",-1,-1,None)            
                                                                 #frame.tree_ctrl_1.SetItemFont(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),font)
                                                                 rdrlist.append([str(oh_lookup_sensortype(rdr.RdrTypeUnion.SensorRec.Type)) + " Sensor",rdr,res ,"",rdr.RecordId , Id])
-                                                        if(rdr.RdrType == SAHPI_CTRL_RDR):
+								tempsensnum = rdr.RdrTypeUnion.SensorRec.Num
+								tempresid = res.ResourceId
+							if(rdr.RdrType == SAHPI_CTRL_RDR):
                                                                 Id = frame.tree_ctrl_1.AppendItem(frame.tree_ctrl_1.GetRootItem(),str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type)) + " Control",-1,-1,None)           
                                                                 #frame.tree_ctrl_1.SetItemFont(frame.tree_ctrl_1.GetLastChild(frame.tree_ctrl_1.GetRootItem()),font)
                                                                 rdrlist.append([str(oh_lookup_ctrltype(rdr.RdrTypeUnion.CtrlRec.Type))+ " Control" ,rdr,res ,"",rdr.RecordId ,Id])
@@ -236,93 +270,91 @@ class Hpiview_Callbacks():
 
                 frame.text_ctrl_1.SetValue("")
                 for ind in range(1,len(rdrlist)):
-        ##      if(rdrlist[ind][0] == frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()) and (rdrlist[ind][1].RecordId == rdrlist[ind][4] or rdrlist[ind][4] == "Resource" )):
-                                if(rdrlist[ind][0] == frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()) and rdrlist[ind][5] == event.GetItem()):
 
+                                if(rdrlist[ind][0] == frame.tree_ctrl_1.GetItemText(frame.tree_ctrl_1.GetSelection()) and rdrlist[ind][5] == event.GetItem()):
                                         if(rdrlist[ind][4] == "Resource"):
                                                 textbuffer = SaHpiTextBufferT()
                                                 t1 = SaHpiTextBufferT()
-                                                oh_append_textbuffer(textbuffer,"\n"+" ResourceID   \t" + str(rdrlist[ind][2].ResourceId)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Entity Path  \t" + rdrlist[ind][3]+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" ResourceID   \t\t\t" + str(rdrlist[ind][2].ResourceId)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Entity Path  \t\t\t" + rdrlist[ind][3]+"\n")
                                                 oh_decode_capabilities(rdrlist[ind][2].ResourceCapabilities,t1)
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
-                                                frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+"\n"+" Capabilities \t" + t1.Data+"\n")
+                                                frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+"\n"+" Capabilities \t\t\t" + t1.Data+"\n")
                                                 textbuffer = SaHpiTextBufferT()
                                                 oh_append_textbuffer(textbuffer,"\n"+" HotSwap Capabilities \t" + str(rdrlist[ind][2].HotSwapCapabilities)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Resource Tag \t" + rdrlist[ind][2].ResourceTag.Data+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Severity     \t" + str(rdrlist[ind][2].ResourceSeverity)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Resource Tag \t\t\t" + rdrlist[ind][2].ResourceTag.Data+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Severity     \t\t\t" + str(rdrlist[ind][2].ResourceSeverity)+"\n")
                                                 frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+textbuffer.Data)
                                                 return
-                                                                
+
                                         if(rdrlist[ind][1].RdrType==SAHPI_SENSOR_RDR):
                                                 oh_init_bigtext(textbuffer)
                                                 reading = SaHpiSensorReadingT()
                                                 textbuffer = SaHpiTextBufferT()
                                                 error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,reading)
                                                 self.errorMsg(error ,"Getting the Sensor Readings")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t"+"Sensor \n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Sensor Type      \t"+str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Sensor Base Unit     \t"+str(oh_lookup_sensorunits(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.BaseUnits))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " Sensor Control  \t"+self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.SensorRec.EnableCtrl)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t\t"+"\tSensor \n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Sensor Type      \t\t"+str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Sensor Base Unit \t\t"+str(oh_lookup_sensorunits(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.BaseUnits))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " Sensor Control  \t\t"+self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.SensorRec.EnableCtrl)+"\n")
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
                                                 textbuffer = SaHpiTextBufferT()
-                                                oh_append_textbuffer(textbuffer,"\n"+" Event Control    \t"+str(oh_lookup_sensoreventctrl(rdrlist[ind][1].RdrTypeUnion.SensorRec.EventCtrl))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Min Value        \t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Max Value        \t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Nominal Value    \t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Normal MinValue  \t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Normal MaxValue  \t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Event Control    \t\t"+str(oh_lookup_sensoreventctrl(rdrlist[ind][1].RdrTypeUnion.SensorRec.EventCtrl))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Min Value        \t\t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Max Value        \t\t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Nominal Value    \t\t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Normal MinValue  \t\t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Normal MaxValue  \t\t"+str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64)+"\n")
                                                 frame.text_ctrl_1.SetValue(frame.text_ctrl_1.GetValue()+textbuffer.Data)
-                ##              self.GetEventInfo(rdrlist,rdrlist[ind][1].RdrType,rdrlist[ind][0])
                                                 return
-                                        if(rdrlist[ind][1].RdrType==SAHPI_CTRL_RDR):
 
+                                        if(rdrlist[ind][1].RdrType==SAHPI_CTRL_RDR):
                                                 ctrlState = SaHpiCtrlStateT()
                                                 textbuffer = SaHpiTextBufferT()
                                                 error, Mode = saHpiControlGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Num,ctrlState)
                                                 self.errorMsg(error ,"Getting the Control Readings")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Type                 \t"+"Control"+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity          \t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n" +" Control Type            \t"+str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n" +" Control Output Type \t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n" +" Control State Digital   \t"+str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n" +" Mode                \t"+str(oh_lookup_ctrlmode(Mode))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Type\t\t\t\t"+"\tControl"+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity\t\t\t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n" +" Control Type\t\t\t\t"+str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n" +" Control Output Type\t\t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n" +" Control State Digital\t\t"+str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n" +" Mode\t\t\t\t\t"+str(oh_lookup_ctrlmode(Mode))+"\n")
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
                                                 self.GetControlInfo(frame.text_ctrl_1,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type,rdrlist,ind)
                                                 return
-                                        if(rdrlist[ind][1].RdrType==SAHPI_WATCHDOG_RDR):
 
+                                        if(rdrlist[ind][1].RdrType==SAHPI_WATCHDOG_RDR):
                                                 textbuffer = SaHpiTextBufferT()
                                                 watchdogt = SaHpiWatchdogT()
                                                 error = saHpiWatchdogTimerGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.WatchdogRec.WatchdogNum,watchdogt)
                                                 self.errorMsg(error ,"Getting the Watchdog Readings")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " Type            \t"+"WatchDog"+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " Type            \t"+"\t\tWatchDog"+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Watch Dog Action    \t"+str(oh_lookup_watchdogaction(watchdogt.TimerAction))+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Pre timer interrupt \t"+str(oh_lookup_watchdogpretimerinterrupt(watchdogt.PretimerInterrupt))+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " Timer use       \t"+str(oh_lookup_watchdogtimeruse(watchdogt.TimerUse))+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " Timer use       \t\t"+str(oh_lookup_watchdogtimeruse(watchdogt.TimerUse))+"\n")
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
                                                 return
-                                        if(rdrlist[ind][1].RdrType==SAHPI_ANNUNCIATOR_RDR):
 
+                                        if(rdrlist[ind][1].RdrType==SAHPI_ANNUNCIATOR_RDR):
                                                 textbuffer = SaHpiTextBufferT()
                                                 annunt = SaHpiAnnouncementT()
                                                 error = saHpiAnnunciatorGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.AnnunciatorRec.AnnunciatorNum,SAHPI_FIRST_ENTRY,annunt)
                                                 self.errorMsg(error ,"Getting the Annunciator Readings")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t"+"Annunciator"+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t"+"\t\tAnnunciator"+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Annunciator Type     \t" + str(oh_lookup_annunciatortype(rdrlist[ind][1].RdrTypeUnion.AnnunciatorRec.AnnunciatorType))+"\n")
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
                                                 return
-                                        if(rdrlist[ind][1].RdrType==SAHPI_INVENTORY_RDR):
 
+                                        if(rdrlist[ind][1].RdrType==SAHPI_INVENTORY_RDR):
                                                 textbuffer = SaHpiTextBufferT()
                                                 idrinfo = SaHpiIdrInfoT()
                                                 error = saHpiIdrInfoGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrType,idrinfo)
                                                 self.errorMsg(error ,"Getting the Inventory Readings")
-                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t"+"Inventory"+"\n")
-                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+" Type             \t\t\t"+"Inventory"+"\n")
+                                                oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Inventory's Persistent\t"+self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.InventoryRec.Persistent)+"\n")                   
                                                 frame.text_ctrl_1.SetValue(textbuffer.Data)
                                                 return
@@ -335,7 +367,7 @@ class Hpiview_Callbacks():
 
 	def Menu_Session_Quit_Handler(self, event): # wxGlade: MyFrame.<event_handler>
                 global frame,sid
-                if(sid != None):
+                if(sid != -1):
                         self.Msg("closed")
                         saHpiSessionClose(sid)
                         frame.DestroyChildren()
@@ -355,11 +387,21 @@ class Hpiview_Callbacks():
 	def CLose_Button_Handler(self, event): # wxGlade: MyFrame.<event_handler>
                 global frame
                 global sid
-                error = saHpiSessionClose(sid)
-                frame.list_box_1.Delete(frame.list_box_1.GetSelection())
-                frame.tree_ctrl_1.DeleteAllItems()
-                frame.text_ctrl_1.Clear()
-                frame.notebook_1.Show(False)
+
+                if(frame.list_box_1.GetSelection() == 0):
+                        error = saHpiSessionClose(sid)
+                        self.errorMsg(error,"Session Closed")
+                        frame.tree_ctrl_1.DeleteAllItems()                        
+                        frame.text_ctrl_1.Clear()
+                        return
+                else:
+                        error = saHpiSessionClose(sid)
+                        self.errorMsg(error,"Session Closed")   
+                        frame.list_box_1.Delete(frame.list_box_1.GetSelection())
+                        frame.tree_ctrl_1.DeleteAllItems()
+                        frame.text_ctrl_1.Clear()
+                        return
+##                frame.notebook_1.Show(False)
                 #event.Skip(True)
 	
 	def Hide_Domain_Handler(self, event): # wxGlade: MyFrame.<event_handler>
@@ -376,19 +418,11 @@ class Hpiview_Callbacks():
 
                 if(frame.list_box_1.GetCount() > 0 and frame.list_box_1.GetSelection() == wx.NOT_FOUND):
                         return
-                        
-                self.openHpiSession()
-                
+
+                self.openHpiSession()                       
                 frame.tree_ctrl_1.DeleteAllItems()
-                
                 self.polpulateResAndRdrTypeData()
 
-                if(frame.list_box_1.GetCount() < 1):
-                       frame.list_box_1.Insert("Default",frame.list_box_1.GetCount(),None)
-                       frame.notebook_1.Show(False)
-                       frame.Layout()
-                       return
-                       
                 frame.notebook_1.Show(True)
                 frame.Layout()
 
@@ -411,6 +445,7 @@ class Hpiview_Callbacks():
                 if(frame.button_2.GetValue()):
                         frame.window_1.Show(True)
                         frame.window_1.SetSashPosition(1005,True);                        
+
                         frame.window_1_pane_2.Show(False)
                         frame.window_1_pane_1.Show(True)
                 else:
@@ -545,6 +580,7 @@ class Hpiview_Callbacks():
                                 else:
                                         frm.label_8.SetLabel(frm.label_8.GetLabelText() + ":\t" + "Overwrite")
                                 frm.checkbox_1.SetValue(info.Enabled)
+				break
                 frm.ShowModal()
 
 ##     Displays preferences of the Sensor RDR
@@ -722,66 +758,66 @@ class Hpiview_Callbacks():
                 error, Mode = saHpiControlGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Num,ctrlState)
 
                 if ( isinstance(frm ,wx.Dialog)):
-                        frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t\t:\t" + str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type)))
-                        frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t:\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.WriteOnly))
-                        frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t\t:\t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType)))
-                        frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t\t\t:\t" + str(oh_lookup_ctrlmode(Mode)))
-                        frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t:\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.DefaultMode.ReadOnly))
+                        frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t\t\t" + str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type)))
+                        frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.WriteOnly))
+                        frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t\t\t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType)))
+                        frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t\t\t\t" + str(oh_lookup_ctrlmode(Mode)))
+                        frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.DefaultMode.ReadOnly))
 
                 if(isinstance(frm ,wx.Dialog)):
                         if(ctrltype == 0 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital)))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital)))
 
                         if(ctrltype == 1 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + str(ctrlState.StateUnion.Discrete))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Discrete))
 
                         if(ctrltype == 2 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + str(ctrlState.StateUnion.Analog))
-                                frm.label_21.SetLabel("Min Control State Value\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Min))
-                                frm.label_22.SetLabel("Max Control State Value\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Max))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Analog))
+                                frm.label_21.SetLabel("Min Control State Value\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Min))
+                                frm.label_22.SetLabel("Max Control State Value\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Max))
 
                         if(ctrltype == 3 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + str(ctrlState.StateUnion.Stream.Stream))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Stream.Stream))
 
                         if(ctrltype == 4 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + ctrlState.StateUnion.Text.Text.Data)
-                                frm.label_21.SetLabel("Max Chars per line\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxChars))
-                                frm.label_22.SetLabel("Max number of lines\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxLines))
-                                frm.label_23.SetLabel("Control default line\t\t:\t" + str(ctrlState.StateUnion.Text.Line))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + ctrlState.StateUnion.Text.Text.Data)
+                                frm.label_21.SetLabel("Max Chars per line\t\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxChars))
+                                frm.label_22.SetLabel("Max number of lines\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxLines))
+                                frm.label_23.SetLabel("Control default line\t\t\t" + str(ctrlState.StateUnion.Text.Line))
 
                         if(ctrltype == 192 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t:\t" + str(ctrlState.StateUnion.Oem.Body))
-                                frm.label_21.SetLabel("Control Manufacturer Id\t:\t" + str(ctrlState.StateUnion.Oem.MId))
-                                frm.label_22.SetLabel("Oem Configuration data\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Oem.ConfigData))
+                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Oem.Body))
+                                frm.label_21.SetLabel("Control Manufacturer Id\t\t" + str(ctrlState.StateUnion.Oem.MId))
+                                frm.label_22.SetLabel("Oem Configuration data\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Oem.ConfigData))
 
                         return
 
                 if(isinstance(frm ,wx.TextCtrl)):
 
                         if(ctrltype == 0):
-                                frm.SetValue(frm.GetValue() + "\n Control default state\t\t:\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital))+ "\n")
+                                frm.SetValue(frm.GetValue() + "\n Control default state\t\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital))+ "\n")
 
                         if(ctrltype == 1):
-                                frm.SetValue(frm.GetValue()+ "\n Control default state\t\t:\t" + str(ctrlState.StateUnion.Discrete)+ "\n")
+                                frm.SetValue(frm.GetValue()+ "\n Control default state\t\t" + str(ctrlState.StateUnion.Discrete)+ "\n")
 
                         if(ctrltype == 2):
-                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t:\t" + str(ctrlState.StateUnion.Analog)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Min Control State Value\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Min)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Max Control State Value\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Max)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t" + str(ctrlState.StateUnion.Analog)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Min Control State Value\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Min)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Max Control State Value\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Max)+ "\n")
 
                         if(ctrltype == 3):
-                                frm.SetValue(frm.GetValue()+ "\n Control default state\t\t:\t" + str(ctrlState.StateUnion.Stream.Stream)+ "\n")
+                                frm.SetValue(frm.GetValue()+ "\n Control default state\t\t" + str(ctrlState.StateUnion.Stream.Stream)+ "\n")
 
                         if(ctrltype == 4):
-                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t:\t" + ctrlState.StateUnion.Text.Text.Data + "\n")
-                                frm.SetValue(frm.GetValue()+"\n Max Chars per line\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxChars)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Max number of lines\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxLines)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Control default line\t\t:\t" + str(ctrlState.StateUnion.Text.Line)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t" + ctrlState.StateUnion.Text.Text.Data + "\n")
+                                frm.SetValue(frm.GetValue()+"\n Max Chars per line\t\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxChars)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Max number of lines\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxLines)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Control default line\t\t\t" + str(ctrlState.StateUnion.Text.Line)+ "\n")
 
                         if(ctrltype == 5):
-                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t:\t" + str(ctrlState.StateUnion.Oem.Body)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Control Manufacturer Id\t\t:\t" + str (ctrlState.StateUnion.Oem.MId)+ "\n")
-                                frm.SetValue(frm.GetValue()+"\n Oem Configuration data\t\t:\t" + str (rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Oem.ConfigData)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Control default state\t\t" + str(ctrlState.StateUnion.Oem.Body)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Control Manufacturer Id\t\t" + str (ctrlState.StateUnion.Oem.MId)+ "\n")
+                                frm.SetValue(frm.GetValue()+"\n Oem Configuration data\t\t" + str (rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Oem.ConfigData)+ "\n")
                         return 
 		
 
@@ -810,3 +846,8 @@ class Hpiview_Callbacks():
                 else:
                         if(msg != ""):
                                 self.Msg(msg)
+
+        def StatusMsg(self , message):
+                global frame
+                frame.statusbar.SetStatusText(message)
+        

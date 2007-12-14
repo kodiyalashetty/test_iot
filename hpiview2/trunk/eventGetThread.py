@@ -72,7 +72,7 @@ class EventGetThread(Thread):
         event.EventType = SAHPI_ET_USER
         event.Source = SAHPI_UNSPECIFIED_RESOURCE_ID
 
-        # initialize the attreibutes for the specific kind of event that is to be triggerred.
+        # initialize the attributes for the specific kind of event that is to be triggerred.
 
         sensorevt = SaHpiSensorEventT()
         sensorchangeevt = SaHpiSensorEnableChangeEventT()
