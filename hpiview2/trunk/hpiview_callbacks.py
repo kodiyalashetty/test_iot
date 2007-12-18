@@ -14,6 +14,7 @@ import ResEventLog
 import PrefEvtLogTimestamp
 import FrmHelpAbout
 import eventGetThread
+import CustomEvent
 
 class Hpiview_Callbacks():
 
@@ -40,6 +41,7 @@ class Hpiview_Callbacks():
 	eventgetthread = None
 	tempsensnum = None
 	tempresid = None
+	dlist = [""]
 	
 	menu_title_by_id = {}
 	menu_title_by_id1 = {}
@@ -64,16 +66,17 @@ class Hpiview_Callbacks():
 			frame.Bind(wx.EVT_TREE_ITEM_RIGHT_CLICK, self.RightClickCb ,frame.tree_ctrl_1)
 			frame.Bind(wx.EVT_TOOL, self.Domain_Discover ,id=202)
 			rdrlist=[["x",0,0,0]]
-                        frame.list_box_1.Insert("Default",frame.list_box_1.GetCount(),None)
                         frame.Layout()
 
 ##			self.New_Session_Handler(None)
+                        self.GetDRTInfo()
 
 	def openHpiSession(self):
 			global sid
 			error, sid = saHpiSessionOpen(SAHPI_UNSPECIFIED_DOMAIN_ID, None)
-                        self.errorMsg(error ,"Session Opened")
+                        self.errorMsg(error ,"Session Opened","OpenHpiSession")
 			return 
+
                         
 	def discover(self):
                 	global dinfo,sid
@@ -82,50 +85,29 @@ class Hpiview_Callbacks():
                                 self.Msg("No Sessions Active")
                                 return
 			error = saHpiDiscover(sid)
-			self.errorMsg(error ,"Domain Discovered")
+			self.errorMsg(error ,"Domain Discovered","discover")
                         dinfo = SaHpiDomainInfoT()
                         error = saHpiDomainInfoGet(sid, dinfo)
-                        self.errorMsg(error ,"Populated the Domain Info")
+                        self.errorMsg(error ,"Populated the Domain Info","discover")
                 	return
 
 	def SubscribeEvents(self):
-        	global sid,frame,eventgetthread,tempsensnum,tempresid
+        	global sid,frame,eventgetthread,tempsensnum,tempresid,dlist
+        	
                 if(sid != None):
                         error = saHpiSubscribe(sid)
-                        self.errorMsg(error ,"Events Subscribed")
-
-                        rdr = SaHpiRdrT()
-                        sensorevt = SaHpiSensorEventT()
-                        sensorchangeevt = SaHpiSensorEnableChangeEventT()
-                        userevt = SaHpiUserEventT()
-                        event = SaHpiEventT()
-
-                        event.Source = tempresid
-                        event.EventType=SAHPI_ET_USER
-
-        		sensorevt.SensorNum = tempsensnum
-		        sensorevt.SensorType = SAHPI_TEMPERATURE
-		        sensorevt.EventCategory = SAHPI_EC_THRESHOLD
-		        sensorevt.Assertion = True
-
-		        sensorchangeevt.SensorNum = tempsensnum
-		        sensorchangeevt.SensorEnable = True
-
-		        error = saHpiEventAdd(sid, event)
-		        error = saHpiEventLogEntryAdd (sid ,tempresid , event)
-
-		        self.Msg("Added the Sensor Event for the sensor" + str(tempsensnum))
-
-                        eventgetthread =  eventGetThread.EventGetThread(frame.list_ctrl_1,sid,frame)
+                        self.errorMsg(error ,"Events Subscribed","SubscribeEvents")
+                        CustomEvent.CustomEvent(sid)
+                        eventgetthread =  eventGetThread.EventGetThread(frame.list_ctrl_1,sid,frame,self.dlist)
                         eventgetthread.setDaemon(True)
                         eventgetthread.start()
-        	return  
+                return  
 
 	def unSubscribeEvents(self):
                 global sid,frame
                 if(sid != None):
                         error = saHpiUnsubscribe(sid)
-                        self.errorMsg(error ,"Events Unsubscribed")
+                        self.errorMsg(error ,"Events Unsubscribed","UnSubscribeEvents")
                         frame.list_ctrl_1.DeleteAllItems()
                         frame.Layout()
                 return  
@@ -157,7 +139,7 @@ class Hpiview_Callbacks():
                         res = SaHpiRptEntryT()
 
                         error, nexteid = saHpiRptEntryGet(sid, eid, res)
-                        self.errorMsg(error ,"")
+                        self.errorMsg(error ,"","populateResAndRdrTypeData")
 
                         if error == SA_OK:
                                 rid = res.ResourceId
@@ -171,7 +153,7 @@ class Hpiview_Callbacks():
                                                 rdr = SaHpiRdrT()
 
                                                 error1 , nextrdrid = saHpiRdrGet(sid , rid , erid , rdr)
-                                                self.errorMsg(error1 ,"")
+                                                self.errorMsg(error1 ,"","populateResAndRdrTypeData")
 
                                                 if(firstroot):
                                                         tbuff = oh_big_textbuffer()
@@ -292,7 +274,7 @@ class Hpiview_Callbacks():
                                                 reading = SaHpiSensorReadingT()
                                                 textbuffer = SaHpiTextBufferT()
                                                 error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,reading)
-                                                self.errorMsg(error ,"Getting the Sensor Readings")
+                                                self.errorMsg(error ,"Getting the Sensor Readings","sys_activated")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Type             \t\t"+"\tSensor \n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Sensor Type      \t\t"+str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type))+"\n")
@@ -313,7 +295,7 @@ class Hpiview_Callbacks():
                                                 ctrlState = SaHpiCtrlStateT()
                                                 textbuffer = SaHpiTextBufferT()
                                                 error, Mode = saHpiControlGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Num,ctrlState)
-                                                self.errorMsg(error ,"Getting the Control Readings")
+                                                self.errorMsg(error ,"Getting the Control Readings","sys_activated")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Type\t\t\t\t"+"\tControl"+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity\t\t\t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n" +" Control Type\t\t\t\t"+str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type))+"\n")
@@ -328,7 +310,7 @@ class Hpiview_Callbacks():
                                                 textbuffer = SaHpiTextBufferT()
                                                 watchdogt = SaHpiWatchdogT()
                                                 error = saHpiWatchdogTimerGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.WatchdogRec.WatchdogNum,watchdogt)
-                                                self.errorMsg(error ,"Getting the Watchdog Readings")
+                                                self.errorMsg(error ,"Getting the Watchdog Readings","sys_activated")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Type            \t"+"\t\tWatchDog"+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Watch Dog Action    \t"+str(oh_lookup_watchdogaction(watchdogt.TimerAction))+"\n")
@@ -341,7 +323,7 @@ class Hpiview_Callbacks():
                                                 textbuffer = SaHpiTextBufferT()
                                                 annunt = SaHpiAnnouncementT()
                                                 error = saHpiAnnunciatorGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.AnnunciatorRec.AnnunciatorNum,SAHPI_FIRST_ENTRY,annunt)
-                                                self.errorMsg(error ,"Getting the Annunciator Readings")
+                                                self.errorMsg(error ,"Getting the Annunciator Readings","sys_activated")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Type             \t"+"\t\tAnnunciator"+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Annunciator Type     \t" + str(oh_lookup_annunciatortype(rdrlist[ind][1].RdrTypeUnion.AnnunciatorRec.AnnunciatorType))+"\n")
@@ -352,7 +334,7 @@ class Hpiview_Callbacks():
                                                 textbuffer = SaHpiTextBufferT()
                                                 idrinfo = SaHpiIdrInfoT()
                                                 error = saHpiIdrInfoGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrType,idrinfo)
-                                                self.errorMsg(error ,"Getting the Inventory Readings")
+                                                self.errorMsg(error ,"Getting the Inventory Readings","sys_activated")
                                                 oh_append_textbuffer(textbuffer,"\n"+" Type             \t\t\t"+"Inventory"+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " FRU Entity      \t\t"+self.GetBoolean(rdrlist[ind][1].IsFru)+"\n")
                                                 oh_append_textbuffer(textbuffer,"\n"+ " Inventory's Persistent\t"+self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.InventoryRec.Persistent)+"\n")                   
@@ -390,13 +372,13 @@ class Hpiview_Callbacks():
 
                 if(frame.list_box_1.GetSelection() == 0):
                         error = saHpiSessionClose(sid)
-                        self.errorMsg(error,"Session Closed")
+                        self.errorMsg(error,"Session Closed","Close_Button_Handler")
                         frame.tree_ctrl_1.DeleteAllItems()                        
                         frame.text_ctrl_1.Clear()
                         return
                 else:
                         error = saHpiSessionClose(sid)
-                        self.errorMsg(error,"Session Closed")   
+                        self.errorMsg(error,"Session Closed","Close_Button_Handler")   
                         frame.list_box_1.Delete(frame.list_box_1.GetSelection())
                         frame.tree_ctrl_1.DeleteAllItems()
                         frame.text_ctrl_1.Clear()
@@ -563,7 +545,7 @@ class Hpiview_Callbacks():
                          if(rdrlist[ind][0] == item_clicked):
                                 info = SaHpiEventLogInfoT()
                                 error = saHpiEventLogInfoGet(sid,rdrlist[ind][2].ResourceId,info)
-                                self.errorMsg(error ,"Getting the EL")
+                                self.errorMsg(error ,"Getting the EL","ShowEvtLog")
                                 frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t:\t" + str(info.Entries))
                                 frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t\t:\t" + str(info.Size))
                                 frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t:\t" + str(info.UserEventMaxSize))
@@ -591,7 +573,7 @@ class Hpiview_Callbacks():
                         if(rdrlist[ind][0] == item_clicked):
                                 reading = SaHpiSensorReadingT()
                                 error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,reading)
-                                self.errorMsg(error ,"Getting the sensor readings")
+                                self.errorMsg(error ,"Getting the sensor readings", "ShowSensorInfo")
                                 frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t:\t" + "Sensor")
                                 frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t:\t" + str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type)))
                                 if(rdrlist[ind][1].RdrTypeUnion.SensorRec.EnableCtrl==0):
@@ -610,7 +592,7 @@ class Hpiview_Callbacks():
                                 frm.label_12.SetLabel(frm.label_12.GetLabelText() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.Events))
                                 sensorthresholds = SaHpiSensorThresholdsT()
                                 error = saHpiSensorThresholdsGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,sensorthresholds)
-                                self.errorMsg(error ,"Getting the sensor thresholds")
+                                self.errorMsg(error ,"Getting the sensor thresholds","ShowSensorInfo")
                                 frm.spin_ctrl_6.SetValue(sensorthresholds.NegThdHysteresis.Value.SensorFloat64)
                                 frm.spin_ctrl_1.SetValue(sensorthresholds.PosThdHysteresis.Value.SensorFloat64)
                                 frm.spin_ctrl_2.SetValue(sensorthresholds.UpCritical.Value.SensorFloat64)
@@ -630,7 +612,7 @@ class Hpiview_Callbacks():
                         if(rdrlist[ind][0] == item_clicked):
                                 idrinfo = SaHpiIdrInfoT()
                                 error = saHpiIdrInfoGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.InventoryRec.IdrId,idrinfo)
-                                self.errorMsg(error ,"Getting the Inventory readings")
+                                self.errorMsg(error ,"Getting the Inventory readings","ShowInvInfo")
                                 frm.label_8.SetLabel(frm.label_8.GetLabelText() + "\t\t\t:\t " + item_clicked)
                                 frm.label_9.SetLabel(frm.label_9.GetLabelText() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].IsFru))
                                 frm.label_10.SetLabel(frm.label_10.GetLabelText() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.InventoryRec.Persistent))
@@ -650,7 +632,7 @@ class Hpiview_Callbacks():
                         if(rdrlist[ind][0] == item_clicked):
                                 watchdog = SaHpiWatchdogT()
                                 error = saHpiWatchdogTimerGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.WatchdogRec.WatchdogNum,watchdog)
-                                self.errorMsg(error ,"Getting the Watchdog readings")
+                                self.errorMsg(error ,"Getting the Watchdog readings","ShowWatchDogInfo")
                                 frm.checkbox_2.SetValue(watchdog.Log)
                                 frm.checkbox_3.SetValue(watchdog.Running)
                                 frm.combo_box_5.SetSelection(watchdog.TimerUse)
@@ -672,7 +654,7 @@ class Hpiview_Callbacks():
                         if(rdrlist[ind][0] == item_clicked):
                                 ctrlState = SaHpiCtrlStateT()
                                 error, Mode = saHpiControlGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Num,ctrlState)
-                                self.errorMsg(error ,"Getting the Control readings")
+                                self.errorMsg(error ,"Getting the Control readings","ShowControlInfo")
                                 self.GetControlInfo(frm,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type,rdrlist,ind)
                                 break
                 frm.ShowModal()
@@ -731,13 +713,13 @@ class Hpiview_Callbacks():
                 frm.list_ctrl_1.InsertStringItem(6,str(1))
                 while error == SA_OK and AreaId != SAHPI_LAST_ENTRY:
                         error , nextAreaId = saHpiIdrAreaHeaderGet(sid,rid,idrid, AreaType ,AreaId, Header)
-                        self.errorMsg(error ,"Getting the Inventory Area info")
+                        self.errorMsg(error ,"Getting the Inventory Area info","GetInvAreaInfo")
                         frm.list_ctrl_1.SetStringItem(AreaId,AreaId,str(oh_lookup_idrareatype(Header.Type)))
                         frm.list_ctrl_2.InsertColumn(Header.NumFields,"Inventory Fields",format=wx.LIST_FORMAT_LEFT,width=100)
                         frm.list_ctrl_2.InsertStringItem(Header.NumFields,str(1))
                         while error1 == SA_OK and FieldId != SAHPI_LAST_ENTRY:
                                 error1 , nextFieldId =  saHpiIdrFieldGet(sid,rid,idrid,AreaId,SAHPI_IDR_FIELDTYPE_UNSPECIFIED,FieldId,Field)
-                                self.errorMsg(error1 ,"Getting the Inventory field info")
+                                self.errorMsg(error1 ,"Getting the Inventory field info","GetInvAreaInfo")
                                 frm.list_ctrl_2.SetStringItem(FieldId,FieldId,str(oh_lookup_idrfieldtype(Field.Type)))
                                 FieldId = nextFieldId
                         AreaId = nextAreaId
@@ -840,9 +822,10 @@ class Hpiview_Callbacks():
                 global frame
                 frame.text_ctrl_2.SetValue(frame.text_ctrl_2.GetValue()+"\r"+message)
 
-        def errorMsg(self , err , msg):
+        def errorMsg(self , err , msg , methodname):
                 if err != SA_OK:
                         self.Msg (oh_lookup_error(err))
+                        print "Error : " + methodname + " : " + oh_lookup_error(err)
                 else:
                         if(msg != ""):
                                 self.Msg(msg)
@@ -851,3 +834,27 @@ class Hpiview_Callbacks():
                 global frame
                 frame.statusbar.SetStatusText(message)
         
+
+        def GetDRTInfo(self):
+                global dlist,frame
+
+                error, sid = saHpiSessionOpen(SAHPI_UNSPECIFIED_DOMAIN_ID, None)
+                if error == SA_OK:
+                        eid = SAHPI_FIRST_ENTRY
+                        
+                        error1 = SA_OK
+                        while error1 == SA_OK and eid != SAHPI_LAST_ENTRY:
+
+                                drtentry = SaHpiDrtEntryT()
+
+                                error1, nextentry = saHpiDrtEntryGet(sid, eid, drtentry)
+                                domaininfo = SaHpiDomainInfoT()
+                                error2 = saHpiDomainInfoGet(sid, domaininfo)
+                                self.errorMsg(error ,"Domain Discovered","GetDRTInfo")
+                                self.dlist.append(domaininfo)
+                                frame.list_box_1.Insert(domaininfo.DomainTag.Data,frame.list_box_1.GetCount(),None)
+                                        
+                                eid = nextentry
+                else:
+                        print "No available domain"
+                error = saHpiSessionClose(sid)
