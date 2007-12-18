@@ -19,14 +19,15 @@ class EventGetThread(Thread):
 
     listctrl = None
     frame = None
+    dlist = [""]
 
-
-    def __init__(self,lstctrl,sessionid,frm):
-        global listctrl,sid,frame
+    def __init__(self,lstctrl,sessionid,frm,domainlist):
+        global listctrl,sid,frame,dlist
         Thread.__init__(self)
         listctrl = lstctrl
         frame = frm
         sid=sessionid
+        dlist = domainlist
         self.AddEvent()
 
     def run(self):
@@ -36,6 +37,7 @@ class EventGetThread(Thread):
         global timeout
         global event
         global listctrl
+        global dlist
 
 	self.Msg("Listening for Events .... ")
         self.rdr.RdrType = SAHPI_NO_RECORD
@@ -49,19 +51,22 @@ class EventGetThread(Thread):
                 elif self.timeout != SAHPI_TIMEOUT_IMMEDIATE:
                     self.Msg('ERROR: Time, %u seconds, expired waiting for event' % options.timeout)
         else:
+            for ind in range(1,len(dlist)):
+                if(self.event.EventDataUnion.DomainEvent.DomainId == dlist[ind].DomainId):
+                    dname = dlist[ind].DomainTag.Data
             if self.rdr.RdrType == SAHPI_NO_RECORD:
                 tbuff = oh_big_textbuffer()
                 b=SaHpiTextBufferT()
                 oh_decode_time(self.event.Timestamp, b)
                 oh_decode_entitypath(self.rdr.Entity, tbuff)
-                listctrl.Append([b.Data,tbuff.Data,oh_lookup_severity(self.event.Severity),oh_lookup_eventtype(self.event.EventType),str(self.event.EventDataUnion.DomainEvent.DomainId)])
+                listctrl.Append([b.Data,tbuff.Data,oh_lookup_severity(self.event.Severity),oh_lookup_eventtype(self.event.EventType),dname])
 ##                oh_print_event(self.event, None, 4)
             else:
                 tbuff = oh_big_textbuffer()
                 b=SaHpiTextBufferT()
                 oh_decode_time(self.event.Timestamp, b)
                 oh_decode_entitypath(self.rdr.Entity, tbuff)
-                listctrl.Append([b.Data,tbuff.Data,oh_lookup_severity(self.event.Severity),oh_lookup_eventtype(self.event.EventType),str(self.event.EventDataUnion.DomainEvent.DomainId)])
+                listctrl.Append([b.Data,tbuff.Data,oh_lookup_severity(self.event.Severity),oh_lookup_eventtype(self.event.EventType),dname])
 
     def AddEvent(self):
         global sid
