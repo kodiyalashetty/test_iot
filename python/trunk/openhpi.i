@@ -321,21 +321,29 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %typemap (in) SaHpiDimiTestVariableParamsT *ParamsList (SaHpiDimiTestVariableParamsT *params) {
         int pos = 0;
         PyObject *value = 0;
-        if (!PyList_Check($input)) {
-                PyErr_SetString(PyExc_ValueError, "Expected a list");
-                return NULL;
-        }
-        params = (SaHpiDimiTestVariableParamsT *)malloc(sizeof(SaHpiDimiTestVariableParamsT)*PyList_Size($input));
-        for (pos = 0; pos < PyList_Size($input); pos++) {
-                value = PyList_GetItem($input, pos);
-                SaHpiDimiTestVariableParamsT *param = NULL;
-                int conv_res = SWIG_ConvertPtr(value, (void *)(void *)&param, SWIGTYPE_p_SaHpiDimiTestVariableParamsT, 0 |  0 );
-                if (!SWIG_IsOK(conv_res)) {
-                        SWIG_exception_fail(SWIG_ArgError(conv_res),
+        if ($input == Py_None) {
+                params = NULL;
+        } else {
+                if (!PyList_Check($input)) {
+                        PyErr_SetString(PyExc_ValueError, "Expected a list");
+                        return NULL;
+                }
+                params = (SaHpiDimiTestVariableParamsT *)malloc(sizeof(SaHpiDimiTestVariableParamsT)*PyList_Size($input));
+        
+                for (pos = 0; pos < PyList_Size($input); pos++) {
+                        value = PyList_GetItem($input, pos);
+                        SaHpiDimiTestVariableParamsT *param = NULL;
+                        int conv_res = SWIG_ConvertPtr(value,
+                                (void *)(void *)&param,
+                                SWIGTYPE_p_SaHpiDimiTestVariableParamsT,
+                                0 |  0 );
+                        if (!SWIG_IsOK(conv_res)) {
+                                SWIG_exception_fail(SWIG_ArgError(conv_res),
                                 "List element is not of SaHpiDimiTestVariableParamsT type");
 
-                } else {
-                        params[pos] = *param;
+                        } else {
+                                params[pos] = *param;
+                        }
                 }
         }
         $1 = params;
