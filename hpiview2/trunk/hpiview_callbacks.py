@@ -16,7 +16,7 @@ import FrmHelpAbout
 import eventGetThread
 import CustomEvent
 
-class Hpiview_Callbacks():
+class Hpiview_Callbacks:
 
 	frame = None
 	sid = None
@@ -526,14 +526,14 @@ class Hpiview_Callbacks():
                 frm = ResourcePref.MyDialog(frame,-1,"")
                 for ind in range(1,len(rdrlist)):
                          if(rdrlist[ind][0] == item_clicked):
-                                frm.label_1.SetLabel(frm.label_1.GetLabelText() + " :\t" + str(rdrlist[ind][2].ResourceInfo.AuxFirmwareRev))
-                                frm.label_2.SetLabel(frm.label_2.GetLabelText() + " :\t" + str(rdrlist[ind][2].ResourceInfo.FirmwareMinorRev))
-                                frm.label_3.SetLabel(frm.label_3.GetLabelText() + " :\t" + str(rdrlist[ind][2].ResourceInfo.FirmwareMajorRev))
-                                frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t\t\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ProductId))
-                                frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ManufacturerId))
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.DeviceSupport))
-                                frm.label_7.SetLabel(frm.label_7.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.SpecificVer))
-                                frm.label_8.SetLabel(frm.label_8.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ResourceRev))
+                                frm.label_1.SetLabel(frm.label_1.GetLabel() + " :\t" + str(rdrlist[ind][2].ResourceInfo.AuxFirmwareRev))
+                                frm.label_2.SetLabel(frm.label_2.GetLabel() + " :\t" + str(rdrlist[ind][2].ResourceInfo.FirmwareMinorRev))
+                                frm.label_3.SetLabel(frm.label_3.GetLabel() + " :\t" + str(rdrlist[ind][2].ResourceInfo.FirmwareMajorRev))
+                                frm.label_4.SetLabel(frm.label_4.GetLabel() + "\t\t\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ProductId))
+                                frm.label_5.SetLabel(frm.label_5.GetLabel() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ManufacturerId))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.DeviceSupport))
+                                frm.label_7.SetLabel(frm.label_7.GetLabel() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.SpecificVer))
+                                frm.label_8.SetLabel(frm.label_8.GetLabel() + "\t\t:\t" + str(rdrlist[ind][2].ResourceInfo.ResourceRev))
                                 break
                 frm.ShowModal()
 
@@ -546,21 +546,21 @@ class Hpiview_Callbacks():
                                 info = SaHpiEventLogInfoT()
                                 error = saHpiEventLogInfoGet(sid,rdrlist[ind][2].ResourceId,info)
                                 self.errorMsg(error ,"Getting the EL","ShowEvtLog")
-                                frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t:\t" + str(info.Entries))
-                                frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t\t:\t" + str(info.Size))
-                                frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t:\t" + str(info.UserEventMaxSize))
+                                frm.label_1.SetLabel(frm.label_1.GetLabel() + "\t\t:\t" + str(info.Entries))
+                                frm.label_2.SetLabel(frm.label_2.GetLabel() + "\t\t\t:\t" + str(info.Size))
+                                frm.label_3.SetLabel(frm.label_3.GetLabel() + "\t:\t" + str(info.UserEventMaxSize))
                                 b = SaHpiTextBufferT()
                                 oh_decode_time(info.UpdateTimestamp,b)
-                                frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t:\t" + b.Data)
+                                frm.label_4.SetLabel(frm.label_4.GetLabel() + "\t:\t" + b.Data)
                                 b = SaHpiTextBufferT()
                                 oh_decode_time(info.CurrentTime,b)
-                                frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t:\t" + b.Data)
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t:\t" + self.GetBoolean(info.OverflowFlag))
-                                frm.label_7.SetLabel(frm.label_7.GetLabelText() + "\t\t:\t" + self.GetBoolean(info.OverflowResetable))
+                                frm.label_5.SetLabel(frm.label_5.GetLabel() + "\t:\t" + b.Data)
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t:\t" + self.GetBoolean(info.OverflowFlag))
+                                frm.label_7.SetLabel(frm.label_7.GetLabel() + "\t\t:\t" + self.GetBoolean(info.OverflowResetable))
                                 if(info.OverflowAction == 0):
-                                        frm.label_8.SetLabel(frm.label_8.GetLabelText() + ":\t" + "Drop")
+                                        frm.label_8.SetLabel(frm.label_8.GetLabel() + ":\t" + "Drop")
                                 else:
-                                        frm.label_8.SetLabel(frm.label_8.GetLabelText() + ":\t" + "Overwrite")
+                                        frm.label_8.SetLabel(frm.label_8.GetLabel() + ":\t" + "Overwrite")
                                 frm.checkbox_1.SetValue(info.Enabled)
 				break
                 frm.ShowModal()
@@ -574,22 +574,22 @@ class Hpiview_Callbacks():
                                 reading = SaHpiSensorReadingT()
                                 error ,evtState = saHpiSensorReadingGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,reading)
                                 self.errorMsg(error ,"Getting the sensor readings", "ShowSensorInfo")
-                                frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t:\t" + "Sensor")
-                                frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t:\t" + str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type)))
+                                frm.label_1.SetLabel(frm.label_1.GetLabel() + "\t\t:\t" + "Sensor")
+                                frm.label_2.SetLabel(frm.label_2.GetLabel() + "\t\t:\t" + str(oh_lookup_sensortype(rdrlist[ind][1].RdrTypeUnion.SensorRec.Type)))
                                 if(rdrlist[ind][1].RdrTypeUnion.SensorRec.EnableCtrl==0):
-                                        frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t:\t" + "False")
-                                        frm.label_11.SetLabel(frm.label_11.GetLabelText() + "\t:\t" + "False")
+                                        frm.label_3.SetLabel(frm.label_3.GetLabel() + "\t:\t" + "False")
+                                        frm.label_11.SetLabel(frm.label_11.GetLabel() + "\t:\t" + "False")
                                 else:
-                                        frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t:\t" + "True")
-                                        frm.label_11.SetLabel(frm.label_11.GetLabelText() + "\t:\t" + "True")
-                                frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t:\t" + str(oh_lookup_sensorunits(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.BaseUnits)))
-                                frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64))
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64))
-                                frm.label_7.SetLabel(frm.label_7.GetLabelText() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64))
-                                frm.label_8.SetLabel(frm.label_8.GetLabelText() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64))
-                                frm.label_9.SetLabel(frm.label_9.GetLabelText() + "\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64))
-                                frm.label_10.SetLabel(frm.label_10.GetLabelText() + "\t\t:\t" + str(oh_lookup_eventcategory(rdrlist[ind][1].RdrTypeUnion.SensorRec.Category)))
-                                frm.label_12.SetLabel(frm.label_12.GetLabelText() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.Events))
+                                        frm.label_3.SetLabel(frm.label_3.GetLabel() + "\t:\t" + "True")
+                                        frm.label_11.SetLabel(frm.label_11.GetLabel() + "\t:\t" + "True")
+                                frm.label_4.SetLabel(frm.label_4.GetLabel() + "\t:\t" + str(oh_lookup_sensorunits(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.BaseUnits)))
+                                frm.label_5.SetLabel(frm.label_5.GetLabel() + "\t\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Min.Value.SensorFloat64))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Max.Value.SensorFloat64))
+                                frm.label_7.SetLabel(frm.label_7.GetLabel() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMin.Value.SensorFloat64))
+                                frm.label_8.SetLabel(frm.label_8.GetLabel() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.NormalMax.Value.SensorFloat64))
+                                frm.label_9.SetLabel(frm.label_9.GetLabel() + "\t\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.DataFormat.Range.Nominal.Value.SensorFloat64))
+                                frm.label_10.SetLabel(frm.label_10.GetLabel() + "\t\t:\t" + str(oh_lookup_eventcategory(rdrlist[ind][1].RdrTypeUnion.SensorRec.Category)))
+                                frm.label_12.SetLabel(frm.label_12.GetLabel() + "\t:\t" + str(rdrlist[ind][1].RdrTypeUnion.SensorRec.Events))
                                 sensorthresholds = SaHpiSensorThresholdsT()
                                 error = saHpiSensorThresholdsGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.SensorRec.Num,sensorthresholds)
                                 self.errorMsg(error ,"Getting the sensor thresholds","ShowSensorInfo")
@@ -613,12 +613,12 @@ class Hpiview_Callbacks():
                                 idrinfo = SaHpiIdrInfoT()
                                 error = saHpiIdrInfoGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.InventoryRec.IdrId,idrinfo)
                                 self.errorMsg(error ,"Getting the Inventory readings","ShowInvInfo")
-                                frm.label_8.SetLabel(frm.label_8.GetLabelText() + "\t\t\t:\t " + item_clicked)
-                                frm.label_9.SetLabel(frm.label_9.GetLabelText() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].IsFru))
-                                frm.label_10.SetLabel(frm.label_10.GetLabelText() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.InventoryRec.Persistent))
-                                frm.label_11.SetLabel(frm.label_11.GetLabelText() + "\t:\t " + str(idrinfo.UpdateCount))
-                                frm.label_12.SetLabel(frm.label_12.GetLabelText() + "\t\t\t:\t " + str(idrinfo.NumAreas))
-                                frm.label_13.SetLabel(frm.label_13.GetLabelText() + "\t\t\t\t:\t " + self.GetBoolean(idrinfo.ReadOnly))
+                                frm.label_8.SetLabel(frm.label_8.GetLabel() + "\t\t\t:\t " + item_clicked)
+                                frm.label_9.SetLabel(frm.label_9.GetLabel() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].IsFru))
+                                frm.label_10.SetLabel(frm.label_10.GetLabel() + "\t\t:\t " + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.InventoryRec.Persistent))
+                                frm.label_11.SetLabel(frm.label_11.GetLabel() + "\t:\t " + str(idrinfo.UpdateCount))
+                                frm.label_12.SetLabel(frm.label_12.GetLabel() + "\t\t\t:\t " + str(idrinfo.NumAreas))
+                                frm.label_13.SetLabel(frm.label_13.GetLabel() + "\t\t\t\t:\t " + self.GetBoolean(idrinfo.ReadOnly))
                                 self.GetInvAreaInfo(frm ,idrinfo,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.InventoryRec.IdrId)
                                 break
 
@@ -740,35 +740,35 @@ class Hpiview_Callbacks():
                 error, Mode = saHpiControlGet(sid,rdrlist[ind][2].ResourceId,rdrlist[ind][1].RdrTypeUnion.CtrlRec.Num,ctrlState)
 
                 if ( isinstance(frm ,wx.Dialog)):
-                        frm.label_1.SetLabel(frm.label_1.GetLabelText() + "\t\t\t\t" + str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type)))
-                        frm.label_2.SetLabel(frm.label_2.GetLabelText() + "\t\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.WriteOnly))
-                        frm.label_3.SetLabel(frm.label_3.GetLabelText() + "\t\t\t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType)))
-                        frm.label_4.SetLabel(frm.label_4.GetLabelText() + "\t\t\t\t" + str(oh_lookup_ctrlmode(Mode)))
-                        frm.label_5.SetLabel(frm.label_5.GetLabelText() + "\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.DefaultMode.ReadOnly))
+                        frm.label_1.SetLabel(frm.label_1.GetLabel() + "\t\t\t\t" + str(oh_lookup_ctrltype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.Type)))
+                        frm.label_2.SetLabel(frm.label_2.GetLabel() + "\t\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.WriteOnly))
+                        frm.label_3.SetLabel(frm.label_3.GetLabel() + "\t\t\t" + str(oh_lookup_ctrloutputtype(rdrlist[ind][1].RdrTypeUnion.CtrlRec.OutputType)))
+                        frm.label_4.SetLabel(frm.label_4.GetLabel() + "\t\t\t\t" + str(oh_lookup_ctrlmode(Mode)))
+                        frm.label_5.SetLabel(frm.label_5.GetLabel() + "\t\t" + self.GetBoolean(rdrlist[ind][1].RdrTypeUnion.CtrlRec.DefaultMode.ReadOnly))
 
                 if(isinstance(frm ,wx.Dialog)):
                         if(ctrltype == 0 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital)))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + str(oh_lookup_ctrlstatedigital(ctrlState.StateUnion.Digital)))
 
                         if(ctrltype == 1 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Discrete))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + str(ctrlState.StateUnion.Discrete))
 
                         if(ctrltype == 2 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Analog))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + str(ctrlState.StateUnion.Analog))
                                 frm.label_21.SetLabel("Min Control State Value\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Min))
                                 frm.label_22.SetLabel("Max Control State Value\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Analog.Max))
 
                         if(ctrltype == 3 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Stream.Stream))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + str(ctrlState.StateUnion.Stream.Stream))
 
                         if(ctrltype == 4 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + ctrlState.StateUnion.Text.Text.Data)
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + ctrlState.StateUnion.Text.Text.Data)
                                 frm.label_21.SetLabel("Max Chars per line\t\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxChars))
                                 frm.label_22.SetLabel("Max number of lines\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Text.MaxLines))
                                 frm.label_23.SetLabel("Control default line\t\t\t" + str(ctrlState.StateUnion.Text.Line))
 
                         if(ctrltype == 192 ):
-                                frm.label_6.SetLabel(frm.label_6.GetLabelText() + "\t\t" + str(ctrlState.StateUnion.Oem.Body))
+                                frm.label_6.SetLabel(frm.label_6.GetLabel() + "\t\t" + str(ctrlState.StateUnion.Oem.Body))
                                 frm.label_21.SetLabel("Control Manufacturer Id\t\t" + str(ctrlState.StateUnion.Oem.MId))
                                 frm.label_22.SetLabel("Oem Configuration data\t\t" + str(rdrlist[ind][1].RdrTypeUnion.CtrlRec.TypeUnion.Oem.ConfigData))
 
