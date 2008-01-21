@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import wxversion
-wxversion.select("2.6")
+wxversion.ensureMinimal("2.6")
 import wx
 from hpiview_window import *
 from hpiview_callbacks import *
