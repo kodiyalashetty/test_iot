@@ -2,8 +2,8 @@
 import wxversion
 wxversion.ensureMinimal("2.6")
 import wx
-from openhpi-view.hpiview_window import *
-from openhpi-view.hpiview_callbacks import *
+from openhpi_view.hpiview_window import *
+from openhpi_view.hpiview_callbacks import *
 
 
 if __name__ == "__main__":
