@@ -5,7 +5,7 @@ import unittest
 
 class TestSequence(unittest.TestCase):
     
-    def test(self):
+    def runTest(self):
         ep = SaHpiEntityPathT()
                
         oh_init_ep(ep)

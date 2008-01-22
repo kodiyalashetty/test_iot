@@ -5,7 +5,7 @@ import unittest
 
 class TestSequence(unittest.TestCase):
        
-    def test(self):
+    def runTest(self):
                 
         self.assertEqual(oh_uid_initialize(),0)
         self.assertEqual(oh_uid_from_entity_path(None),0)

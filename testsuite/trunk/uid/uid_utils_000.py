@@ -4,7 +4,7 @@ from openhpi import *
 import unittest
 
 class TestSequence(unittest.TestCase):
-    def test(self):
+    def runTest(self):
         ep = SaHpiEntityPathT()
         rep = SaHpiEntityPathT()
         
