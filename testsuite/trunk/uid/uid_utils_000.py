@@ -1,9 +1,30 @@
+"""
+ (C) Copyright IBM Corp. 2008
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  This
+ file and program are licensed under a BSD style license.  See
+ the Copying file included with the OpenHPI distribution for
+ full licensing terms.
+ 
+ Authors:
+    Jayashree Padmanabhan <jayshree@in.ibm.com>
+"""
+
 #!/usr/bin/env python
 
 from openhpi import *
 import unittest
 
 class TestSequence(unittest.TestCase):
+
+    """
+    runTest : Get a new unique id. Use id to lookup original entity path.
+    Passes if returned entity path is equal to original entity path,
+    otherwise fails.
+    Return value: 0 on success, 1 on failure
+    """
     def runTest(self):
         ep = SaHpiEntityPathT()
         rep = SaHpiEntityPathT()
