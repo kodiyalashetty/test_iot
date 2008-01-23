@@ -1,0 +1,36 @@
+--------------------------------------------------------
+OpenHPI View 2.0
+--------------------------------------------------------
+
+This is a WxPython based End User Interface which interacts with the OpenHPI (Implementation of the Service Availability Forum's Hardware Platform Interface Specification B.02.01 ).
+
+The following components are supported:
+* Hpiview2
+
+
+Feedback, as always, is welcome and encouraged:
+openhpi-devel@lists.sourceforge.net
+
+---------------------------------------------------------
+PREREQUISITES
+---------------------------------------------------------
+The following software is required to run OpenHPI View 2.0
+
+openhpi  >=  2.8
+wxpython >=  2.6
+python   >=  2.5
+
+---------------------------------------------------------
+BUILD / INSTALLATION
+---------------------------------------------------------
+
+1. Untar the hpiview package to a directory
+2. Run the ./setup.py
+
+This should install the hpiview2.
+ 
+ --------------------------------------------------------
+ RUNNING THE APPLICATION
+ --------------------------------------------------------
+ 
+ 1. Use "hpiview2" to execute the application.
