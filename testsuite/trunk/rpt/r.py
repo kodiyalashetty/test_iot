@@ -1,12 +1,10 @@
 #!/usr/bin/python
 from openhpi import *
 
-rptentries = [0]
-
-rptentries[0] = SaHpiRptEntryT()
+rptentries = []
 
 # rpt entry 1
-rpt=SaHpiRptEntryT()
+rpt = SaHpiRptEntryT()
 rpt.EntryId = 1
 rpt.ResourceId = 1
 
@@ -39,5 +37,5 @@ rpt.ResourceTag.Language = SAHPI_LANG_ENGLISH
 rpt.ResourceTag.DataLength = 26
 rpt.ResourceTag.Data = "This is data for blade 14."
 
-#rptentries.append(rpt)
+rptentries.append(rpt)
 
