@@ -65,11 +65,16 @@ rpt.ResourceInfo.AuxFirmwareRev = 1
 
 #rpt.ResourceEntity = SaHpiEntityPathT()
 #rpt.ResourceEntity.Entry = SaHpiEntityT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[4] = [ SAHPI_ENT_ROOT,0]
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 14
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[1].EntityLocation = 14
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[3].EntityLocation = 1
+rpt.ResourceEntity.Entry[4].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[4].EntityLocation = 0
 
 rpt.ResourceCapabilities = rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
 
@@ -98,10 +103,15 @@ rpt.ResourceInfo.FirmwareMinorRev = 2
 rpt.ResourceInfo.AuxFirmwareRev = 2
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] =[SAHPI_ENT_SBC_BLADE,13]
-rpt.ResourceEntity.Entry[1] =[SAHPI_ENT_SUB_CHASSIS,1]
-rpt.ResourceEntity.Entry[2] =[SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] =[SAHPI_ENT_ROOT,0]
+
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 13
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 1
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
 
@@ -130,10 +140,14 @@ rpt.ResourceInfo.FirmwareMinorRev = 3
 rpt.ResourceInfo.AuxFirmwareRev = 3
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SBC_BLADE,12]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 12
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 1
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
 
@@ -162,11 +176,14 @@ rpt.ResourceInfo.FirmwareMinorRev = 4
 rpt.ResourceInfo.AuxFirmwareRev = 4
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SBC_BLADE,11]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,2]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
-
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 11
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 2
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
 
@@ -196,14 +213,17 @@ rpt.ResourceInfo.FirmwareMinorRev = 5
 rpt.ResourceInfo.AuxFirmwareRev = 5
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SBC_BLADE,10]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,2]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 10
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 2
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
-
 
 rpt.ResourceSeverity = SAHPI_MAJOR
 
@@ -230,11 +250,14 @@ rpt.ResourceInfo.FirmwareMinorRev = 6
 rpt.ResourceInfo.AuxFirmwareRev = 6
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SBC_BLADE,9]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,2]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS, 1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT, 0]
-
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.ResourceEntity.Entry[0].EntityLocation = 9
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 2
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_SENSOR
 
@@ -264,10 +287,15 @@ rpt.ResourceInfo.FirmwareMinorRev = 7
 rpt.ResourceInfo.AuxFirmwareRev = 7
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SYS_MGMNT_MODULE,1]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SYS_MGMNT_MODULE
+rpt.ResourceEntity.Entry[0].EntityLocation = 1
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 1
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE
 
@@ -296,10 +324,15 @@ rpt.ResourceInfo.FirmwareMinorRev = 8
 rpt.ResourceInfo.AuxFirmwareRev = 8
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_INTERCONNECT,1]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_INTERCONNECT
+rpt.ResourceEntity.Entry[0].EntityLocation = 1
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 1
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE
 
@@ -328,10 +361,15 @@ rpt.ResourceInfo.FirmwareMinorRev = 9
 rpt.ResourceInfo.AuxFirmwareRev = 9
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_POWER_SUPPLY,3]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,2]
-rpt.ResourceEntity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.ResourceEntity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_POWER_SUPPLY
+rpt.ResourceEntity.Entry[0].EntityLocation = 3
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.ResourceEntity.Entry[1].EntityLocation = 2
+rpt.ResourceEntity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[2].EntityLocation = 1
+rpt.ResourceEntity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[3].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_FRU |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE
 
@@ -360,9 +398,10 @@ rpt.ResourceInfo.FirmwareMinorRev = 10
 rpt.ResourceInfo.AuxFirmwareRev = 10
 
 ##rpt.ResourceEntity = SaHpiEntityPathT()
-rpt.ResourceEntity.Entry[0] = [SAHPI_ENT_SYSTEM_CHASSIS, 1]
-rpt.ResourceEntity.Entry[1] = [SAHPI_ENT_ROOT,0]
-
+rpt.ResourceEntity.Entry[0].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.ResourceEntity.Entry[0].EntityLocation = 1
+rpt.ResourceEntity.Entry[1].EntityType = SAHPI_ENT_ROOT
+rpt.ResourceEntity.Entry[1].EntityLocation = 0
 
 rpt.ResourceCapabilities = SAHPI_CAPABILITY_CONTROL |SAHPI_CAPABILITY_INVENTORY_DATA |SAHPI_CAPABILITY_RDR |SAHPI_CAPABILITY_RESOURCE |SAHPI_CAPABILITY_EVENT_LOG |SAHPI_CAPABILITY_SENSOR
 
@@ -384,10 +423,14 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityPathT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 #rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 
@@ -426,11 +469,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
 
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 #rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 
 rpt.RdrTypeUnion.SensorRec.Num = 2
@@ -469,10 +516,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS, 1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT, 0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 ##rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 
@@ -511,10 +563,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 ##rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 
@@ -553,10 +610,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
  
 ##rpt.Entity = SaHpiEntityT() 
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
  
 ##rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT() 
 rpt.RdrTypeUnion.SensorRec.Num = 5
@@ -594,8 +656,10 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[1] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[0].EntityLocation = 1
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[1].EntityLocation = 0
 
 ##rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 rpt.RdrTypeUnion.SensorRec.Num = 1
@@ -633,8 +697,11 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[0] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[0].EntityLocation = 1
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[1].EntityLocation = 0
 
 ##rpt.RdrTypeUnion.SensorRec = SaHpiSensorRecT()
 
@@ -677,10 +744,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_CTRL_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 #rpt.RdrTypeUnion.CtrlRec = SaHpiCtrlRecT()
 
@@ -705,10 +777,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_CTRL_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 #rpt.RdrTypeUnion.CtrlRec = SaHpiCtrlRecT()
 
@@ -734,10 +811,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_CTRL_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 #rpt.RdrTypeUnion.CtrlRec = SaHpiCtrlRecT()
 
@@ -763,10 +845,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_CTRL_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 #rpt.RdrTypeUnion.CtrlRec = SaHpiCtrlRecT()
 rpt.RdrTypeUnion.CtrlRec.Num = 4
@@ -791,10 +878,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_CTRL_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 ##rpt.RdrTypeUnion.CtrlRec = SaHpiCtrlRecT()
 rpt.RdrTypeUnion.CtrlRec.Num = 5
@@ -822,10 +914,14 @@ rpt.RdrType = SAHPI_INVENTORY_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.InventoryRec.IdrId = 1
 rpt.RdrTypeUnion.InventoryRec.Persistent = SAHPI_TRUE
@@ -843,10 +939,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_INVENTORY_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] = [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.InventoryRec.IdrId = 2
 rpt.RdrTypeUnion.InventoryRec.Persistent = SAHPI_TRUE
@@ -865,10 +966,14 @@ rpt.RdrType = SAHPI_INVENTORY_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.InventoryRec.IdrId = 3
 rpt.RdrTypeUnion.InventoryRec.Persistent = SAHPI_TRUE
@@ -887,10 +992,14 @@ rpt.RdrType = SAHPI_INVENTORY_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.InventoryRec.IdrId = 4
 rpt.RdrTypeUnion.InventoryRec.Persistent = SAHPI_TRUE
@@ -909,10 +1018,14 @@ rpt.RdrType = SAHPI_INVENTORY_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.InventoryRec.IdrId = 5
 rpt.RdrTypeUnion.InventoryRec.Persistent = SAHPI_TRUE
@@ -933,10 +1046,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_WATCHDOG_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.WatchdogRec.WatchdogNum = 1
 rpt.RdrTypeUnion.WatchdogRec.Oem = 1
@@ -953,10 +1071,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_WATCHDOG_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.WatchdogRec.WatchdogNum = 2
 rpt.RdrTypeUnion.WatchdogRec.Oem = 2
@@ -974,10 +1097,14 @@ rpt.RdrType = SAHPI_WATCHDOG_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.WatchdogRec.WatchdogNum = 3
 rpt.RdrTypeUnion.WatchdogRec.Oem = 3
@@ -994,10 +1121,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_WATCHDOG_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.WatchdogRec.WatchdogNum = 4
 rpt.RdrTypeUnion.WatchdogRec.Oem = 4
@@ -1015,10 +1147,14 @@ rpt.RdrType = SAHPI_WATCHDOG_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.WatchdogRec.WatchdogNum = 5
 rpt.RdrTypeUnion.WatchdogRec.Oem = 5
@@ -1039,10 +1175,15 @@ rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_ANNUNCIATOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum = 1
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorType = SAHPI_ANNUNCIATOR_TYPE_LED
@@ -1063,10 +1204,14 @@ rpt.RdrType = SAHPI_ANNUNCIATOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum = 2
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorType = SAHPI_ANNUNCIATOR_TYPE_LED
@@ -1087,10 +1232,14 @@ rpt.RdrType = SAHPI_ANNUNCIATOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum = 3
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorType = SAHPI_ANNUNCIATOR_TYPE_LED
@@ -1111,10 +1260,14 @@ rpt.RdrType = SAHPI_ANNUNCIATOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum = 4
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorType = SAHPI_ANNUNCIATOR_TYPE_LED
@@ -1135,10 +1288,14 @@ rpt.RdrType = SAHPI_ANNUNCIATOR_RDR
 
 ##rpt.Entity = SaHpiEntityT()
 
-rpt.Entity.Entry[0] =  [SAHPI_ENT_SBC_BLADE,14]
-rpt.Entity.Entry[1] = [SAHPI_ENT_SUB_CHASSIS,1]
-rpt.Entity.Entry[2] = [SAHPI_ENT_SYSTEM_CHASSIS,1]
-rpt.Entity.Entry[3] = [SAHPI_ENT_ROOT,0]
+rpt.Entity.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
+rpt.Entity.Entry[0].EntityLocation = 14
+rpt.Entity.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+rpt.Entity.Entry[1].EntityLocation = 1
+rpt.Entity.Entry[2].EntityType = SAHPI_ENT_SYSTEM_CHASSIS
+rpt.Entity.Entry[2].EntityLocation = 1
+rpt.Entity.Entry[3].EntityType = SAHPI_ENT_ROOT
+rpt.Entity.Entry[3].EntityLocation = 0
 
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorNum = 5
 rpt.RdrTypeUnion.AnnunciatorRec.AnnunciatorType = SAHPI_ANNUNCIATOR_TYPE_LED
