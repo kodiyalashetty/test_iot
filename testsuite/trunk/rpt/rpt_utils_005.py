@@ -15,18 +15,18 @@
 """
 
 from types import *
+from random import *
 import unittest
 from openhpi import *
-import r
-from random import *
+from rpt_resources import rptentries, objcmp
 
 class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources with data and fetches
- * them randomly by the Resource Id and compares the data against
- * the original data. A failed comparison means the test failed,
- * otherwise the test passed.
+    them randomly by the Resource Id and compares the data against
+    the original data. A failed comparison means the test failed,
+    otherwise the test passed.
         
     Return value: 0 on success, 1 on failure
     """
@@ -42,9 +42,9 @@ class TestSequence(unittest.TestCase):
         k=0
 
         while i<10:
-                data = r.rptentries[i].ResourceId
-                self.assertEqual(oh_add_resource(rptable, r.rptentries[i], data, 0), 0)
-                resources.append(r.rptentries[i])
+                data = rptentries[i].ResourceId
+                self.assertEqual(oh_add_resource(rptable, rptentries[i], data, 0), 0)
+                resources.append(rptentries[i])
                 i=i+1
         
        
@@ -60,7 +60,7 @@ class TestSequence(unittest.TestCase):
                 tmpentry = oh_get_resource_data(rptable, randentry.ResourceEntity)
 
                 self.assertEqual(not (tmpentry), 0)   
-                self.assertEqual((r.objcmp(randentry, tmpentry) and r.objcmp(tmpentry, SaHpiRptEntryT)), 0)    
+                self.assertEqual((objcmp(randentry, tmpentry) and objcmp(tmpentry, SaHpiRptEntryT)), 0)    
                 resources.remove(randentry)
                 i=i-1
 

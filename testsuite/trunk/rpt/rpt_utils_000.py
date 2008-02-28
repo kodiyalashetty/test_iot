@@ -15,10 +15,9 @@
 from types import *
 import unittest
 from openhpi import *
-import r
+from rpt_resources import rptentries, objcmp
 
 
-    
 class TestSequence(unittest.TestCase):
        
     """
@@ -35,15 +34,14 @@ class TestSequence(unittest.TestCase):
         
         oh_init_rpt(rpttable)
         
-        self.assertEqual(oh_add_resource(rpttable, r.rptentries[0], None, 0), 0)
+        self.assertEqual(oh_add_resource(rpttable, rptentries[0], None, 0), 0)
         
-        tmpentry = oh_get_resource_by_id(rpttable, r.rptentries[0].ResourceId)
+        tmpentry = oh_get_resource_by_id(rpttable, rptentries[0].ResourceId)
         
         self.assertEqual(tmpentry != None, True)
 
-        self.assertEqual(r.objcmp(r.rptentries[0], tmpentry), True)
+        self.assertEqual(objcmp(rptentries[0], tmpentry), True)
         
 if __name__=='__main__':
         unittest.main()        
-        
         
