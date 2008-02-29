@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,14 +13,12 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
-from random import *
 import unittest
+from random import randrange
 from openhpi import *
-from rpt_resources import rptentries, objcmp
+from rpt_resources import rptentries
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starts with an RPTable of 10 resources with data and fetches
     them randomly by the Resource Id and compares the data against
@@ -32,37 +29,23 @@ class TestSequence(unittest.TestCase):
     """
     def runTest(self):
 
-        print "start"
-    
         rptable = RPTable()
-        oh_init_rpt(rptable);
-        resources = [];
-        RAND_MAX = 0x7fff
-        i=0
-        k=0
+        oh_init_rpt(rptable)
+        resources = []
+        num_resources = 10
 
-        while i<10:
-                data = rptentries[i].ResourceId
-                self.assertEqual(oh_add_resource(rptable, rptentries[i], data, 0), 0)
-                resources.append(rptentries[i])
-                i=i+1
-        
-       
-        while resources :
-                randentry = tmpentry = SaHpiRptEntryT()
-##                tmpnode = []
+        for i in range(num_resources):
+            self.assertEqual(oh_add_resource(rptable, rptentries[i], rptentries[i], 0), 0)
+            resources.append(rptentries[i])
 
-                k = randrange(0,i,1)
+        while len(resources) > 0:
+            k = randrange(0, len(resources))
+            tmpdata = oh_get_resource_data(rptable, resources[k].ResourceId)
 
-                randentry= resources[k]
-##                randentry = tmpnode
-
-                tmpentry = oh_get_resource_data(rptable, randentry.ResourceEntity)
-
-                self.assertEqual(not (tmpentry), 0)   
-                self.assertEqual((objcmp(randentry, tmpentry) and objcmp(tmpentry, SaHpiRptEntryT)), 0)    
-                resources.remove(randentry)
-                i=i-1
+            self.assertEqual(not tmpdata, 0)
+            self.assertEqual(memcmp(tmpdata, resources[k], sizeof_SaHpiRptEntryT), 0)
+            resources.pop(k)
 
 if __name__=='__main__':
-        unittest.main()    
+    unittest.main()
+

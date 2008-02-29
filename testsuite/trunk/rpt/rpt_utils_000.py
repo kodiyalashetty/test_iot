@@ -12,10 +12,9 @@
  Authors:
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
-from types import *
 import unittest
 from openhpi import *
-from rpt_resources import rptentries, objcmp
+from rpt_resources import rptentries
 
 
 class TestSequence(unittest.TestCase):
@@ -40,7 +39,7 @@ class TestSequence(unittest.TestCase):
         
         self.assertEqual(tmpentry != None, True)
 
-        self.assertEqual(objcmp(rptentries[0], tmpentry), True)
+        self.assertEqual(memcmp(rptentries[0], tmpentry, sizeof_SaHpiRptEntryT), 0)
         
 if __name__=='__main__':
         unittest.main()        
