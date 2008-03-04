@@ -579,6 +579,9 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %include "announcement_utils.i"
 /* SizeOf for all HPI types */
 %include "cmalloc.i"
+%sizeof(SaHpiUint64T)
+%sizeof(SaHpiInt64T)
+%sizeof(SaHpiFloat64T)
 %sizeof(SaHpiUint8T)
 %sizeof(SaHpiUint16T)
 %sizeof(SaHpiUint32T)
