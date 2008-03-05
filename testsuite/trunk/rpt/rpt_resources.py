@@ -46,6 +46,8 @@ def objcmp(obj1, obj2):
 	
 	return True
 
+
+num_resources = 10
 rptentries = []
 # rpt entry 1
 rpt = SaHpiRptEntryT()
@@ -417,7 +419,8 @@ rptentries.append(rpt)
   #***************** * Start of RDRs * *****************
  #**********************SENSORS********************
  # Sensor RDR 1 
- 
+
+num_sensors=7 
 sensors = [] 
 rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_SENSOR_RDR
@@ -736,7 +739,8 @@ rpt.IdString.Data = "Sensor 2 for Chassis."
 sensors.append(rpt)
  
  #**********************CONTROLS********************
- 
+
+num_controls=5 
 controls=[] 
 
 # Control RDR 1
@@ -908,6 +912,8 @@ controls.append(rpt)
 
 #**********************INVENTORIES********************
 # Inventory RDR 1
+
+num_inventories=5
 inventories= []
 rpt = SaHpiRdrT()
 rpt.RdrType = SAHPI_INVENTORY_RDR
@@ -1040,6 +1046,7 @@ inventories.append(rpt)
 
 #**********************WATCHDOG********************
 
+num_watchdogs=5
 watchdogs=[]
 # Watchdog RDR 1
 rpt = SaHpiRdrT()
@@ -1168,6 +1175,9 @@ watchdogs.append(rpt)
 
 
 #**********************ANNUNCIATOR********************
+
+
+num_annunciators=5
 annunciators=[] 
 
 # Annunciator RDR 1
