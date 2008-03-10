@@ -35,15 +35,16 @@ includes = ['/usr/include/openhpi', '/usr/local/include/openhpi']
 includes += get_glib_cflags()
 
 setup(name='py-openhpi',
-      version='1.1',
+      version='1.2',
       description='Python extension for OpenHPI',
       author='Renier Morales',
-      author_email='renierm@users.sf.net',
-      url='http://openhpi.sf.net',
+      author_email='renier@openhpi.org',
+      url='http://www.openhpi.org',
       ext_modules=[Extension('_openhpi',
       			     ['openhpi.i'],
 			     libraries=['openhpi'],
 			     include_dirs=includes,
+			     #extra_compile_args=['-ggdb3'],
 			     extra_link_args=['-rdynamic']
 			    )
 		  ],
