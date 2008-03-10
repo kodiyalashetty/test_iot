@@ -35,7 +35,7 @@ includes = ['/usr/include/openhpi', '/usr/local/include/openhpi']
 includes += get_glib_cflags()
 
 setup(name='py-openhpi',
-      version='1.1',
+      version='1.2',
       description='Python extension for OpenHPI',
       author='Renier Morales',
       author_email='renier@openhpi.org',
