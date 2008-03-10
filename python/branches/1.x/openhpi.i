@@ -321,21 +321,29 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %typemap (in) SaHpiDimiTestVariableParamsT *ParamsList (SaHpiDimiTestVariableParamsT *params) {
         int pos = 0;
         PyObject *value = 0;
-        if (!PyList_Check($input)) {
-                PyErr_SetString(PyExc_ValueError, "Expected a list");
-                return NULL;
-        }
-        params = (SaHpiDimiTestVariableParamsT *)malloc(sizeof(SaHpiDimiTestVariableParamsT)*PyList_Size($input));
-        for (pos = 0; pos < PyList_Size($input); pos++) {
-                value = PyList_GetItem($input, pos);
-                SaHpiDimiTestVariableParamsT *param = NULL;
-                int conv_res = SWIG_ConvertPtr(value, (void *)(void *)&param, SWIGTYPE_p_SaHpiDimiTestVariableParamsT, 0 |  0 );
-                if (!SWIG_IsOK(conv_res)) {
-                        SWIG_exception_fail(SWIG_ArgError(conv_res),
+        if ($input == Py_None) {
+                params = NULL;
+        } else {
+                if (!PyList_Check($input)) {
+                        PyErr_SetString(PyExc_ValueError, "Expected a list");
+                        return NULL;
+                }
+                params = (SaHpiDimiTestVariableParamsT *)malloc(sizeof(SaHpiDimiTestVariableParamsT)*PyList_Size($input));
+        
+                for (pos = 0; pos < PyList_Size($input); pos++) {
+                        value = PyList_GetItem($input, pos);
+                        SaHpiDimiTestVariableParamsT *param = NULL;
+                        int conv_res = SWIG_ConvertPtr(value,
+                                (void *)(void *)&param,
+                                SWIGTYPE_p_SaHpiDimiTestVariableParamsT,
+                                0 |  0 );
+                        if (!SWIG_IsOK(conv_res)) {
+                                SWIG_exception_fail(SWIG_ArgError(conv_res),
                                 "List element is not of SaHpiDimiTestVariableParamsT type");
 
-                } else {
-                        params[pos] = *param;
+                        } else {
+                                params[pos] = *param;
+                        }
                 }
         }
         $1 = params;
@@ -571,15 +579,15 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %include "announcement_utils.i"
 /* SizeOf for all HPI types */
 %include "cmalloc.i"
+%sizeof(SaHpiUint64T)
+%sizeof(SaHpiInt64T)
+%sizeof(SaHpiFloat64T)
 %sizeof(SaHpiUint8T)
 %sizeof(SaHpiUint16T)
 %sizeof(SaHpiUint32T)
-%sizeof(SaHpiUint64T)
 %sizeof(SaHpiInt8T)
 %sizeof(SaHpiInt16T)
 %sizeof(SaHpiInt32T)
-%sizeof(SaHpiInt64T)
-%sizeof(SaHpiFloat64T)
 %sizeof(SaHpiBoolT)
 %sizeof(SaHpiManufacturerIdT)
 %sizeof(SaHpiVersionT)
@@ -653,9 +661,39 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %sizeof(SaHpiWatchdogExpFlagsT)
 %sizeof(SaHpiWatchdogT)
 %sizeof(SaHpiWatchdogRecT)
+%sizeof(SaHpiDimiNumT)
+%sizeof(SaHpiDimiTestServiceImpactT)
+%sizeof(SaHpiDimiTestAffectedEntityT)
+%sizeof(SaHpiDimiTestRunStatusT)
+%sizeof(SaHpiDimiTestErrCodeT)
+%sizeof(SaHpiDimiTestResultsT)
+%sizeof(SaHpiDimiTestParamTypeT)
+%sizeof(SaHpiDimiTestParamValueT)
+%sizeof(SaHpiDimiTestParameterValueUnionT)
+%sizeof(SaHpiDimiTestParamsDefinitionT)
+%sizeof(SaHpiDimiTestCapabilityT)
+%sizeof(SaHpiDimiTestNumT)
+%sizeof(SaHpiDimiTestT)
+%sizeof(SaHpiDimiTestVariableParamsT)
+%sizeof(SaHpiDimiTestPercentCompletedT)
+%sizeof(SaHpiDimiReadyT)
+%sizeof(SaHpiDimiTotalTestsT)
+%sizeof(SaHpiDimiInfoT)
+%sizeof(SaHpiDimiRecT)
+%sizeof(SaHpiFumiNumT)
+%sizeof(SaHpiBankNumT)
+%sizeof(SaHpiFumiSourceStatusT)
+%sizeof(SaHpiFumiBankStateT)
+%sizeof(SaHpiFumiUpgradeStatusT)
+%sizeof(SaHpiFumiSourceInfoT)
+%sizeof(SaHpiFumiBankInfoT)
+%sizeof(SaHpiFumiProtocolT)
+%sizeof(SaHpiFumiCapabilityT)
+%sizeof(SaHpiFumiRecT)
 %sizeof(SaHpiHsIndicatorStateT)
 %sizeof(SaHpiHsActionT)
 %sizeof(SaHpiHsStateT)
+%sizeof(SaHpiHsCauseOfStateChangeT)
 %sizeof(SaHpiSeverityT)
 %sizeof(SaHpiResourceEventTypeT)
 %sizeof(SaHpiResourceEventT)
@@ -671,6 +709,9 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %sizeof(SaHpiHpiSwEventT)
 %sizeof(SaHpiOemEventT)
 %sizeof(SaHpiUserEventT)
+%sizeof(SaHpiDimiEventT)
+%sizeof(SaHpiDimiUpdateEventT)
+%sizeof(SaHpiFumiEventT)
 %sizeof(SaHpiEventTypeT)
 %sizeof(SaHpiEventUnionT)
 %sizeof(SaHpiEventT)
@@ -689,6 +730,8 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %sizeof(SaHpiParmActionT)
 %sizeof(SaHpiResetActionT)
 %sizeof(SaHpiPowerStateT)
+%sizeof(SaHpiLoadNumberT)
+%sizeof(SaHpiLoadIdT)
 %sizeof(SaHpiResourceInfoT)
 %sizeof(SaHpiCapabilitiesT)
 %sizeof(SaHpiHsCapabilitiesT)
@@ -700,5 +743,7 @@ int memcmp(const void *s1, const void *s2, size_t n);
 %sizeof(SaHpiAlarmT)
 %sizeof(SaHpiEventLogOverflowActionT)
 %sizeof(SaHpiEventLogInfoT)
+%sizeof(SaHpiEventLogCapabilitiesT)
 %sizeof(SaHpiEventLogEntryIdT)
 %sizeof(SaHpiEventLogEntryT)
+
