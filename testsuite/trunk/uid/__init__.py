@@ -20,6 +20,7 @@ for t in os.listdir(os.curdir):
 
 # Import all test cases found and add to a test suite for running.
 suite = unittest.TestSuite()
+test_files.sort()
 for t in test_files:
 	test = __import__(t[:-3]) # remove '.py' ending for import call
 	suite.addTest(test.TestSequence())
