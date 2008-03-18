@@ -16,7 +16,7 @@
 
 from types import *
 import unittest
-from openhpi import * rptentries
+from openhpi import *
 from rpt_resources import sensors
 
 from random import *

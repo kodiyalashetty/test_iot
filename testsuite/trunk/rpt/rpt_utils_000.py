@@ -29,13 +29,13 @@ class TestSequence(unittest.TestCase):
     """
     def runTest(self):
 
-        rpttable = RPTable()
+        rptable = RPTable()
         
-        oh_init_rpt(rpttable)
+        oh_init_rpt(rptable)
         
-        self.assertEqual(oh_add_resource(rpttable, rptentries[0], None, 0), 0)
+        self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
         
-        tmpentry = oh_get_resource_by_id(rpttable, rptentries[0].ResourceId)
+        tmpentry = oh_get_resource_by_id(rptable, rptentries[0].ResourceId)
         
         self.assertEqual(tmpentry != None, True)
 

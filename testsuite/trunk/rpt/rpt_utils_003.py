@@ -17,7 +17,7 @@
 from types import *
 import unittest
 from openhpi import *
-import r
+from rpt_resources import rptentries, objcmp
 from random import *
 
 class TestSequence(unittest.TestCase):
@@ -40,8 +40,8 @@ class TestSequence(unittest.TestCase):
         k=0
 
         while i<10:
-                self.assertEqual(oh_add_resource(rptable, r.rptentries[i], None, 0), 0)
-                resources.append(r.rptentries[i])
+                self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
+                resources.append(rptentries[i])
                 i=i+1
         
         j=i
@@ -56,7 +56,7 @@ class TestSequence(unittest.TestCase):
                 
                 tmpentry = oh_get_resource_by_id(rptable, randentry.ResourceId)
                 self.assertEqual(not (tmpentry), 0)   
-                self.assertEqual((r.objcmp(randentry, tmpentry) and r.objcmp(tmpentry, SaHpiRptEntryT)), 0)    
+                self.assertEqual((objcmp(randentry, tmpentry) and objcmp(tmpentry, SaHpiRptEntryT)), 0)    
                 resources.remove(tmpnode)
                 i=i-1
 
