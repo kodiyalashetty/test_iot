@@ -15,7 +15,7 @@
 from types import *
 import unittest
 from openhpi import *
-import r
+from rpt_resources import rptentries, objcmp
 
 class TestSequence(unittest.TestCase):
        
@@ -30,17 +30,17 @@ class TestSequence(unittest.TestCase):
     """
     def runTest(self):
 
-        rpttable = RPTable()
+        rptable = RPTable()
         
-        oh_init_rpt(rpttable)
+        oh_init_rpt(rptable)
         
-        self.assertEqual(oh_add_resource(rpttable, r.rptentries[0], None, 0), 0)
+        self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
         
-        tmpentry = oh_get_resource_by_ep(rpttable, (r.rptentries[0].ResourceEntity))
+        tmpentry = oh_get_resource_by_ep(rptable, (rptentries[0].ResourceEntity))
         
         self.assertEqual(tmpentry != None, True)
 
-        self.assertEqual(r.objcmp(r.rptentries[0], tmpentry), True)
+        self.assertEqual(objcmp(rptentries[0], tmpentry), True)
         
 if __name__=='__main__':
         unittest.main()        
