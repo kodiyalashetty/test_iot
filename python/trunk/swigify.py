@@ -22,10 +22,7 @@ SWIG-ready interface file:
    SWIG (at version 1.3.29).
 2. Convert typecasted #define-s to const globals. Typecasted
    #define-s get dropped by SWIG (at version 1.3.29).
-3. Remove #warning lines (not implemented).
-4. Convert macro 'functions' into function prototypes
-   (not implemented).
-5. Strip out unnecessary global struct arrays (not implemented).
+3. Remove #warning lines.
 
 You won't need to call this script often at all. Only if the
 header file for which you are creating a swig interface changes,
@@ -36,11 +33,17 @@ __author__ = 'Renier Morales <renierm@users.sf.net>'
 
 import sys, re
 
-header_file = open(sys.argv[1], 'r')
-header_content = header_file.read()
-header_file.close()
+for arg in sys.argv[1:]:
+    header_file = open(sys.argv[1], 'r')
+    header_content = header_file.read()
+    header_file.close()
 
-header_content = re.sub(r' __attribute__\(.+\)([^()])', r'\1',header_content)
-header_content = re.sub(r'#define ([A-Z0-9_]+)[ \t\\\n]+\((\w+)\)[ ]*([-A-Za-z0-9_() +]+)', r'const \2 \1 = \3;', header_content)
-print header_content
+    # Eliminage __attribute__* directives
+    header_content = re.sub(r' __attribute__\(.+\)([^()])', r'\1',header_content)
+    # Convert typecasted defines to const globals
+    header_content = re.sub(r'#define ([A-Z0-9_]+)[ \t\\\n]+\((\w+)\)[ ]*([-A-Za-z0-9_() +]+)', r'const \2 \1 = \3;', header_content)
+    # Remove #warning preproccesor lines
+    header_content = re.sub(r'^#warning .*', r'', header_content)
+
+    print header_content
 
