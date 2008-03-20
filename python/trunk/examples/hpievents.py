@@ -128,7 +128,6 @@ test_fail = 0
 rdr = SaHpiRdrT()
 event = SaHpiEventT()
 while 1:
-	rdr.RdrType = SAHPI_NO_RECORD
 	error, qstatus = saHpiEventGet(sid, Timeout, event, rdr, res)
 	if error != SA_OK:
 		if error != SA_ERR_HPI_TIMEOUT:

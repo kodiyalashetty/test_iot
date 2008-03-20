@@ -45,7 +45,8 @@ setup(name='py-openhpi',
 			     libraries=['openhpi'],
 			     include_dirs=includes,
 			     #extra_compile_args=['-ggdb3'],
-			     extra_link_args=['-rdynamic']
+			     extra_link_args=['-rdynamic'],
+			     swig_opts=['-keyword']
 			    )
 		  ],
       py_modules=['openhpi']

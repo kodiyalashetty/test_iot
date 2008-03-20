@@ -75,6 +75,25 @@ two exceptions:
 	   SaHpiTextBufferT.Data) can be accessed as a whole string
 	   by referencing the plain array as shown above.
 
+	   You can also use keyword arguments with the HPI struct constructors
+	   now. That means you can initialize structure members when you create
+	   an instance of the structure.
+
+	   	state = SaHpiCtrlStateT(Type=SAHPI_CTRL_TYPE_ANALOG)
+		print state.Type # prints numeric value for SAHPI_CTRL_TYPE_ANALOG
+
+		entity = SaHpiEntityT(EntityType=SAHPI_ENT_SUBRACK, EntityLocation=1)
+		print entity.EntityLocation # prints 1
+
+		rinfo = SaHpiResourceInfoT(Guid='hello world')
+		print rinfo.Guid # prints 'hello world\x0\x0\x0\x0\x0'
+
+		entities = [<16 instances of SaHpiEntityT>]
+		ep = SaHpiEntityPathT(Entry=entities)
+
+	   All keyword arguments are optional. If not specified, they default
+	   to 0.
+
 	2. Any output argument of an HPI API call whose type is a
 	   pointer to a number (e.g. SaHpiSessionIdT *SessionId) gets
 	   treated differently for that API call. That argument will
@@ -82,7 +101,7 @@ two exceptions:
 	   for that API, a list of two values is returned. It is done
 	   like this because, although possible, its cumbersome to
 	   provide a reference to a number for a function call in
-	   Python. This helps improves readability, since all output
+	   Python. This helps improve readability, since all output
 	   variables end up on the left side of the assignment, and all
 	   the inputs end up as function arguments on the right side.
 	   Output arguments of type (char *) have also been moved to the
