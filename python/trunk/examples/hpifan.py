@@ -53,8 +53,7 @@ def get_fan_speed(sid, rid, num):
 	return SA_OK, speed, mode
 
 def set_fan(sid, rid, num, speed=None):
-	state = SaHpiCtrlStateT()
-	state.Type = SAHPI_CTRL_TYPE_ANALOG
+	state = SaHpiCtrlStateT(Type=SAHPI_CTRL_TYPE_ANALOG)
 	mode = SAHPI_CTRL_MODE_AUTO
 	if speed:
 		state.StateUnion.Analog = speed

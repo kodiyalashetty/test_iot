@@ -6,4 +6,5 @@ include swigify.py
 include deps.py
 include setup.py
 include get_hpi_sizeof.sh
+include struct_constructors.py
 recursive-include examples *.py
