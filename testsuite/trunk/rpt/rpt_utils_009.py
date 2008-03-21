@@ -34,15 +34,12 @@ class TestSequence(unittest.TestCase):
 
         rptable = RPTable()
         oh_init_rpt(rptable)
-        record_id = None
-        tmprdr = SaHpiRdrT()
-        i = 0
         
-        for i in range(num_resources):
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
         
         self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[0], None,0), 0)
-        record_id = get_rdr_uid(sensors[0].RdrType, sensors[0].RdrTypeUnion.SensorRec.Num)
+        record_id = oh_get_rdr_uid(sensors[0].RdrType, sensors[0].RdrTypeUnion.SensorRec.Num)
         sensors[0].RecordId = record_id
      
         tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY, record_id)

@@ -37,8 +37,9 @@ class TestSequence(unittest.TestCase):
         tmpentry =  SaHpiRptEntryT 
         i = 0
         
-        for i in range(num_resources):
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
+        
         i=0
         tmpentry = oh_get_resource_by_id(rptable, SAHPI_FIRST_ENTRY)
         while  tmpentry:     

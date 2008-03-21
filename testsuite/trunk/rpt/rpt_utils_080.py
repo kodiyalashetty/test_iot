@@ -56,7 +56,7 @@ class TestSequence(unittest.TestCase):
             k = randrange(0,len(records),1)
             
             randrdr = records[k]
-            randrdr.RecordId =get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.SensorRec.Num)
+            randrdr.RecordId = oh_get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.SensorRec.Num)
             tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY,randrdr.RecordId)
     
             self.assertEqual(not (tmprdr), False)

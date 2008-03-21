@@ -38,13 +38,13 @@ class TestSequence(unittest.TestCase):
         oh_init_rpt(rptable);
         tmpentry = SaHpiRptEntryT()
       
-        for i in range (num_resources):
-                self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
+        for rpte in rptentries:
+                self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
         
         tmpentry = oh_get_resource_by_id(rptable, SAHPI_FIRST_ENTRY)
 	i=0
         while tmpentry :
-            self.assertEqual(not(rptentries[i].ResourceId, tmpentry.ResourceId),False)
+            self.assertEqual(rptentries[i].ResourceId==tmpentry.ResourceId, True)
             tmpentry = oh_get_resource_next(rptable, tmpentry.ResourceId)
             i = i+1
             
