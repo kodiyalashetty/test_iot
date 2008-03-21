@@ -37,15 +37,15 @@ class TestSequence(unittest.TestCase):
         tmprdr = None
         i = 0
         
-        for i in range (num_resources) :
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
         
-        for i in range (num_sensors):
-            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[i], None,0), 0)
+        for sensor in sensors:
+            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensor, None,0), 0)
         
         tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY, SAHPI_FIRST_ENTRY)
         i=0
-        while tmprdr :
+        while tmprdr:
             self.assertEqual((memcmp(sensors[i], tmprdr, sizeof_SaHpiRdrT)), 0)
             tmprdr = oh_get_rdr_next(rptable, SAHPI_FIRST_ENTRY,tmprdr.RecordId)
             i=i+1

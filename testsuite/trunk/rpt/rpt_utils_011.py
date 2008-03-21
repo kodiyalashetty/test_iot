@@ -37,29 +37,25 @@ class TestSequence(unittest.TestCase):
         rptable = RPTable()
         oh_init_rpt(rptable)
         records = []
-        i = 0
         
-        for i in range (num_resources) :
-            self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
                 
-        for i in range (num_sensors):
-            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[i], None,0), 0)
-            records.append(sensors[i])
+        for sensor in sensors:
+            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensor, None,0), 0)
+            records.append(sensor)
         
         while records :
-            tmprdr = randrdr = SaHpiRdrT()
-            tmpnode = []
             RAND_MAX = 0x7fff
             k = randrange(0,len(records),1)
             
-	    randrdr = records[k]
-            randrdr.RecordId =get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.SensorRec.Num)
+            randrdr = records[k]
+            randrdr.RecordId = oh_get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.SensorRec.Num)
             tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY,randrdr.RecordId)
     
             self.assertEqual(not (tmprdr), False)
             self.assertEqual(memcmp(randrdr, tmprdr, sizeof_SaHpiRdrT),0)
             records.remove(randrdr)
-            i=i-1
-                
+
 if __name__=='__main__':
         unittest.main()    

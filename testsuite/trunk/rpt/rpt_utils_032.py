@@ -36,7 +36,7 @@ class TestSequence(unittest.TestCase):
         oh_init_rpt(rptable)
         i = 0
         
-        for i in range (num_resources):
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 1), 0)
         self.assertEqual(oh_get_resource_by_id(rptable, 1234567)==None, True)
         

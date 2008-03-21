@@ -36,7 +36,7 @@ class TestSequence(unittest.TestCase):
         oh_init_rpt(rptable)
         i = 0
         
-        for i in range (num_resources):
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
                        
         sensors[0].RdrTypeUnion.SensorRec.Num = SAHPI_STANDARD_SENSOR_MAX - 1
