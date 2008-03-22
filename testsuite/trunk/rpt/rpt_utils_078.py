@@ -25,13 +25,13 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : resource must NOT have SAHPI_CAPABILITY_AGGREGATE_STATUS capability,
- * sensor num should be between SAHPI_STANDARD_SENSOR_MIN and
- * SAHPI_STANDARD_SENSOR_MAX and less than SENSOR_AGGREGATE_MAX.
- * With these conditions, oh_add_rdr is expected to return an error.
- * This is because for a sensor to have a num in the reserved range,
- * the resource must have SAHPI_CAPABILITY_AGGREGATE_STATUS capability
- * set.
- * If so, the test passes, otherwise it failed.
+    sensor num should be between SAHPI_STANDARD_SENSOR_MIN and
+    SAHPI_STANDARD_SENSOR_MAX and less than SENSOR_AGGREGATE_MAX.
+    With these conditions, oh_add_rdr is expected to return an error.
+    This is because for a sensor to have a num in the reserved range,
+    the resource must have SAHPI_CAPABILITY_AGGREGATE_STATUS capability
+    set.
+    If so, the test passes, otherwise it failed.
  
  Return value: 0 on success, 1 on failure
     """
@@ -43,7 +43,7 @@ class TestSequence(unittest.TestCase):
         rptentries[0].ResourceCapabilities = rptentries[0].ResourceCapabilities and 0xFFFFDFFF
         
         i=0
-        for i in range(num_resources):
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0),0)
             
         sensors[0].RdrTypeUnion.SensorRec.Num = SAHPI_STANDARD_SENSOR_MIN    

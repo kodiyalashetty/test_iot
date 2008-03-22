@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,40 +13,32 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 import rpt_resources
 from openhpi import *
-from random import *
-from rpt_resources import rptentries
-from rpt_resources import sensors
-
+from rpt_resources import rptentries, sensors
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starting with an empty RPTable, adds 1 resource to it.
- * Checks rpt info to see if update count was updated, but it passes
- * NULL for a table.
- * If oh_get_rpt_info returns error, the test passes, otherwise it failed.
+    Checks rpt info to see if update count was updated, but it passes
+    NULL for a table.
+    If oh_get_rpt_info returns error, the test passes, otherwise it failed.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         
         rptable = RPTable()
         oh_init_rpt(rptable)
-        update_count = SaHpiUint32T()
-        update_count_new = SaHpiUint32T()
-        update_timestamp = SaHpiTimeT()
- 
-        update_count = rptable.update_count
+         
+        error, update_count, update_timestamp = oh_get_rpt_info(rptable)
+        self.assertEqual(error, SA_OK)
         
-        self.assertEqual(oh_get_rpt_info(rptable, update_count, update_timestamp))
+        self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
         
-        self.assertEqual(oh_add_resource(rptable, rptentries, None, 0))
-        
-        self.assertEqual(not (oh_get_rpt_info(None, update_count_new, update_timestamp)), 0)
+        error, update_count, update_timestamp = oh_get_rpt_info(None)
+        self.assertEqual(error != SA_OK, True)
         
                     
 if __name__=='__main__':

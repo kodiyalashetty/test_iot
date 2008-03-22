@@ -25,8 +25,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Adds 10 resources to an rpt table.
- * Uses the get_next call with the table's last Resource Id.
- * Passes the test if the interface returns NULL, else it fails.
+    Uses the get_next call with the table's last Resource Id.
+    Passes the test if the interface returns NULL, else it fails.
  
  Return value: 0 on success, 1 on failure
     """
@@ -36,7 +36,7 @@ class TestSequence(unittest.TestCase):
         oh_init_rpt(rptable)
         i = 0
         
-        for i in range(num_resources):
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[1], None, 1), 0)  
             
         self.assertEqual(oh_get_resource_next(rptable, rptentries[i-1].ResourceId)==None, True)

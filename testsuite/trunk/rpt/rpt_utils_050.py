@@ -25,8 +25,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 1 resource, adds 1 rdr with data
- * to first resource. Fetches data using a Record Id not present in the resource.
- * Success if the interface returns an error, otherwise there was a failure.
+    to first resource. Fetches data using a Record Id not present in the resource.
+    Success if the interface returns an error, otherwise there was a failure.
  
  Return value: 0 on success, 1 on failure
     """

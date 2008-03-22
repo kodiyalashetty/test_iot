@@ -24,9 +24,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starting with an empty RPTable, adds 10 resources to it
- * and removes one by specifying SAHPI_FIRST_ENTRY as the Resource Id.
- * Removes again to make sure it is not there anymore.
- * Passes the test if the interface returns 0 (success), else it fails.
+    and removes one by specifying SAHPI_FIRST_ENTRY as the Resource Id.
+    Removes again to make sure it is not there anymore.
+    Passes the test if the interface returns 0 (success), else it fails.
  *
  Return value: 0 on success, 1 on failure
     """

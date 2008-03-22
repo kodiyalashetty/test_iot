@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -13,36 +12,34 @@
   Authors:
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
-from types import *
 import unittest
 import rpt_resources
 from openhpi import *
-from random import *
 from rpt_resources import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starting with an empty RPTable, adds a resource to it
- * twice. Checks to see if the udpate count was updated the 
- * second time. If it was the test failed, otherwise the test passed. 
- Return value: 0 on success, 1 on failure
+    twice. Checks to see if the udpate count was updated the 
+    second time. If it was the test failed, otherwise the test passed. 
+    Return value: 0 on success, 1 on failure
     """
    
     def runTest(self):
-        
+
         rptable = RPTable()
         oh_init_rpt(rptable)
-        update_count = SaHpiUint32T()
-               
-        self.assertEqual(oh_add_resource(rptable, rptentries, None, 0))
+
+        error, update_count, update_timestamp = oh_get_rpt_info(rptable)
+        self.assertEqual(error, SA_OK)
+
+        self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
+        self.assertEqual(oh_add_resource(rptable, rptentries[1], None, 0), 0)
         
-        update_count = rptable.update_count
-        
-        self.assertEqual(oh_add_resource(rptable, rptentries, None, 0))
-        
-        self.assertEqual((rptable.update_count,update_count),1)
-        
-                    
+        error, update_count_new, update_timestamp = oh_get_rpt_info(rptable)
+        self.assertEqual(error, SA_OK)
+
+        self.assertEqual(update_count+2 == update_count_new, True)
+
 if __name__=='__main__':
         unittest.main()    

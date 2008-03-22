@@ -24,9 +24,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources and fetches
- * them randomly by the ResourceId and compares them against the original
- * resource. A failed comparison means the test failed,
- * otherwise the test passed.
+    them randomly by the ResourceId and compares them against the original
+    resource. A failed comparison means the test failed,
+    otherwise the test passed.
     
     Return value: 0 on success, 1 on failure
     """
