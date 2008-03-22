@@ -24,9 +24,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources, adds 5 rdr
- * to first resource. Fetches sensors ++randomly by type and compares
- * with original. A failed comparison means the test failed,
- * otherwise the test passed.
+    to first resource. Fetches sensors ++randomly by type and compares
+    with original. A failed comparison means the test failed,
+    otherwise the test passed.
     
     Return value: 0 on success, 1 on failure
     """

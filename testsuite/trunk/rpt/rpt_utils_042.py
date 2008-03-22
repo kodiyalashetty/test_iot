@@ -25,8 +25,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starting with an empty RPTable, adds 10 resources to it
- * and then adds 1 rdr to it using a Resource Id not present in the table.
- * Passes the test if the interface returns an error, else it fails.
+    and then adds 1 rdr to it using a Resource Id not present in the table.
+    Passes the test if the interface returns an error, else it fails.
  
  Return value: 0 on success, 1 on failure
     """
@@ -36,7 +36,7 @@ class TestSequence(unittest.TestCase):
         oh_init_rpt(rptable)
         i = 0
         
-        for i in range(num_resources):  
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 1), 0)  
         self.assertEqual(not (oh_add_rdr(rptable, 1234567, sensors[0], None, 1)), 0)
                                     

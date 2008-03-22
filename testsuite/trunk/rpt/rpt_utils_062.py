@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -25,27 +24,24 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources (one with data), adds 5 rdr
- * to first resource and 2 to the last one.
- * Invokes oh_flush on the table.
- * Should return without crashing and there should be no resources left
- * in the table.
+    to first resource and 2 to the last one.
+    Invokes oh_flush on the table.
+    Should return without crashing and there should be no resources left
+    in the table.
  
- Return value: 0 on success, 1 on failure
+     Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         
         rptable = RPTable()
         oh_init_rpt(rptable)
-        i = 0
-        data = "My data."
         
         self.assertEqual(oh_add_resource(rptable, rptentries[0], rptentries[0], 1), 0)  
         
-        i = 1
-        for rpte in rptentries:
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0),0)
+        for rpte in rptentries[1:]:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0),0)
                    
-        for i in range(num_sensors):
+        for i in range(0,5):
             self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[i], None, 0), 0)  
                    
         for i in range(5,7):

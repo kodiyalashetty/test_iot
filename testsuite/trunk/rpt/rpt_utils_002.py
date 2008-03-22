@@ -22,9 +22,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starting with an empty RPTable, adds 1 resource to it
- * with data and then fetches the data of that resource to compare
- * it with the original data.
- * A failed comparison means the test failed, otherwise the test passed.
+    with data and then fetches the data of that resource to compare
+    it with the original data.
+    A failed comparison means the test failed, otherwise the test passed.
     
     Return value: 0 on success, 1 on failure
     """

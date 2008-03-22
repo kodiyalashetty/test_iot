@@ -25,10 +25,10 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Adds 10 resources to an rpt table.
- * Fetches the 1st resource through the get_next call
- * using SAHPI_FIRST_ENTRY for the Resource Id. Makes sure that the resource
- * returned is the 1st resource.
- * Passes the test if the interface returns a valid entry, else it fails.
+    Fetches the 1st resource through the get_next call
+    using SAHPI_FIRST_ENTRY for the Resource Id. Makes sure that the resource
+    returned is the 1st resource.
+    Passes the test if the interface returns a valid entry, else it fails.
  
  Return value: 0 on success, 1 on failure
     """
@@ -39,7 +39,7 @@ class TestSequence(unittest.TestCase):
         tmpentry = SaHpiRptEntryT()
         i = 0
         
-        for i in range(num_resources):
+        for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rptentries[1], None, 1), 0)  
              
         tmpentry = oh_get_resource_next(rptable, SAHPI_FIRST_ENTRY)

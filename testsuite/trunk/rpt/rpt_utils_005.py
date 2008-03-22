@@ -32,11 +32,10 @@ class TestSequence(unittest.TestCase):
         rptable = RPTable()
         oh_init_rpt(rptable)
         resources = []
-        num_resources = 10
 
-        for i in range(num_resources):
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], rptentries[i], 0), 0)
-            resources.append(rptentries[i])
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, rpte, 0), 0)
+            resources.append(rpte)
 
         while len(resources) > 0:
             k = randrange(0, len(resources))

@@ -25,9 +25,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Adds 2 resources to an rpt table.
- * Fetches the 2nd resource through the get_next call
- * using a Resource Id not present in the table.
- * Passes the test if the interface returns NULL, else it fails.
+    Fetches the 2nd resource through the get_next call
+    using a Resource Id not present in the table.
+    Passes the test if the interface returns NULL, else it fails.
  
  Return value: 0 on success, 1 on failure
     """

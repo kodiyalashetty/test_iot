@@ -21,11 +21,11 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest :Starting with an empty RPTable, adds 1 resource to it
- * and tries to fetch it by the entity path and compare it against
- * the original resource. A failed comparison means the test
- * failed, otherwise the test passed.
+    and tries to fetch it by the entity path and compare it against
+    the original resource. A failed comparison means the test
+    failed, otherwise the test passed.
  *
- *  
+     
     Return value: 0 on success, 1 on failure
     """
     def runTest(self):

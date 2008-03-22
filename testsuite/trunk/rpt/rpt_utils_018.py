@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,40 +13,35 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 from openhpi import *
 from rpt_resources import *
-from random import *
 
 class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources, multiple rdrs
- * on some resources. Remove rdr. Check if resource was removed
- * searching for it by type. If not fail, else passed test.
+    on some resources. Remove rdr. Check if resource was removed
+    searching for it by type. If not fail, else passed test.
     
     Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         rptable = RPTable()
         oh_init_rpt(rptable)
-        tmprdr = None
-        i = 0
-        
+
         for rpte in rptentries:
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
-        
-        i=0
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
+
         for sensor in sensors:
-            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[i], None,0), 0)
+            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensor, None,0), 0)
            
         for i in range (5, 7):  
             self.assertEqual(oh_add_rdr(rptable, rptentries[9].ResourceId, sensors[i], None,0), 0)
             
         oh_remove_rdr(rptable, rptentries[0].ResourceId, sensors[1].RecordId)
         tmprdr = oh_get_rdr_by_type(rptable, rptentries[0].ResourceId, sensors[1].RdrType, sensors[1].RdrTypeUnion.SensorRec.Num)
-        self.assertEqual(not(tmprdr==None), False)
+        self.assertEqual(tmprdr, None)
                         
 if __name__=='__main__':
         unittest.main()    

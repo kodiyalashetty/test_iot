@@ -25,8 +25,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 1 resource, adds 5 sensors ++to first resource.
- * Fetches an rdr by id using a NULL table.
- * Success if the interface returns an error, otherwise there was a failure.
+    Fetches an rdr by id using a NULL table.
+    Success if the interface returns an error, otherwise there was a failure.
  
  Return value: 0 on success, 1 on failure
     """

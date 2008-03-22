@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,38 +13,31 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 import rpt_resources
 from openhpi import *
-from random import *
-from rpt_resources import rptentries
-from rpt_resources import sensors
-
+from rpt_resources import rptentries, sensors
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Invokes rpt_diff with new table param as NULL.
- * If it returns error, the test passes, otherwise it failed.
+    If it returns error, the test passes, otherwise it failed.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
-        
         curr_table = RPTable()
         new_table = RPTable()
-        new_res, new_rdr, gone_res, gone_rdr = []
-        
+
         oh_init_rpt(curr_table)
         oh_init_rpt(new_table)
-        
-        self.assertEqual(oh_add_resource(curr_table, rptentries, None, 0), 0) 
-        
+
+        self.assertEqual(oh_add_resource(curr_table, rptentries[0], None, 0), 0) 
+
         self.assertEqual(oh_add_resource(new_table, rptentries[1], None, 0), 0)
-        
-        rpt_diff(curr_table, None, new_res, new_rdr, gone_res, gone_rdr)
-        
-                    
+
+        error, new_res, new_rdr, gone_res, gone_rdr = rpt_diff(curr_table, None)
+        self.assertEqual(error != SA_OK, True)
+
 if __name__=='__main__':
         unittest.main()    

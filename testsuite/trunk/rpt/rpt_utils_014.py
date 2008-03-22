@@ -24,8 +24,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starts with an RPTable of 10 resources, multiple rdrs
- * on some resources. Remove resource. Check if resource was removed
- * searching for it by id. If not fail, else passed test.
+    on some resources. Remove resource. Check if resource was removed
+    searching for it by id. If not fail, else passed test.
             
     Return value: 0 on success, 1 on failure
     """
@@ -33,13 +33,10 @@ class TestSequence(unittest.TestCase):
 
         rptable = RPTable()
         oh_init_rpt(rptable)
-        tmpentry = None
-        i = 0
-        
-        for i in range(num_resources):
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
-        
-        i=0    
+
+        for rpte in rptentries:
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
+
         for i in range (0,5):
             self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY,sensors[i], None,0), 0)
         
@@ -48,7 +45,7 @@ class TestSequence(unittest.TestCase):
             
         oh_remove_resource(rptable, rptentries[0].ResourceId)
         tmpentry = oh_get_resource_by_id(rptable, rptentries[0].ResourceId)
-        self.assertEqual(not(tmpentry==None), False)
+        self.assertEqual(tmpentry, None)
                       
 if __name__=='__main__':
         unittest.main()    

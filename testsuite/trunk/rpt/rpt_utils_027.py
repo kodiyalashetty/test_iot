@@ -24,8 +24,8 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starting with an empty RPTable, adds 1 resource to it with data.
- * Fetches the data back using a NULL table as a parameter.
- * Passes the test if the interface returns NULL, else it fails.
+    Fetches the data back using a NULL table as a parameter.
+    Passes the test if the interface returns NULL, else it fails.
  *
  Return value: 0 on success, 1 on failure
     """

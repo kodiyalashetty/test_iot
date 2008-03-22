@@ -25,9 +25,9 @@ class TestSequence(unittest.TestCase):
        
     """
     runTest : Starting with an empty RPTable, adds 1 resource to it
- * and then adds 1 rdr to it. Removes rdr using a Record Id not present
- * in the resource.
- * Passes the test if the interface returns an error, else it fails.
+    and then adds 1 rdr to it. Removes rdr using a Record Id not present
+    in the resource.
+    Passes the test if the interface returns an error, else it fails.
  
  Return value: 0 on success, 1 on failure
     """
