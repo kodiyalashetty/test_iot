@@ -467,97 +467,121 @@ int memcmp(const void *s1, const void *s2, size_t n);
 }
 %include "epath_utils.i"
 %include "uid_utils.i"
-%typemap (in, numinputs=0) GSList **res_new (GSList *new_res) {
-	new_res = NULL;
+%typemap (in) GSList **res_new (GSList *new_res, PyListObject *new_res_list) {	
+        new_res_list = NULL;
+        new_res = NULL;
 	$1 = &new_res;
+        if (!PyList_Check($input) && $input != Py_None) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list or None.");
+                return NULL;
+        }
+        if (PyList_Check($input) && PyList_Size($input) > 0) {
+                PyErr_SetString(PyExc_ValueError, "list must be empty.");
+                return NULL;
+        }
+        if ($input == Py_None) {
+                $1 = NULL;
+        } else {
+                new_res_list = (PyListObject *)$input;
+        }
 }
 %typemap (argout) GSList **res_new {
 	GSList *node = NULL;
-	int i = 0;
-	PyObject *l = NULL;
-	if (*$1) {
-		if ($result && $result == Py_None) {
-			Py_DECREF($result);
-		}
-		l = PyList_New(g_slist_length(*$1));
+	if (new_res_list3) {
 		for (node = *$1; node; node = node->next) {
-			PyList_SetItem(l, i,
-				SWIG_NewPointerObj(node->data,
+			PyList_Append((PyObject *)new_res_list3,
+                                        SWIG_NewPointerObj(node->data,
 						SWIGTYPE_p_SaHpiRptEntryT,0));
-			i++;
 		}
-		g_slist_free(*$1);
-	} else {
-		l = $result;
 	}
-	$result = PyTuple_New(4);
-        PyTuple_SetItem($result, 0, l);
+        if ($1) g_slist_free(*$1);
 }
-%typemap (in, numinputs=0) GSList **rdr_new (GSList *new_rdr) {
+%typemap (in) GSList **rdr_new (GSList *new_rdr, PyListObject *new_rdr_list) {
+        new_rdr_list = NULL;
 	new_rdr = NULL;
 	$1 = &new_rdr;
+        if (!PyList_Check($input) && $input != Py_None) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list or None.");
+                return NULL;
+        }
+        if (PyList_Check($input) && PyList_Size($input) > 0) {
+                PyErr_SetString(PyExc_ValueError, "list must be empty.");
+                return NULL;
+        }
+        if ($input == Py_None) {
+                $1 = NULL;
+        } else {
+                new_rdr_list = (PyListObject *)$input;
+        }
 }
 %typemap (argout) GSList **rdr_new {
 	GSList *node = NULL;
-	int i = 0;
-	PyObject *l = NULL;
-	if (*$1) {
-		l = PyList_New(g_slist_length(*$1));
+	if (new_rdr_list4) {
 		for (node = *$1; node; node = node->next) {
-			PyList_SetItem(l, i,
-				SWIG_NewPointerObj(node->data,
+			PyList_Append((PyObject *)new_rdr_list4,
+                                        SWIG_NewPointerObj(node->data,
 						SWIGTYPE_p_SaHpiRdrT,0));
-			i++;
 		}
-		g_slist_free(*$1);
-	} else {
-		l = Py_None; Py_INCREF(l);
 	}
-        PyTuple_SetItem($result, 1, l);
+        if ($1) g_slist_free(*$1);
 }
-%typemap (in, numinputs=0) GSList **res_gone (GSList *gone_res) {
+%typemap (in) GSList **res_gone (GSList *gone_res, PyListObject *gone_res_list) {
+	gone_res_list = NULL;
 	gone_res = NULL;
 	$1 = &gone_res;
+        if (!PyList_Check($input) && $input != Py_None) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list or None.");
+                return NULL;
+        }
+        if (PyList_Check($input) && PyList_Size($input) > 0) {
+                PyErr_SetString(PyExc_ValueError, "list must be empty.");
+                return NULL;
+        }
+        if ($input == Py_None) {
+                $1 = NULL;
+        } else {
+                gone_res_list = (PyListObject *)$input;
+        }
 }
 %typemap (argout) GSList **res_gone {
 	GSList *node = NULL;
-	int i = 0;
-	PyObject *l = NULL;
-	if (*$1) {
-		l = PyList_New(g_slist_length(*$1));
+	if (gone_res_list5) {
 		for (node = *$1; node; node = node->next) {
-			PyList_SetItem(l, i,
-				SWIG_NewPointerObj(node->data,
+			PyList_Append((PyObject *)gone_res_list5,
+                                        SWIG_NewPointerObj(node->data,
 						SWIGTYPE_p_SaHpiRptEntryT,0));
-			i++;
 		}
-		g_slist_free(*$1);
-	} else {
-		l = Py_None; Py_INCREF(l);
 	}
-        PyTuple_SetItem($result, 2, l);
+        if ($1) g_slist_free(*$1);
 }
-%typemap (in, numinputs=0) GSList **rdr_gone (GSList *gone_rdr) {
+%typemap (in) GSList **rdr_gone (GSList *gone_rdr, PyListObject *gone_rdr_list) {
+        gone_rdr_list = NULL;
 	gone_rdr = NULL;
 	$1 = &gone_rdr;
+        if (!PyList_Check($input) && $input != Py_None) {
+                PyErr_SetString(PyExc_ValueError, "Expected a list or None.");
+                return NULL;
+        }
+        if (PyList_Check($input) && PyList_Size($input) > 0) {
+                PyErr_SetString(PyExc_ValueError, "list must be empty.");
+                return NULL;
+        }
+        if ($input == Py_None) {
+                $1 = NULL;
+        } else {
+                gone_rdr_list = (PyListObject *)$input;
+        }
 }
 %typemap (argout) GSList **rdr_gone {
 	GSList *node = NULL;
-	int i = 0;
-	PyObject *l = NULL;
-	if (*$1) {
-		l = PyList_New(g_slist_length(*$1));
+	if (gone_rdr_list6) {
 		for (node = *$1; node; node = node->next) {
-			PyList_SetItem(l, i,
-				SWIG_NewPointerObj(node->data,
+			PyList_Append((PyObject *)gone_rdr_list6,
+                                        SWIG_NewPointerObj(node->data,
 						SWIGTYPE_p_SaHpiRdrT,0));
-			i++;
 		}
-		g_slist_free(*$1);
-	} else {
-		l = Py_None; Py_INCREF(l);
 	}
-        PyTuple_SetItem($result, 3, l);
+        if ($1) g_slist_free(*$1);
 }
 %apply unsigned int *OUTPUT { SaHpiUint32T *update_count }
 %apply long long *OUTPUT { SaHpiTimeT *update_timestamp }
