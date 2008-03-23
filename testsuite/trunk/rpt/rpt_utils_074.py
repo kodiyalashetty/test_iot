@@ -39,7 +39,7 @@ class TestSequence(unittest.TestCase):
         self.assertEqual(oh_add_resource(new_table, rptentries[1], None, 0), 0)
         
         new_res, new_rdr, gone_res, gone_rdr = rpt_diff(curr_table, new_table)
-        self.assertEqual(gone_res, None)
+        self.assertEqual(gone_res == None or len(gone_res) == 0, True)
 
 if __name__=='__main__':
         unittest.main()    

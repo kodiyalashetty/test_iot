@@ -28,7 +28,7 @@ class TestSequence(unittest.TestCase):
     Fetches the first resource back by id using SAHPI_FIRST_ENTRY for a Resource Id.
     Passes the test if the interface returns the resource, else it fails.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

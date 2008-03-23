@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,17 +13,14 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 from openhpi import *
 from rpt_resources import *
-from random import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starts with an RPTable of 10 resources, adds 5 rdr
-    to first resource. Fetches sensors ++in sequence by record id and compares
+    to first resource. Fetches sensors in sequence by record id and compares
     with original. A failed comparison means the test failed,
     otherwise the test passed.
         
@@ -35,20 +31,17 @@ class TestSequence(unittest.TestCase):
         rptable = RPTable()
         oh_init_rpt(rptable)
         tmprdr = None
-        i = 0
         
         for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
         
-        for sensor in sensors:
+        for sensor in sensors[:5]:
             self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensor, None,0), 0)
         
         tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY, SAHPI_FIRST_ENTRY)
-        i=0
         while tmprdr:
-            self.assertEqual((memcmp(sensors[i], tmprdr, sizeof_SaHpiRdrT)), 0)
+            self.assertEqual((memcmp(sensors[tmprdr.RdrTypeUnion.SensorRec.Num-1], tmprdr, sizeof_SaHpiRdrT)), 0)
             tmprdr = oh_get_rdr_next(rptable, SAHPI_FIRST_ENTRY,tmprdr.RecordId)
-            i=i+1
-                
+
 if __name__=='__main__':
         unittest.main()    

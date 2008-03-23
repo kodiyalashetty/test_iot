@@ -28,7 +28,7 @@ class TestSequence(unittest.TestCase):
     to first resource. Fetches data using a Record Id not present in the resource.
     Success if the interface returns an error, otherwise there was a failure.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

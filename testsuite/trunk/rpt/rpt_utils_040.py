@@ -28,7 +28,7 @@ class TestSequence(unittest.TestCase):
     Uses the get_next call with the table's last Resource Id.
     Passes the test if the interface returns NULL, else it fails.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

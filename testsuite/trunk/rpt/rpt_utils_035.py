@@ -28,7 +28,7 @@ class TestSequence(unittest.TestCase):
     Fetches the resource back by using an entity path not present in the table.
     Passes the test if the interface returns NULL, else it fails. 
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

@@ -26,8 +26,8 @@ class TestSequence(unittest.TestCase):
     runTest : Starting with an empty RPTable, adds 1 resource to it.
     Fetches the resource back by id using a NULL table.
     Passes the test if the interface returns NULL, else it fails.
- *
- Return value: 0 on success, 1 on failure
+
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

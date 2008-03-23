@@ -12,19 +12,17 @@
  Authors:
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
-from types import *
 import unittest
 from openhpi import *
-from rpt_resources import rptentries, objcmp
+from rpt_resources import rptentries
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest :Starting with an empty RPTable, adds 1 resource to it
     and tries to fetch it by the entity path and compare it against
     the original resource. A failed comparison means the test
     failed, otherwise the test passed.
- *
+
      
     Return value: 0 on success, 1 on failure
     """
@@ -40,7 +38,7 @@ class TestSequence(unittest.TestCase):
         
         self.assertEqual(tmpentry != None, True)
 
-        self.assertEqual(objcmp(rptentries[0], tmpentry), True)
+        self.assertEqual(memcmp(rptentries[0], tmpentry, sizeof_SaHpiRptEntryT), 0)
         
 if __name__=='__main__':
         unittest.main()        

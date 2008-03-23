@@ -29,7 +29,7 @@ class TestSequence(unittest.TestCase):
     SAHPI_FIRST_ENTRY.
     Passes the test if the interface returns ok, else it fails.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

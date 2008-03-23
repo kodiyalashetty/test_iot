@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,15 +13,11 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
-import rpt_resources
 from openhpi import *
-from random import *
 from rpt_resources import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : resource must NOT have SAHPI_CAPABILITY_AGGREGATE_STATUS capability,
     sensor num should be between SAHPI_STANDARD_SENSOR_MIN and
@@ -33,21 +28,24 @@ class TestSequence(unittest.TestCase):
     set.
     If so, the test passes, otherwise it failed.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         
         rptable = RPTable()
         oh_init_rpt(rptable)
        
-        rptentries[0].ResourceCapabilities = rptentries[0].ResourceCapabilities and 0xFFFFDFFF
+        saved_capabilities = rptentries[0].ResourceCapabilities
+        rptentries[0].ResourceCapabilities = rptentries[0].ResourceCapabilities & 0xFFFFDFFF
         
-        i=0
         for rpte in rptentries:
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0),0)
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0),0)
             
-        sensors[0].RdrTypeUnion.SensorRec.Num = SAHPI_STANDARD_SENSOR_MIN    
-        self.assertEqual(not (oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[0], None, 1)), 0) 
+        saved_num = sensors[0].RdrTypeUnion.SensorRec.Num
+        sensors[0].RdrTypeUnion.SensorRec.Num = SAHPI_STANDARD_SENSOR_MIN
+        self.assertEqual(not (oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, sensors[0], None, 1)), 0)
+        rptentries[0].ResourceCapabilities = saved_capabilities
+        sensors[0].RdrTypeUnion.SensorRec.Num = saved_num
         
 if __name__=='__main__':
         unittest.main()    

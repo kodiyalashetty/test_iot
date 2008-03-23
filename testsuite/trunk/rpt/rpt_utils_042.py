@@ -28,7 +28,7 @@ class TestSequence(unittest.TestCase):
     and then adds 1 rdr to it using a Resource Id not present in the table.
     Passes the test if the interface returns an error, else it fails.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

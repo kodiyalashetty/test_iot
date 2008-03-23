@@ -21,7 +21,7 @@ from rpt_resources import *
 class TestSequence(unittest.TestCase):
        
     """
-    runTest : Starts with an RPTable of 1 resource, adds 5 sensors ++to first resource.
+    runTest : Starts with an RPTable of 1 resource, adds 5 sensors to first resource.
     Fetches an rdr by id using SAHPI_FIRST_ENTRY for the Record Id.
     Success if the interface returns ok, otherwise there was a failure.
  

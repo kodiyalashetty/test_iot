@@ -27,8 +27,8 @@ class TestSequence(unittest.TestCase):
     and another with data.
     Fetches the resource's NULL data back.
     Passes the test if the interface returns the NULL data, else it fails.
- *
- Return value: 0 on success, 1 on failure
+
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

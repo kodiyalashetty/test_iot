@@ -29,7 +29,7 @@ class TestSequence(unittest.TestCase):
     runTest : Invoke oh_init_rpt with a NULL param.
     If it returns error, the test passes, otherwise it failed.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

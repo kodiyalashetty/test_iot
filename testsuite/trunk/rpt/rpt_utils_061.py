@@ -27,7 +27,7 @@ class TestSequence(unittest.TestCase):
     runTest : Starts with an empty RPTable. Invokes oh_flush on it.
     Should return without crashing.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

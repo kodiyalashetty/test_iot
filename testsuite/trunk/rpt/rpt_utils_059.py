@@ -24,11 +24,11 @@ from rpt_resources import *
 class TestSequence(unittest.TestCase):
        
     """
-    runTest : Starts with an RPTable of 1 resource, adds 5 sensors ++to first resource.
+    runTest : Starts with an RPTable of 1 resource, adds 5 sensors to first resource.
     Fetches an rdr using get_next with the Record Id as SAHPI_FIRST_ENTRY.
     Success if the interface returns a valid pointer, otherwise there was a failure.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

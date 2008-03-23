@@ -12,14 +12,12 @@
  Authors:
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
-from types import *
+
 import unittest
 from openhpi import *
-from rpt_resources import rptentries, objcmp
-
+from rpt_resources import rptentries
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starting with an empty RPTable, adds 1 resource to it
     with data and then fetches the data of that resource to compare
@@ -31,22 +29,16 @@ class TestSequence(unittest.TestCase):
     def runTest(self):
 
         rptable = RPTable()
-        
-        data = None
-        
-        res_data = "This is the resource's data...It's private."
-        
-        res_data_len = len(res_data)
-                
         oh_init_rpt(rptable)
-        
-        self.assertEqual(oh_add_resource(rptable, rptentries[0], None, 0), 0)
+        buffer = SaHpiTextBufferT(DataLength=3, Data='123')
+
+        self.assertEqual(oh_add_resource(rptable, rptentries[0], buffer, 0), 0)
         
         data = oh_get_resource_data(rptable, rptentries[0].ResourceId)
         
-        self.assertEqual(not (data), True)
+        self.assertEqual(data != None, True)
 
-        self.assertEqual(objcmp(data, res_data) and objcmp(res_data,res_data_len), False)
+        self.assertEqual(memcmp(buffer, data, sizeof_SaHpiTextBufferT), 0)
        
                
 if __name__=='__main__':
