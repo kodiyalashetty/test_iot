@@ -39,7 +39,7 @@ class TestSequence(unittest.TestCase):
         error, update_count_new, update_timestamp = oh_get_rpt_info(rptable)
         self.assertEqual(error, SA_OK)
 
-        self.assertEqual(update_count+2 == update_count_new, True)
+        self.assertEqual((update_count+2) == update_count_new, True)
 
 if __name__=='__main__':
         unittest.main()    

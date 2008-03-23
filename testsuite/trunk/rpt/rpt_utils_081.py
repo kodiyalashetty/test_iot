@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,15 +13,12 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
-import rpt_resources
 from openhpi import *
 from random import *
 from rpt_resources import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : resource must NOT have SAHPI_CAPABILITY_AGGREGATE_STATUS capability,
     sensor num should be between SAHPI_STANDARD_SENSOR_MIN and
@@ -33,36 +29,31 @@ class TestSequence(unittest.TestCase):
     set.
     If so, the test passes, otherwise it failed.
  
- Return value: 0 on success, 1 on failure
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         
         rptable = RPTable()
         oh_init_rpt(rptable)
-        records = None
-        i =0
+        records = []
         
         for rpte in rptentries:
-            self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0),0)
+            self.assertEqual(oh_add_resource(rptable, rpte, None, 0),0)
         
-        for i in range(num_watchdogs):
-            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, watchdogs[i],None,0), 0)
-            records.append(watchdogs[i])
+        for watchdog in watchdogs:
+            self.assertEqual(oh_add_rdr(rptable, SAHPI_FIRST_ENTRY, watchdog, None, 0), 0)
+            records.append(watchdog)
             
-        for i in range(5,7):
-            tmprdr = randrdr = SaHpiRdrT()
-            tmpnode = []
-            RAND_MAX = 0x7fff
+        while len(records) > 0:
             k = randrange(0,len(records),1)
             
             randrdr = records[k]
-            randrdr.RecordId = oh_get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.SensorRec.Num)
+            randrdr.RecordId = oh_get_rdr_uid(randrdr.RdrType,randrdr.RdrTypeUnion.WatchdogRec.WatchdogNum)
             tmprdr = oh_get_rdr_by_id(rptable, SAHPI_FIRST_ENTRY,randrdr.RecordId)
     
-            self.assertEqual(not (tmprdr), False)
+            self.assertEqual(tmprdr != None, True)
             self.assertEqual(memcmp(randrdr, tmprdr, sizeof_SaHpiRdrT),0)
-            records.remove(randrdr)
-            i=i-1
+            records.pop(k)
         
 if __name__=='__main__':
         unittest.main()    

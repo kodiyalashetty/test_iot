@@ -1,48 +1,5 @@
 #!/usr/bin/python
 from openhpi import *
-from types import *
-
-def objcmp(obj1, obj2):
-    """
-    Compare two object instances and return True if they are equivalent
-    """
-    # Check that the two objects are instances of a class
-    if not repr(type(obj1)).startswith('<class ') or not repr(type(obj2)).startswith('<class '):
-        #print 'Object check failed: not a class'; print obj1; print obj2
-        return False
-
-    # Check that the two objects are instances of the same class
-    if repr(obj1.__class__) != repr(obj2.__class__):
-        #print 'Class check failed "%s" != "%s"' % (repr(obj1.__class__), repr(obj2.__class_))
-        return False
-
-    for attr in dir(obj1): # Compare objects attribute by attribute
-        # Disregard special python/swig attributes
-        if attr.startswith('_') or repr(type(getattr(obj1,attr))) == "<type 'PySwigObject'>":
-            continue
-
-        # If the attribute is an object instance, compare them recursively 
-        if repr(type(getattr(obj1, attr))).startswith('<class '):
-            if not objcmp(getattr(obj1, attr), getattr(obj2, attr)):
-                return False
-        # If the attribute is a sequence or dictionary,
-        # compare elements side by side recursively
-        elif type(getattr(obj1, attr)) in [TupleType, ListType, DictType]:
-            if len(getattr(obj1, attr)) != len(getattr(obj2, attr)):
-                return False
-
-            for e1, e2 in zip(getattr(obj1, attr), getattr(obj2, attr)):
-                if not objcmp(e1, e2): return False
-
-        # If the attribute is a native type (e.g. number or string)
-        # then do normal comparison.
-        else:
-            if getattr(obj1, attr) != getattr(obj2, attr):
-                #print 'Attribute check failed obj1.%s != obj2.%s' % (attr, attr)
-                return False
-
-    return True
-
 
 rptentries = [
     SaHpiRptEntryT( # RPT Entry 1
@@ -60,7 +17,6 @@ rptentries = [
         ),
         ResourceEntity=SaHpiEntityPathT(
             Entry=[
-                SaHpiEntityT(EntityType=SAHPI_ENT_SBC_BLADE, EntityLocation=14),
                 SaHpiEntityT(EntityType=SAHPI_ENT_SBC_BLADE, EntityLocation=14),
                 SaHpiEntityT(EntityType=SAHPI_ENT_SUB_CHASSIS, EntityLocation=1),
                 SaHpiEntityT(EntityType=SAHPI_ENT_SYSTEM_CHASSIS, EntityLocation=1),

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,14 +13,12 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 from openhpi import *
-from rpt_resources import rptentries, objcmp
+from rpt_resources import rptentries
 from random import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starts with an RPTable of 10 resources and fetches
     them randomly by the ResourceId and compares them against the original
@@ -31,37 +28,24 @@ class TestSequence(unittest.TestCase):
     Return value: 0 on success, 1 on failure
     """
     def runTest(self):
-
-        print "start"
-    
+ 
         rptable = RPTable()
         oh_init_rpt(rptable);
         resources = [];
-        RAND_MAX = 0x7fff
-        i=0
-        k=0
 
-        while i<10:
-                self.assertEqual(oh_add_resource(rptable, rptentries[i], None, 0), 0)
-                resources.append(rptentries[i])
-                i=i+1
-        
+        for rpte in rptentries:
+                self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
+                resources.append(rpte)
        
-        while resources :
-                randentry = tmpentry = SaHpiRptEntryT()
-##                tmpnode = []
-
-                k = randrange(0,i,1)
-
-                randentry= resources[k]
-##                randentry = tmpnode
+        while len(resources) > 0 :
+                k = randrange(0,len(resources),1)
+                randentry = resources[k]
 
                 tmpentry = oh_get_resource_by_ep(rptable, randentry.ResourceEntity)
 
-                self.assertEqual(not (tmpentry), 0)   
-                self.assertEqual((objcmp(randentry, tmpentry) and objcmp(tmpentry, SaHpiRptEntryT)), 0)    
-                resources.remove(randentry)
-                i=i-1
+                self.assertEqual(tmpentry != None, True)   
+                self.assertEqual(memcmp(randentry, tmpentry, sizeof_SaHpiRptEntryT), 0)    
+                resources.pop(k)
 
 if __name__=='__main__':
         unittest.main()    

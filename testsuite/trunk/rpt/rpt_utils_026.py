@@ -27,8 +27,8 @@ class TestSequence(unittest.TestCase):
     and removes one by specifying SAHPI_FIRST_ENTRY as the Resource Id.
     Removes again to make sure it is not there anymore.
     Passes the test if the interface returns 0 (success), else it fails.
- *
- Return value: 0 on success, 1 on failure
+
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         

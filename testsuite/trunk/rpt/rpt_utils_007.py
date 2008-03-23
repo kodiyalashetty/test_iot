@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -14,14 +13,11 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-from types import *
 import unittest
 from openhpi import *
-from random import *
 from rpt_resources import *
 
 class TestSequence(unittest.TestCase):
-       
     """
     runTest : Starts with an RPTable of 10 resources, starting at
     the beginning on going on to the next, compares
@@ -34,8 +30,6 @@ class TestSequence(unittest.TestCase):
 
         rptable = RPTable()
         oh_init_rpt(rptable);
-        tmpentry =  SaHpiRptEntryT 
-        i = 0
         
         for rpte in rptentries:
             self.assertEqual(oh_add_resource(rptable, rpte, None, 0), 0)
@@ -45,7 +39,7 @@ class TestSequence(unittest.TestCase):
         while  tmpentry:     
             self.assertEqual(memcmp(rptentries[i], tmpentry, sizeof_SaHpiRptEntryT), 0)
             tmpentry = oh_get_resource_next(rptable,tmpentry.ResourceId)
-            i=i+1
+            i += 1
                 
 if __name__=='__main__':
         unittest.main()    

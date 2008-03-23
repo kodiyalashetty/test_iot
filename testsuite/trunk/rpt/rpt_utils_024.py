@@ -1,5 +1,4 @@
 #!/usr/bin/env python
- 
 """
  (C) Copyright IBM Corp. 2008
  
@@ -13,19 +12,17 @@
  Authors:
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
-from types import *
 import unittest
 from openhpi import *
-from random import *
 from rpt_resources import *
 
 class TestSequence(unittest.TestCase):
-       
     """
-    runTest : Starting with a NULL RPTable, adds a NULL resource to it.
+    Starting with an empty RPTable, adds 1 resource to it
+    and removes it by specifying a NULL table.
     Passes the test if the interface returns an error, else it fails.
- *
- Return value: 0 on success, 1 on failure
+
+    Return value: 0 on success, 1 on failure
     """
     def runTest(self):
         
