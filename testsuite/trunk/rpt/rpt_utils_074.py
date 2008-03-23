@@ -29,17 +29,16 @@ class TestSequence(unittest.TestCase):
         
         curr_table = RPTable()
         new_table = RPTable()
-        new_res = new_rdr = gone_res = gone_rdr = None
+        new_res = []; new_rdr = []; gone_res = []; gone_rdr = []
         
         oh_init_rpt(curr_table)
         oh_init_rpt(new_table)
         
-        self.assertEqual(oh_add_resource(curr_table, rptentries[0], None, 0), 0) 
-        
+        self.assertEqual(oh_add_resource(curr_table, rptentries[0], None, 0), 0)        
         self.assertEqual(oh_add_resource(new_table, rptentries[1], None, 0), 0)
         
-        new_res, new_rdr, gone_res, gone_rdr = rpt_diff(curr_table, new_table)
-        self.assertEqual(gone_res == None or len(gone_res) == 0, True)
+        error = rpt_diff(curr_table, new_table, None, new_rdr, gone_res, gone_rdr)
+        self.assertEqual(error != SA_OK, True)
 
 if __name__=='__main__':
         unittest.main()    

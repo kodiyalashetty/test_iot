@@ -27,16 +27,15 @@ class TestSequence(unittest.TestCase):
     """
     def runTest(self):
         curr_table = RPTable()
-        new_table = RPTable()
-
         oh_init_rpt(curr_table)
+        new_table = RPTable()        
         oh_init_rpt(new_table)
+        new_res = []; new_rdr = []; gone_res = []; gone_rdr = []
 
-        self.assertEqual(oh_add_resource(curr_table, rptentries[0], None, 0), 0) 
-
+        self.assertEqual(oh_add_resource(curr_table, rptentries[0], None, 0), 0)
         self.assertEqual(oh_add_resource(new_table, rptentries[1], None, 0), 0)
 
-        error, new_res, new_rdr, gone_res, gone_rdr = rpt_diff(curr_table, None)
+        error = rpt_diff(curr_table, None, new_res, new_rdr, gone_res, gone_rdr)
         self.assertEqual(error != SA_OK, True)
 
 if __name__=='__main__':
