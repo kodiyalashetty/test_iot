@@ -2922,7 +2922,7 @@ typedef SaHpiInstrumentIdT SaHpiAnnunciatorNumT;
 
 typedef struct {
     SaHpiUint16T  Length;
-    unsigned char Value[SA_HPI_MAX_NAME_LENGTH];
+    SaHpiUint8T Value[SA_HPI_MAX_NAME_LENGTH];
 } SaHpiNameT;
 
 /*
