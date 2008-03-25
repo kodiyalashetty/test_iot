@@ -913,11 +913,12 @@ int memcmp(const void *s1, const void *s2, size_t n);
 };
 
 %extend SaHpiNameT {
-	SaHpiNameT(SaHpiUint16T Length = 0) {
+	SaHpiNameT(SaHpiUint16T Length = 0, SaHpiUint8T Value[SA_HPI_MAX_NAME_LENGTH] = NULL) {
 		SaHpiNameT *o;
 		o = (SaHpiNameT *)malloc(sizeof(SaHpiNameT));
 		memset(o, 0, sizeof(SaHpiNameT));
 		o->Length = Length;
+		if (Value) memcpy(o->Value, Value, sizeof(SaHpiUint8T)*SA_HPI_MAX_NAME_LENGTH);
 		return o;
 	}
 };
