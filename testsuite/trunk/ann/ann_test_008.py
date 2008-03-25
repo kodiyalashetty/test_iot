@@ -17,53 +17,53 @@
 import unittest
 from openhpi import *
 
-"""
- * main: Announcement test
- *
- * This test adds one announcement to the list
- *
- * Return value: 0 on success, 1 on failure
- """
+class TestSequence(unittest.TestCase):
 
-def runTest(self):
-        ann=oh_announcement()
-        announ=SaHpiAnnouncementT()
-        rc=SaErrorT()
-         
+    """
+    main: Announcement test
+    
+    This test adds one announcement to the list
+    
+    Return value: 0 on success, 1 on failure
+    """
 
-        announ.EntryId = 0         # modified by oh_announcement_append
-        announ.Timestamp = 0       # modified by oh_announcement_append
-        announ.AddedByUser = False      # modified by oh_announcement_append
-        announ.Severity = SAHPI_CRITICAL
-        announ.Acknowledged = False
-        announ.StatusCond.Type= SAHPI_STATUS_COND_TYPE_SENSOR
-        announ.StatusCond.Entity.Entry[0].EntityType = SAHPI_ENT_SYSTEM_BOARD
-        announ.StatusCond.Entity.Entry[0].EntityLocation = 1
-        announ.StatusCond.Entity.Entry[1].EntityType = SAHPI_ENT_ROOT
-        announ.StatusCond.Entity.Entry[1].EntityLocation = 0
-        announ.StatusCond.DomainId = 1
-        announ.StatusCond.ResourceId = 1
-        announ.StatusCond.SensorNum = 1
-        announ.StatusCond.EventState = SAHPI_ES_UNSPECIFIED
-        announ.StatusCond.Name.Length = 5
-        memcpy(announ.StatusCond.Name.Value,"announ", 5)
-        announ.StatusCond.Mid = 123
-        # we will not worry about the Data field for this test 
+    def runTest(self):
+            announ=SaHpiAnnouncementT( # <-- Constructor
+                EntryId=0, # <-- keyword argument example
+                Timestamp=0,
+                AddedByUser=SAHPI_FALSE,
+                Severity=SAHPI_CRITICAL,
+                Acknowledged=SAHPI_FALSE,
+                StatusCond=SaHpiConditionT(
+                        Type=SAHPI_STATUS_COND_TYPE_SENSOR,
+                        Entity=SaHpiEntityPathT(
+                                Entry=[
+                                        SaHpiEntityT(EntityType=SAHPI_ENT_SYSTEM_BOARD, EntityLocation=1),
+                                        SaHpiEntityT(EntityType=SAHPI_ENT_ROOT, EntityLocation=0)
+                                ]
+                        ),
+                        DomaindId=1,
+                        ResourceId=1,
+                        SensorNum=1,
+                        EventState=SAHPI_ES_UNSPECIFIED,
+                        Name=SaHpiNameT(Length=6, Value='announ'), # Length equals the length of Value.
+                        Mid=123
+                )
+               
+        )             # we will not worry about the Data field for this test 
 
-        ann = oh_announcement_create()
+            ann = oh_announcement_create()
 
-        rc = oh_announcement_append(ann, announ)
+            rc = oh_announcement_append(ann, announ)
 
-        announ.Severity = SAHPI_MAJOR
-        rc = oh_announcement_append(ann, announ)
+            announ.Severity = SAHPI_MAJOR
+            rc = oh_announcement_append(ann, announ)
 
-        announ.Severity = SAHPI_MINOR
-        rc = oh_announcement_append(ann, announ)
+            announ.Severity = SAHPI_MINOR
+            rc = oh_announcement_append(ann, announ)
 
-        rc = oh_announcement_close(ann)
-        if(rc != SA_OK):
-            print "ERROR: on_announcement_close returned ", rc
-            return 1
-
-if __name__=='__main__':
-    unittest.main()
+            rc = oh_announcement_close(ann)
+            self.assertEqual(rc != SA_OK,True)
+                
+    if __name__=='__main__':
+        unittest.main()

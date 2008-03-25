@@ -17,29 +17,25 @@
 import unittest
 from openhpi import *
 
-"""
- runTest : Announcement test
- 
- This test tests the creation of an announcement list.
- 
- Return value: 0 on success, 1 on failure
-"""
+class TestSequence(unittest.TestCase):
 
-def runTest(self):
-    ann = oh_announcement()
-    ann = oh_announcement_create()
+    """
+    runTest : Announcement test
+ 
+    This test tests the creation of an announcement list.
+ 
+    Return value: 0 on success, 1 on failure
+    """
 
-    if(ann == None): 
-        print "ERROR: ann pointer == None."
-        return 1
+    def runTest(self):
+        ann = oh_announcement()
+        ann = oh_announcement_create()
+
+        self.assertEqual(ann != None, True) 
         
-    if(ann.nextId != SAHPI_OLDEST_ENTRY + 1): 
-        print "ERROR: ann.nextId invalid."
-        return 1
-        
-    if(ann.annentries != None):
-        print "ERROR: ann.annentries invalid."
-        return 1
-        
-if __name__=='__main__':
-    unittest.main()
+        self.assertEqual(ann.nextId == SAHPI_OLDEST_ENTRY + 1,True)
+       
+        self.assertEqual(ann.annentries == None, True)
+
+    if __name__=='__main__':
+        unittest.main()
