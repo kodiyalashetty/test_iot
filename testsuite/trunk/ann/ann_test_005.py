@@ -55,34 +55,34 @@ class TestSequence(unittest.TestCase):
             ann = oh_announcement_create()
 
             rc = oh_announcement_append(ann, announ)
-            self.assertEqual(rc != SA_OK,True)
+            self.assertEqual(rc != SA_OK,False)
             
             announ.Severity = SAHPI_MAJOR
             rc = oh_announcement_append(ann, announ)
-            self.assertEqual (rc != SA_OK,True)
+            self.assertEqual (rc != SA_OK,False)
 
             announ.Severity = SAHPI_MINOR
             rc = oh_announcement_append(ann, announ)
-            self.assertEqual (rc != SA_OK,True)
+            self.assertEqual (rc != SA_OK,False)
                 
             announ.Severity = SAHPI_CRITICAL
             rc = oh_announcement_append(ann, announ)
-            self.assertEqual (rc != SA_OK,True)
+            self.assertEqual (rc != SA_OK,False)
                 
             announ.EntryId = SAHPI_FIRST_ENTRY
             announ.Timestamp = 0
             rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, FALSE, announ)
-            self.assertEqual(rc != SA_OK,True)
+            self.assertEqual(rc != SA_OK,False)
 
             rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, FALSE, announ)
-            self.assertEqual(rc != SA_OK,True) 
+            self.assertEqual(rc != SA_OK,False) 
 
             rc = oh_announcement_get(ann, 1, announ)
-            self.assertEqual (rc != SA_OK,True)
+            self.assertEqual (rc != SA_OK,False)
                 
             rc = oh_announcement_get_next(ann, SAHPI_CRITICAL, FALSE, announ)
-            self.assertEqual((rc != SA_OK or announ.Severity == SAHPI_CRITICAL),True)
+            self.assertEqual((rc != SA_OK or announ.Severity == SAHPI_CRITICAL),False)
 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()
 

@@ -64,9 +64,9 @@ class TestSequence(unittest.TestCase):
 
             rc = oh_announcement_get(ann, 2, announ)
 
-            self.assertEqual(announ.EntryId != 2,True)
+            self.assertEqual(announ.EntryId != 2,False)
 
-            self.assertEqual(announ.Severity != SAHPI_MAJOR,True)
+            self.assertEqual(announ.Severity != SAHPI_MAJOR,False)
 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()

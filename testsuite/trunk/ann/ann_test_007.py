@@ -63,9 +63,9 @@ class TestSequence(unittest.TestCase):
             rc = oh_announcement_append(ann, announ)
 
             rc = oh_announcement_del(ann, 2, SAHPI_MAJOR)
-            self.assertEqual(rc != SA_OK,True)
+            self.assertEqual(rc != SA_OK,False)
                 
-            self.assertEqual(g_list_length(ann.annentries) != 2,True)
+            self.assertEqual(g_list_length(ann.annentries) != 2,False)
                 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()

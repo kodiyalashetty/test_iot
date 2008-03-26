@@ -56,9 +56,9 @@ class TestSequence(unittest.TestCase):
 
             rc = oh_announcement_append(ann, announ)
 
-            self.assertEqual(ann.nextId != SAHPI_OLDEST_ENTRY + 2,True)
+            self.assertEqual(ann.nextId != SAHPI_OLDEST_ENTRY + 2,False)
        
-            self.assertEqual(ann.annentries == None,True)
+            self.assertEqual(ann.annentries == None,False)
 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()

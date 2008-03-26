@@ -63,7 +63,7 @@ class TestSequence(unittest.TestCase):
             rc = oh_announcement_append(ann, announ)
 
             rc = oh_announcement_close(ann)
-            self.assertEqual(rc != SA_OK,True)
+            self.assertEqual(rc != SA_OK,False)
                 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()

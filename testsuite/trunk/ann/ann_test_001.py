@@ -31,11 +31,11 @@ class TestSequence(unittest.TestCase):
         ann = oh_announcement()
         ann = oh_announcement_create()
 
-        self.assertEqual(ann != None, True) 
+        self.assertEqual(ann == None, False) 
         
-        self.assertEqual(ann.nextId == SAHPI_OLDEST_ENTRY + 1,True)
+        self.assertEqual(ann.nextId != SAHPI_OLDEST_ENTRY + 1,False)
        
-        self.assertEqual(ann.annentries == None, True)
+        self.assertEqual(ann.annentries != None, False)
 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()
