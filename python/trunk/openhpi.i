@@ -102,7 +102,6 @@ int memcmp(const void *s1, const void *s2, size_t n);
 		return NULL;
 	}
 	$1 = (unsigned char *)PyString_AsString($input);
-	arg1->Length = datalen;
 }
 %typemap (memberin) unsigned char Value[ANY] {
 	memset($1, 0, $1_dim0);
