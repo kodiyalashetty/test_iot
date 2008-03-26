@@ -29,7 +29,6 @@ class TestSequence(unittest.TestCase):
     """
 
     def runTest(self):
-        ann = oh_announcement()
         ann = oh_announcement_create()
 
         self.assertEqual(ann == None, False) 
