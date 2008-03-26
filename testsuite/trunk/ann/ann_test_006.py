@@ -63,13 +63,13 @@ class TestSequence(unittest.TestCase):
             rc = oh_announcement_append(ann, announ)
 
             rc = oh_announcement_ack(ann, 2, SAHPI_MAJOR)
-            self.assertEqual(rc != SA_OK,True)
+            self.assertEqual(rc != SA_OK,False)
                 
             rc = oh_announcement_get(ann, 2, announ)
-            self.assertEqual(rc != SA_OK)
+            self.assertEqual(rc != SA_OK,False)
                 
-            self.assertEqual(announ.Acknowledged != TRUE,True)
+            self.assertEqual(announ.Acknowledged != TRUE,False)
                 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()
 
