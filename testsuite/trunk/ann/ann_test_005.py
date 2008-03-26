@@ -71,17 +71,17 @@ class TestSequence(unittest.TestCase):
                 
             announ.EntryId = SAHPI_FIRST_ENTRY
             announ.Timestamp = 0
-            rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, FALSE, announ)
+            rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, SAHPI_FALSE, announ)
             self.assertEqual(rc != SA_OK,False)
 
-            rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, FALSE, announ)
+            rc = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, SAHPI_FALSE, announ)
             self.assertEqual(rc != SA_OK,False) 
 
             rc = oh_announcement_get(ann, 1, announ)
             self.assertEqual (rc != SA_OK,False)
                 
-            rc = oh_announcement_get_next(ann, SAHPI_CRITICAL, FALSE, announ)
-            self.assertEqual((rc != SA_OK or announ.Severity == SAHPI_CRITICAL),False)
+            rc = oh_announcement_get_next(ann, SAHPI_CRITICAL, SAHPI_FALSE, announ)
+            self.assertEqual((rc != SA_OK or announ.Severity != SAHPI_CRITICAL), False)
 
 if __name__=='__main__':
     unittest.main()

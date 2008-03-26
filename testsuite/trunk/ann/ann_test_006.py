@@ -68,7 +68,7 @@ class TestSequence(unittest.TestCase):
             rc = oh_announcement_get(ann, 2, announ)
             self.assertEqual(rc != SA_OK,False)
                 
-            self.assertEqual(announ.Acknowledged != TRUE,False)
+            self.assertEqual(announ.Acknowledged != SAHPI_TRUE,False)
                 
 if __name__=='__main__':
     unittest.main()
