@@ -65,7 +65,15 @@ class TestSequence(unittest.TestCase):
             rc = oh_announcement_del(ann, 2, SAHPI_MAJOR)
             self.assertEqual(rc != SA_OK,False)
                 
-            self.assertEqual(g_list_length(ann.annentries) != 2,False)
+
+            i = 0
+	    a = SaHpiAnnouncementT(EntryId=SAHPI_FIRST_ENTRY)
+	    error = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, SAHPI_FALSE, a)
+	    while error == SA_OK:
+                i += 1
+                error = oh_announcement_get_next(ann, SAHPI_ALL_SEVERITIES, SAHPI_FALSE, a)
+
+            self.assertEqual(i != 2,False)
                 
 if __name__=='__main__':
     unittest.main()
