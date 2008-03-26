@@ -42,7 +42,7 @@ class TestSequence(unittest.TestCase):
                                         SaHpiEntityT(EntityType=SAHPI_ENT_ROOT, EntityLocation=0)
                                 ]
                         ),
-                        DomaindId=1,
+                        DomainId=1,
                         ResourceId=1,
                         SensorNum=1,
                         EventState=SAHPI_ES_UNSPECIFIED,
