@@ -28,7 +28,6 @@ class TestSequence(unittest.TestCase):
     """
 
     def runTest(self):
-            ann=oh_announcement()
             announ=SaHpiAnnouncementT( # <-- Constructor
                 EntryId=0, # <-- keyword argument example
                 Timestamp=0,
