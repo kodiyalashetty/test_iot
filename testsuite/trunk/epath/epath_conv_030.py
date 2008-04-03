@@ -32,35 +32,21 @@ class TestSequence(unittest.TestCase):
         err = oh_encode_entitypath(test_string, ep)
         
         self.assertEqual (err!=None,True)
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received error=%s\n", oh_lookup_error(err)
         
         self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_BACK_PANEL_BOARD,False) 
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received=%d; Expected=%d\n", ep.Entry[0].EntityType, SAHPI_ENT_BACK_PANEL_BOARD
         
         self.assertEqual (ep.Entry[0].EntityLocation != 36,False) 
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received=%d; Expected=%d\n", ep.Entry[0].EntityLocation, 36
         
         self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_SPEC_PROC_BLADE,False) 
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received=%d; Expected=%d\n", ep.Entry[1].EntityType, SAHPI_ENT_SPEC_PROC_BLADE
         
         self.assertEqual (ep.Entry[1].EntityLocation != 26,False) 
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received=%d; Expected=%d\n", ep.Entry[1].EntityLocation, 26
         
         oh_init_bigtext(bigbuf)
         err = oh_decode_entitypath(ep, bigbuf)
         
         self.assertEqual (err!=None,True)
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received error=%s\n", oh_lookup_error(err)
         
         self.assertEqual (bigbuf.Data!= test_string,False) 
-        #print"  Error! Testcase failed. Line=%d\n", __LINE__
-        #print"  Received Entity Path=%s.\n", bigbuf.Data
-
+        
 if __name__=='__main__':
     unittest.main()
