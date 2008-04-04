@@ -34,7 +34,7 @@ class TestSequence(unittest.TestCase):
     
         self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_BOARD_SET_SPECIFIC,False)
         
-        self.assertEqual (ep.Entry[0].EntityLocation != -5,False)
+        self.assertEqual (ep.Entry[0].EntityLocation!= -5, True)
         
         self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_CHASSIS_SPECIFIC,False)
         
