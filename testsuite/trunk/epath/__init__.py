@@ -10,7 +10,7 @@ try:
 except NameError:
 	restore_dir = None
 
-test_pattern = re.compile('^epath_conv_[0-9]{3}\.py$')
+test_pattern = re.compile('^[a-z]{1}.*\.py$')
 	
 # Compile list of tests to run based on file pattern
 test_files = []
