@@ -24,7 +24,7 @@ class TestSequence(unittest.TestCase):
         bigbuf=oh_big_textbuffer()
         ep=SaHpiEntityPathT()
 
-        print (test_string, 512, "{%d,13}", SAHPI_ENT_ROOT_VALUE*2)
+        test_string = "{%d,13}" % (SAHPI_ENT_ROOT_VALUE*2)
         
         err = oh_encode_entitypath(test_string, ep)
         self.assertEqual (err!=None,True)
@@ -34,7 +34,7 @@ class TestSequence(unittest.TestCase):
         
         self.assertEqual (err!=None,True)
         
-        self.assertEqual (bigbuf.Data!= test_string,True)
+        self.assertEqual (bigbuf.Data!= test_string,False)
         
 if __name__=='__main__':
     unittest.main()
