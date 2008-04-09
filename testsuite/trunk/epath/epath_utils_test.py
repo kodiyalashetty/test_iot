@@ -29,9 +29,9 @@ class TestSequence(unittest.TestCase):
         """
         expected_err = SA_ERR_HPI_INVALID_PARAMS
 
-        err = oh_encode_entitypath(None, ep)
+        err = oh_encode_entitypath(" ", ep)
         
-        self.assertEqual (err != expected_err,False)
+        self.assertEqual (err != expected_err,True)
         
         """
         oh_encode_entitypath - All blanks testcase
