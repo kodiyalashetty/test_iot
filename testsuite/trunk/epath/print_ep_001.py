@@ -23,8 +23,6 @@ class TestSequence(unittest.TestCase):
         offsets = 0
         ep=SaHpiEntityPathT()
         
-        memset(ep, 0, sizeof(SaHpiEntityPathT))
-
         err = oh_print_ep(ep, offsets)
         self.assertEqual (err!=None,True)
         
