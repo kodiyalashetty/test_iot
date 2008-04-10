@@ -67,8 +67,8 @@ class TestSequence(unittest.TestCase):
 
         err = oh_concat_ep(ep1, ep2)
         self.assertEqual  (err!=None,True)
-		
+        
         self.assertEqual (not oh_cmp_ep(ep1, ep3),False)
-		
+        
 if __name__=='__main__':
     unittest.main()

@@ -36,15 +36,15 @@ class TestSequence(unittest.TestCase):
         ep3 = SaHpiEntityPathT()
         ep3.Entry[0].EntityType = SAHPI_ENT_UNKNOWN
         ep3.Entry[0].EntityLocation = 11
-        ep3.Entry[0].EntityType = SAHPI_ENT_POWER_MGMNT
-        ep3.Entry[0].EntityLocation = 99
-        ep3.Entry[1].EntityType = SAHPI_ENT_ROOT
-        ep3.Entry[1].EntityLocation = 0
+        ep3.Entry[1].EntityType = SAHPI_ENT_POWER_MGMNT
+        ep3.Entry[1].EntityLocation = 99
+        ep3.Entry[2].EntityType = SAHPI_ENT_ROOT
+        ep3.Entry[2].EntityLocation = 0
         
         err = oh_concat_ep(ep1, ep2)
         self.assertEqual  (err!=None,True)
         
-        self.assertEqual (not oh_cmp_ep(ep1, ep3),True) 
+        self.assertEqual (not oh_cmp_ep(ep1, ep3),False) 
         
 if __name__=='__main__':
     unittest.main()

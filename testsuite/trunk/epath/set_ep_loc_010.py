@@ -43,7 +43,6 @@ class TestSequence(unittest.TestCase):
         ep.Entry[8].EntityLocation = 900
         ep.Entry[9].EntityType = SAHPI_ENT_SUBRACK
         ep.Entry[9].EntityLocation = 1000
-        ep.Entry[10].EntityType = 0
         
         #SaHpiEntityLocationT
         x = 11000

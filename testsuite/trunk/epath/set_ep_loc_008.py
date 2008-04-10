@@ -25,13 +25,13 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType = SAHPI_ENT_ADD_IN_CARD
         ep.Entry[0].EntityLocation = 101
-        ep.Entry[0].EntityType = SAHPI_ENT_POWER_MODULE
-        ep.Entry[0].EntityLocation = 2020
-        ep.Entry[0].EntityType = SAHPI_ENT_POWER_MGMNT
-        ep.Entry[0].EntityLocation = 30303
-        ep.Entry[0].EntityType = SAHPI_ENT_SUB_CHASSIS
-        ep.Entry[0].EntityLocation = 404040
-        ep.Entry[0].EntityType = 0
+        ep.Entry[1].EntityType = SAHPI_ENT_POWER_MODULE
+        ep.Entry[1].EntityLocation = 2020
+        ep.Entry[2].EntityType = SAHPI_ENT_POWER_MGMNT
+        ep.Entry[2].EntityLocation = 30303
+        ep.Entry[3].EntityType = SAHPI_ENT_SUB_CHASSIS
+        ep.Entry[3].EntityLocation = 404040
+        ep.Entry[4].EntityType = 0
         
         #SaHpiEntityLocationT
         x = 555555
@@ -39,21 +39,21 @@ class TestSequence(unittest.TestCase):
         err = oh_set_ep_location(ep, SAHPI_ENT_ADD_IN_CARD, x)
         self.assertEqual  (err!=None,True)
         
-        self.assertEqual (ep.Entry[0].EntityLocation != x,True)
+        self.assertEqual (ep.Entry[0].EntityLocation != x,False)
         
-        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_ADD_IN_CARD,True)
+        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_ADD_IN_CARD,False)
         
-        self.assertEqual (ep.Entry[1].EntityLocation != 2020,True)
+        self.assertEqual (ep.Entry[1].EntityLocation != 2020,False)
         
-        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_POWER_MODULE,True)
+        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_POWER_MODULE,False)
         
-        self.assertEqual (ep.Entry[2].EntityLocation != 30303,True)
+        self.assertEqual (ep.Entry[2].EntityLocation != 30303,False)
         
-        self.assertEqual (ep.Entry[2].EntityType != SAHPI_ENT_POWER_MGMNT,True)
+        self.assertEqual (ep.Entry[2].EntityType != SAHPI_ENT_POWER_MGMNT,False)
         
-        self.assertEqual (ep.Entry[3].EntityLocation != 404040,True)
+        self.assertEqual (ep.Entry[3].EntityLocation != 404040,False)
         
-        self.assertEqual (ep.Entry[3].EntityType != SAHPI_ENT_SUB_CHASSIS,True)
+        self.assertEqual (ep.Entry[3].EntityType != SAHPI_ENT_SUB_CHASSIS,False)
         
 if __name__=='__main__':
     unittest.main()

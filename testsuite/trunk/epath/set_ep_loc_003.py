@@ -25,24 +25,22 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType = SAHPI_ENT_BIOS
         ep.Entry[0].EntityLocation = 1
-        ep.Entry[0].EntityType = SAHPI_ENT_UNKNOWN
-        ep.Entry[0].EntityLocation = 2
-        ep.Entry[0].EntityType = 0
+        ep.Entry[1].EntityType = SAHPI_ENT_UNKNOWN
+        ep.Entry[1].EntityLocation = 2
         
-        #SaHpiEntityPathT ep = {{{SAHPI_ENT_BIOS, 1},{SAHPI_ENT_UNKNOWN, 2},{0}}};
         #SaHpiEntityLocationT
         x = 777
         
         err = oh_set_ep_location(ep, SAHPI_ENT_UNKNOWN, x)
         self.assertEqual  (err!=None,True)
         
-        self.assertEqual (ep.Entry[1].EntityLocation != x,True)
+        self.assertEqual (ep.Entry[1].EntityLocation != x,False)
         
-        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_UNKNOWN,True)
+        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_UNKNOWN,False)
         
-        self.assertEqual (ep.Entry[0].EntityLocation != 1,True)
+        self.assertEqual (ep.Entry[0].EntityLocation != 1,False)
         
-        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_BIOS,True)
+        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_BIOS,False)
         
 if __name__=='__main__':
     unittest.main()

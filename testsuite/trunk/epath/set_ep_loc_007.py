@@ -25,13 +25,13 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType = SAHPI_ENT_INTERCONNECT
         ep.Entry[0].EntityLocation = 1515
-        ep.Entry[0].EntityType = SAHPI_ENT_PHYSICAL_SLOT
-        ep.Entry[0].EntityLocation = 2525
-        ep.Entry[0].EntityType = SAHPI_ENT_SUBRACK
-        ep.Entry[0].EntityLocation = 3535
-        ep.Entry[0].EntityType = SAHPI_ENT_IO_SUBBOARD
-        ep.Entry[0].EntityLocation = 4545
-        ep.Entry[0].EntityType = 0
+        ep.Entry[1].EntityType = SAHPI_ENT_PHYSICAL_SLOT
+        ep.Entry[1].EntityLocation = 2525
+        ep.Entry[2].EntityType = SAHPI_ENT_SUBRACK
+        ep.Entry[2].EntityLocation = 3535
+        ep.Entry[3].EntityType = SAHPI_ENT_IO_SUBBOARD
+        ep.Entry[3].EntityLocation = 4545
+        ep.Entry[4].EntityType = 0
     
         #SaHpiEntityLocationT
         x = 98765  
@@ -39,21 +39,21 @@ class TestSequence(unittest.TestCase):
         err = oh_set_ep_location(ep, SAHPI_ENT_PHYSICAL_SLOT, x)
         self.assertEqual  (err!=None,True)
         
-        self.assertEqual (ep.Entry[1].EntityLocation != x,True)
+        self.assertEqual (ep.Entry[1].EntityLocation != x,False)
         
-        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_PHYSICAL_SLOT,True)
+        self.assertEqual (ep.Entry[1].EntityType != SAHPI_ENT_PHYSICAL_SLOT,False)
         
-        self.assertEqual (ep.Entry[0].EntityLocation != 1515,True)
+        self.assertEqual (ep.Entry[0].EntityLocation != 1515,False)
         
-        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_INTERCONNECT,True)
+        self.assertEqual (ep.Entry[0].EntityType != SAHPI_ENT_INTERCONNECT,False)
         
-        self.assertEqual (ep.Entry[2].EntityLocation != 3535,True)
+        self.assertEqual (ep.Entry[2].EntityLocation != 3535,False)
         
-        self.assertEqual (ep.Entry[2].EntityType != SAHPI_ENT_SUBRACK,True)
+        self.assertEqual (ep.Entry[2].EntityType != SAHPI_ENT_SUBRACK,False)
         
-        self.assertEqual (ep.Entry[3].EntityLocation != 4545,True)
+        self.assertEqual (ep.Entry[3].EntityLocation != 4545,False)
         
-        self.assertEqual (ep.Entry[3].EntityType != SAHPI_ENT_IO_SUBBOARD,True)
+        self.assertEqual (ep.Entry[3].EntityType != SAHPI_ENT_IO_SUBBOARD,False)
         
 if __name__=='__main__':
     unittest.main()

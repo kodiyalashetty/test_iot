@@ -25,7 +25,7 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType = 0
         ep.Entry[0].EntityLocation = 0
-        #SaHpiEntityPathT ep = {{{0,0}}}
+        
         #SaHpiEntityLocationT 
         x = 3
 
