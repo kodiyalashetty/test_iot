@@ -24,13 +24,12 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType = SAHPI_ENT_FAN
         ep.Entry[0].EntityLocation = 4
-        ep.Entry[0].EntityType = SAHPI_ENT_SBC_BLADE
-        ep.Entry[0].EntityLocation = 3
-        ep.Entry[0].EntityType = SAHPI_ENT_RACK
-        ep.Entry[0].EntityLocation = 2
-        ep.Entry[0].EntityType = SAHPI_ENT_ROOT
-        ep.Entry[0].EntityLocation = 1
-        ep.Entry[0].EntityType = 0
+        ep.Entry[1].EntityType = SAHPI_ENT_SBC_BLADE
+        ep.Entry[1].EntityLocation = 3
+        ep.Entry[2].EntityType = SAHPI_ENT_RACK
+        ep.Entry[2].EntityLocation = 2
+        ep.Entry[3].EntityType = SAHPI_ENT_ROOT
+        ep.Entry[3].EntityLocation = 1
 
         err = oh_print_ep(ep, offsets)
         self.assertEqual (err!=None,True)

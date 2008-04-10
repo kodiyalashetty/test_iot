@@ -33,15 +33,15 @@ class TestSequence(unittest.TestCase):
         ep = SaHpiEntityPathT()
         ep.Entry[0].EntityType= SAHPI_ENT_SYS_MGMNT_MODULE
         ep.Entry[0].EntityLocation = 100
-        ep.Entry[0].EntityType= SAHPI_ENT_SUB_CHASSIS
-        ep.Entry[0].EntityLocation = 99
+        ep.Entry[1].EntityType= SAHPI_ENT_SUB_CHASSIS
+        ep.Entry[1].EntityLocation = 99
         
         # Multiple character/digit expansion testcase 
         in_oid = "1.x.3.x"
         expected_oid = "1.99.3.100"
 
         oid = oh_derive_string(ep, 0, 10, in_oid)
-        self.assertEqual (expected_oid!= oid,True) 
+        self.assertEqual (expected_oid!= oid,False) 
         oid=None
         #g_free(oid)
 
@@ -50,7 +50,7 @@ class TestSequence(unittest.TestCase):
         expected_oid = "1.109.3.110"
 
         oid = oh_derive_string(ep, 10, 10, in_oid)
-        self.assertEqual (expected_oid!= oid,True)
+        self.assertEqual (expected_oid!= oid,False)
         oid=None
         #g_free(oid)
 
@@ -59,7 +59,7 @@ class TestSequence(unittest.TestCase):
         expected_oid = "1.6D.3.6E"
 
         oid = oh_derive_string(ep, 10, 16, in_oid)
-        self.assertEqual (expected_oid!= oid,True)
+        self.assertEqual (expected_oid!= oid,False)
         oid=None
         #g_free(oid)
 
@@ -68,7 +68,7 @@ class TestSequence(unittest.TestCase):
         expected_oid = "1.99.3.100"
 
         oid = oh_derive_string(ep, 0, 10, in_oid)
-        self.assertEqual (expected_oid, oid,True)
+        self.assertEqual (expected_oid!= oid,False)
         oid=None
         #g_free(oid)
 
@@ -77,14 +77,14 @@ class TestSequence(unittest.TestCase):
         ep2 = SaHpiEntityPathT()
         ep2.Entry[0].EntityType = SAHPI_ENT_SYS_MGMNT_MODULE
         ep2.Entry[0].EntityLocation =11
-        ep2.Entry[0].EntityType = SAHPI_ENT_SUB_CHASSIS
-        ep2.Entry[0].EntityLocation = 14
+        ep2.Entry[1].EntityType = SAHPI_ENT_SUB_CHASSIS
+        ep2.Entry[1].EntityLocation = 14
         
         in_oid = "1.x.3.x"
         expected_oid = "1.E.3.B"
 
         oid = oh_derive_string(ep2, 0, 16, in_oid)
-        self.assertEqual (expected_oid!= oid,True)
+        self.assertEqual (expected_oid!= oid,False)
         oid=None
         #g_free(oid)
     
