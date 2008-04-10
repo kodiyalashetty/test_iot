@@ -23,8 +23,8 @@ class TestSequence(unittest.TestCase):
 
     def runTest(self):
         y = 77002
-        z = 3;
-        i = 0;
+        z = 3
+        i = 0
         
         ep=SaHpiEntityPathT()
         #SaHpiEntityTypeT
