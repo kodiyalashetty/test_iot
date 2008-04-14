@@ -15,6 +15,7 @@ test_pattern = re.compile('^[a-z]{1}.*\.py$')
 # Compile list of tests to run based on file pattern
 test_files = []
 for t in os.listdir(os.curdir):
+	if t.startswith('gen_'): continue # Skip generators
 	if test_pattern.search(t):
 		test_files.append(t)
 
@@ -23,7 +24,10 @@ suite = unittest.TestSuite()
 test_files.sort()
 for t in test_files:
 	test = __import__(t[:-3]) # remove '.py' ending for import call
-	suite.addTest(test.TestSequence())
+	try:
+	    suite.addTest(test.TestSequence())
+	except:
+	    print t; raise
 
 # Run test suite
 unittest.TextTestRunner().run(suite)
