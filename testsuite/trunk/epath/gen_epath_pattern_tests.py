@@ -95,6 +95,7 @@ results = [True, True, True, True, True, True, False, False, True, True, True,
            True, True, True, True, True, True, True]
 
 header = """
+#!/usr/bin/env python
  (C) Copyright IBM Corp. 2008
  
  This program is distributed in the hope that it will be useful,
@@ -129,35 +130,38 @@ class TestSequence(unittest.TestCase):
         sys.argv[0]
         footer = """
         
-        #    return 0;  
+if __name__=='__main__':
+    unittest.main()
         """
         
-
         body = """
+import unittest
+from openhpi import *
+
+class TestSequence(unittest.TestCase):
+        
+    def runTest(self):
         ep_str = "%(e)s"
         epp_str = "%(p)s"
         epp=oh_entitypath_pattern()
         ep=SaHpiEntityPathT()
-        #SaErrorT error = SA_OK
+        error = SA_OK
         #SaHpiBoolT
         match = "%(m)s"
 
         error = oh_encode_entitypath(ep_str, ep)
-        self.assertEqual  (err == SA_OK,True) 
-        #if (error) { printf("Encoding of entitypath failed.\\n"); return -1; }
-
-        error = oh_compile_entitypath_pattern(epp_str, epp)
-        self.assertEqual  (err == SA_OK,True) 
-        #if (error) { printf("Compilation of pattern failed.\\n"); return -1; }
-
-        self.assertEqual (oh_match_entitypath_pattern(epp, ep) != match,False)
-        #return -1; 
-            """
+        self.assertEqual  (error == SA_OK,True) 
         
-    
-    m = 0
-    for e in entitypaths:
-        for p in patterns:
+        error = oh_compile_entitypath_pattern(epp_str, epp)
+        self.assertEqual  (error == SA_OK,True) 
+        
+        self.assertEqual (oh_match_entitypath_pattern(epp, ep) != match,True)
+        
+        """
+        
+        m = 0
+        for e in entitypaths:
+            for p in patterns:
                 testfile = open('epath_pattern_%03i.py' % m,'w')
                 if not testfile:
                         print 'Error opening file'
@@ -168,3 +172,6 @@ class TestSequence(unittest.TestCase):
                 testfile.write(header+(body % vals)+footer)
                 testfile.close()
                 m += 1
+
+if __name__=='__main__':
+    unittest.main()
