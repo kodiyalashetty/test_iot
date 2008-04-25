@@ -39,7 +39,7 @@ class TestSequence(unittest.TestCase):
         # test oh_el_append with el.info.Size != OH_EL_MAX_SIZE && g_list_length(el.list) == el.info.Size
 
         el = oh_el_create(20)
-        el.info.Size = len(el.list)
+        #el.info.Size = len(el.list)
         event.Source = 1
         event.EventType = SAHPI_ET_USER
         event.Timestamp = SAHPI_TIME_UNSPECIFIED

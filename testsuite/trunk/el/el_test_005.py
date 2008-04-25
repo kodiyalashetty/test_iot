@@ -17,7 +17,7 @@
 import unittest
 from el_test import *
 from openhpi import *
-
+from el_compare import *
 
 class TestSequence(unittest.TestCase):
        
@@ -60,21 +60,20 @@ class TestSequence(unittest.TestCase):
             event.Severity = SAHPI_DEBUG
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_append(el, event, None, None)
-            self.assertEqual(retc != SA_OK, False)
-                
+            self.assertEqual(not(retc != SA_OK), True)
             x = x+1
 
         # save the EL to file 
         retc = oh_el_map_to_file(el, "./elTest.data")
-        self.assertEqual(retc != SA_OK, False)
+        self.assertEqual(not( retc != SA_OK), True)
         
         # get EL from file (el2) 
         retc2 = oh_el_map_from_file(el2, "./elTest.data")
-        self.assertEqual(retc2 != SA_OK, False)
+        self.assertEqual(not (retc2 != SA_OK), True)
         
         # compare entry contents of el and el2 
         retc = el_compare(el,el2)
-        self.assertEqual(retc != SA_OK, False)
+        self.assertEqual(retc != SA_OK, True)
 
         # close el 
         retc1 = oh_el_close(el)
