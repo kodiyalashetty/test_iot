@@ -15,7 +15,7 @@
 """
 
 import unittest
-from el_test import *
+from el_compare import *
 from openhpi import *
 
 
@@ -61,16 +61,16 @@ class TestSequence(unittest.TestCase):
             event.Severity = SAHPI_DEBUG
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_append(el, event, None, None)
-            self.assertEqual(retc != SA_OK, False)
+            self.assertEqual(not(retc != SA_OK), True)
             x = x+1
         
         # save the EL to file 
         retc1 = oh_el_map_to_file(el, "./elTest.data")
-        self.assertEqual(retc1 != SA_OK, False)
+        self.assertEqual(not(retc1 != SA_OK), True)
         
         # get EL from file (el2)
         retc2 = oh_el_map_from_file(el2, "./elTest.data")
-        self.assertEqual(retc2 != SA_OK, False)
+        self.assertEqual(not (retc2 != SA_OK), True)
         
         # add 5 more events to el 
         for x in range (5, 10):
@@ -80,7 +80,7 @@ class TestSequence(unittest.TestCase):
             event.Severity = SAHPI_DEBUG
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_append(el, event, None, None)
-            self.assertEqual(retc != SA_OK, False)
+            self.assertEqual(not (retc != SA_OK), True)
             x = x+1
                     
         # add 5 more events to el2 
@@ -91,25 +91,26 @@ class TestSequence(unittest.TestCase):
             event.Severity = SAHPI_DEBUG
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_append(el2, event, None, None)
-            self.assertEqual(retc != SA_OK, False)
+            self.assertEqual(not (retc != SA_OK), True)
             x = x+1
 
         # verify number of entries in el and el2 is 10 
+        
         #self.assertEqual(len(el.list) != 10, False)
         
         #self.assertEqual(llen(el2.list) != 10, False)
                  
         # compare entry contents of el and el2 
         retc = el_compare(el,el2)
-        self.assertEqual(retc != SA_OK, False)
+        self.assertEqual(not (retc != SA_OK), False)
     
         # close el 
         retc1 = oh_el_close(el)
-        self.assertEqual(retc1 != SA_OK, False)
+        self.assertEqual(not (retc1 != SA_OK), True)
         
         # close el2 
         retc2 = oh_el_close(el2)
-        self.assertEqual(retc2 != SA_OK, False)
+        self.assertEqual(not (retc2 != SA_OK), True)
        
         return 0
 
