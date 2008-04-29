@@ -15,7 +15,6 @@
 """
 
 import unittest
-from el_test import *
 from openhpi import *
 from el_compare import *
 

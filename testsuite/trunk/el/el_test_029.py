@@ -31,8 +31,6 @@ class TestSequence(unittest.TestCase):
     def runTest(self):
         
         el = oh_el()
-        entry = oh_el_entry()
-        prev = next = myentry = None
         retc = None
 
         # set entryid < myentry->event.EntryId 
@@ -42,10 +40,11 @@ class TestSequence(unittest.TestCase):
             print "ERROR: oh_el_map_from_file failed."
             return 1
         
-        #entry = (oh_el_entry *)(g_list_first(el->list)->data)
-        myentry = entry.event.EntryId - 1
+        retc, prev, next, entry = oh_el_get(el, SAHPI_FIRST_ENTRY)
+        myentry = entry.event.EntryId
+	entry.event.EntryId -= 1
     
-        retc,prev,next,entry = oh_el_get(el,myentry)
+        retc, prev, next, entry = oh_el_get(el, myentry)
         if (retc == SA_OK):
             print "ERROR: oh_el_get failed."
             return 1

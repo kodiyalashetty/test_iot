@@ -14,7 +14,6 @@
     Jayashree Padmanabhan <jayshree@in.ibm.com>
 """
 
-import unittest
 from openhpi import *
 
 def el_compare(el1, el2):
@@ -24,16 +23,6 @@ def el_compare(el1, el2):
         prev1= prev2 = next1 = next2 = cur1 = cur2 = None
         retc = None
  
-##        if (g_list_length(el1->list) != g_list_length(el2->list)) {
-##        	err("ERROR: el1->list != el2->list.");
-##        	return 1;
-##        }
-
-##        if ((g_list_length(el1->list) == 0) &&
-##	    (g_list_length(el2->list) == 0)) {
-##		return 0;
-##        }
-
         next1 = SAHPI_OLDEST_ENTRY
         next2 = SAHPI_OLDEST_ENTRY
         while next1 != SAHPI_NO_MORE_ENTRIES:
@@ -69,6 +58,3 @@ def el_compare(el1, el2):
                 print "ERROR: Rdr from el1 and el2 do not match."
                 return 1
  
-            
-if __name__=='__main__':
-        unittest.main()  
