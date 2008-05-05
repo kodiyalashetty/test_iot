@@ -54,17 +54,13 @@ class TestSequence(unittest.TestCase):
         for x in range (0,10):
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_append(el, event, None, None)
-            if (retc != SA_OK):
-                print "ERROR: oh_el_append failed."
-                return 1
+            self.assertEqual (retc != SA_OK,False)
+                
             x = x+1
         
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
-        return 0
-
+        self.assertEqual (retc != SA_OK,False)
+        
 if __name__=='__main__':
         unittest.main()  

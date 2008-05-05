@@ -38,17 +38,11 @@ class TestSequence(unittest.TestCase):
         el = oh_el_create(20)
 
         retc = oh_el_map_from_file(el, "./notthere.data")
-        if (retc == SA_OK):
-            print "ERROR: oh_el_map_from_file failed."
-            return 1
-
+        self.assertEqual(retc == SA_OK,False)
+        
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
     unittest.main()  

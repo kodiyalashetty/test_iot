@@ -46,9 +46,7 @@ class TestSequence(unittest.TestCase):
 
         # get EL from file (el) 
         retc = oh_el_map_from_file(el, "./elTest.data")
-        if (retc != SA_OK):
-            print "ERROR: oh_el_map_from_file failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
         # add 5 more events to el 
         for x in range (0,5):
@@ -58,18 +56,13 @@ class TestSequence(unittest.TestCase):
             event.Severity = SAHPI_DEBUG
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
             retc = oh_el_prepend(el, event, None, None)
-            if (retc != SA_OK):
-                print "ERROR: oh_el_append failed."
-                return 1
+            self.assertEqual (retc != SA_OK,False)
+            
             x = x+1        
 
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
         unittest.main()  

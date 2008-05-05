@@ -45,10 +45,7 @@ class TestSequence(unittest.TestCase):
         event.Severity = SAHPI_DEBUG
         event.EventDataUnion.UserEvent.UserEventData.Data = data[0]
         retc = oh_el_append(el, event, None, None)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_append failed."
-            return 1
-        return 0
-
+        self.assertEqual (retc == SA_OK,False)
+        
 if __name__=='__main__':
         unittest.main()  

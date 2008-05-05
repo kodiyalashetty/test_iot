@@ -35,16 +35,10 @@ class TestSequence(unittest.TestCase):
         # map el from file
         el = oh_el_create(20)
         retc = oh_el_map_from_file(el, "./elTest.data")
-        if (retc != SA_OK):
-            print "ERROR: oh_el_map_from_file failed."
-            return 1    
-        
+        self.assertEqual (retc != SA_OK,False)
+            
         retc = oh_el_overflowreset(el)
-        if (retc != SA_OK):
-            print "ERROR: el info.OverflowFlagreset failed."
-            return 1
-        
-        return 0
-
+        self.assertEqual (retc != SA_OK,False)
+            
 if __name__=='__main__':
     unittest.main()  

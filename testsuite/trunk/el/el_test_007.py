@@ -52,32 +52,21 @@ class TestSequence(unittest.TestCase):
 
         # modifies the timestamp basetime 
         retc = oh_el_timeset(el, timestamp)
-        if (retc != SA_OK):
-            print "ERROR: timeset failed"
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
         retc = oh_el_append(el, event, None, None)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_append failed."
-            return 1
-               
+        self.assertEqual (retc != SA_OK,False)
+        
         # get el info 
         retc = oh_el_info(el, info)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_info failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
         # Verifies timestamp basetime worked 
-        if (info.UpdateTimestamp < timestamp):
-            print "ERROR: Timestamp basetime failed"
-            return 1
-
+        self.assertEqual (info.UpdateTimestamp < timestamp,False)
+        
         # close el without saving to file
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
-        return 0
-
+        self.assertEqual (retc != SA_OK,False)
+        
 if __name__=='__main__':
         unittest.main()  

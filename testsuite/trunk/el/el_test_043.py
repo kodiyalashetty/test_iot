@@ -37,17 +37,11 @@ class TestSequence(unittest.TestCase):
         el = oh_el_create(20)
 
         retc = oh_el_timeset(el, SAHPI_TIME_MAX_RELATIVE + 20)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_timeset failed"
-            return 1
-    
+        self.assertEqual (retc != SA_OK,False)
+            
         # close el without saving to file
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
     unittest.main()  

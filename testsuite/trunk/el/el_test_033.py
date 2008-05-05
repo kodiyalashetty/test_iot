@@ -36,11 +36,7 @@ class TestSequence(unittest.TestCase):
         el = None
 
         retc = oh_el_overflowreset(el)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_overflowreset failed."
-            return 1
+        self.assertEqual (retc == SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
     unittest.main()  

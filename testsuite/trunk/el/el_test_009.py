@@ -38,11 +38,7 @@ class TestSequence(unittest.TestCase):
 
         # close el without saving to file
         retc = oh_el_close(el)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc == SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
-        unittest.main()  
+        unittest.main()

@@ -39,11 +39,7 @@ class TestSequence(unittest.TestCase):
         el = None
 
         retc = oh_el_timeset(el, timestamp + 20)
-        if (retc == SA_OK):
-            dbg("ERROR: oh_el_timeset failed")
-            return 1
-
-        return 0
-
+        self.assertEqual (retc == SA_OK,False)
+        
 if __name__=='__main__':
     unittest.main()  

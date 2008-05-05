@@ -53,29 +53,21 @@ class TestSequence(unittest.TestCase):
             event.EventDataUnion.UserEvent.UserEventData.Data = data[x]
 
             retc = oh_el_append(el, event, None, None)
-            if (retc != SA_OK):
-                print "ERROR: oh_el_append failed."
-                return 1
+            self.assertEqual (retc != SA_OK,False)
+            
             x = x+1
             
         # clear the el 
         retc = oh_el_clear(el)
-        if (retc != SA_OK):
-            print "ERROR: el clear failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
 
         # verify el list nodes are cleared 
-        if(el.list != None):
-            print "ERROR: el clear failed."
-            return 1
-    
+        self.assertEqual(el.list != None,False)
+        
         # close el without saving to file
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
-        return 0
-
+        self.assertEqual (retc != SA_OK,False)
+        
 if __name__=='__main__':
         unittest.main()  
