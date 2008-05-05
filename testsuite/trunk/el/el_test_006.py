@@ -112,7 +112,5 @@ class TestSequence(unittest.TestCase):
         retc2 = oh_el_close(el2)
         self.assertEqual(not (retc2 != SA_OK), True)
        
-        return 0
-
 if __name__=='__main__':
         unittest.main()  

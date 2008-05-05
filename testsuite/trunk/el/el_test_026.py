@@ -38,23 +38,15 @@ class TestSequence(unittest.TestCase):
         # set prev == None
         el = oh_el_create(20)
         retc = oh_el_map_from_file(el, "./elTest.data")
-        if (retc != SA_OK):
-            print "ERROR: oh_el_map_from_file failed."
-            return 1
-        
+        self.assertEqual (retc != SA_OK,False)
+            
         #entry = (oh_el_entry *)(g_list_first(el->list)->data)
         retc,prev,next,entry = oh_el_get(el, entry.event.EntryId)
-        if (retc == SA_OK):
-        	print "ERROR: oh_el_get failed."
-        	return 1
-        
+        self.assertEqual (retc == SA_OK,True)
+        	
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
         unittest.main()  

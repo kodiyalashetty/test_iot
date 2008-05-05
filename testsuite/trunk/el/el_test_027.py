@@ -41,17 +41,11 @@ class TestSequence(unittest.TestCase):
         
         # fetch the event for el
         retc,prev,next,entry = oh_el_get(el, SAHPI_FIRST_ENTRY)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_get failed."
-            return 1
+        self.assertEqual (retc == SA_OK,False)
         
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
+        self.assertEqual (retc != SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
         unittest.main()  

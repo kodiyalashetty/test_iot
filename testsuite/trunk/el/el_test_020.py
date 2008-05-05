@@ -46,24 +46,16 @@ class TestSequence(unittest.TestCase):
 
         event.EventDataUnion.UserEvent.UserEventData.Data = data[0]
         retc = oh_el_prepend(el, event, None, None)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_prepend failed."
-            return 1
-        
+        self.assertEqual (retc != SA_OK,False)
+            
         event.EventDataUnion.UserEvent.UserEventData.Data = data[1]
 
         retc = oh_el_prepend(el, event, None, None)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_prepend failed."
-            return 1
-
+        self.assertEqual (retc == SA_OK,False)
+            
         # close el 
         retc = oh_el_close(el)
-        if (retc != SA_OK):
-            print "ERROR: oh_el_close on el failed."
-            return 1
-        
-        return 0
-
+        self.assertEqual (retc != SA_OK,False)
+            
 if __name__=='__main__':
         unittest.main()  

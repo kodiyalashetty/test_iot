@@ -40,11 +40,7 @@ class TestSequence(unittest.TestCase):
         el = None
 
         retc, prev, next, entry = oh_el_get(el, SAHPI_NEWEST_ENTRY)
-        if (retc == SA_OK):
-            print "ERROR: oh_el_get failed."
-            return 1
+        self.assertEqual (retc == SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
         unittest.main()  

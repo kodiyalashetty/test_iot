@@ -38,11 +38,7 @@ class TestSequence(unittest.TestCase):
 
         # save the EL to file 
         retc = oh_el_map_to_file(el, "./elTest.data")
-        if (retc == SA_OK):
-            print "ERROR: oh_el_map_to_file failed."
-            return 1
+        self.assertEqual (retc == SA_OK,False)
         
-        return 0
-
 if __name__=='__main__':
     unittest.main()  
