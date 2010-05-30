@@ -1,0 +1,92 @@
+QSplitter#HpiOuterSplitter
+{
+    background: white;
+    border-style : none;
+}
+
+QSplitter#HpiInnerSplitter
+{
+    background: white;
+    border-style : none;
+}
+
+QSplitter::handle:vertical#HpiSplitter
+{
+    background: white;
+}
+
+cRollupButton
+{
+    background: qlineargradient( x1: 0, y1: 0, x2: 1, y2: 0,
+                                 stop: 0 #FFFFFF,
+                                 stop: 0.1 #AEDB9F,
+                                 stop: 1 #FFFFFF );
+    border-style : none;
+    font: oblique;
+    text-align: left;
+    text-decoration: underline;
+}
+
+cRollupButton:flat
+{
+    border-style : none;
+}
+
+QLabel#HpiInfoHeader
+{
+    background: qlineargradient( x1: 0, y1: 0, x2: 1, y2: 0,
+                                 stop: 0 #FFFFFF,
+                                 stop: 0.1 #AEDB9F,
+                                 stop: 1 #FFFFFF );
+    border-style : none;
+    font: oblique;
+    text-align: left;
+    text-decoration: underline;
+}
+
+cInfoWidget#HpiInfoWidget
+{
+    background: #F5FFEF; 
+    border-style : none;
+}
+
+QPushButton#HpiAction
+{
+    background: qlineargradient( x1: 0, y1: 0, x2: 1, y2: 0,
+                                 stop: 0 #FFFFFF,
+                                 stop: 0.1 #AEDB9F,
+                                 stop: 0.2 #FFFFFF,
+                                 stop: 1 #FFFFFF );
+    text-align: left;
+    border-style : none;
+}
+
+QPushButton#HpiAction:flat
+{
+    border-style : none;
+}
+
+QLabel#HpiEntriesHeader
+{
+    background: qlineargradient( x1: 0, y1: 0, x2: 1, y2: 0,
+                                 stop: 0 #FFFFFF,
+                                 stop: 0.1 #AEDB9F,
+                                 stop: 1 #FFFFFF );
+    border-style : none;
+    font: oblique;
+    text-align: left;
+    text-decoration: underline;
+}
+
+QListWidget#HpiEntriesWidget
+{
+    background: white;
+    border-style : none;
+}
+
+QTextEdit#HpiLogArea
+{
+    background: #EFEFE5;
+    border-style : none;
+}
+
