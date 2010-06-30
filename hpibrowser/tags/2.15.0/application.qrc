@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>icons/UP.png</file>
+        <file>icons/DOWN.png</file>
+        <file>icons/ENTRY.png</file>
+        <file>application.css</file>
+    </qresource>
+</RCC>
+
