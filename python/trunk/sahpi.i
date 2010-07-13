@@ -2235,10 +2235,8 @@ typedef enum {
                             time.  User can try again later.  */
 } SaHpiDimiReadyT;
 
-typedef SaHpiUint32T SaHpiDimiTotalTestsT;
-
 typedef struct {
-    SaHpiDimiTotalTestsT    NumberOfTests;  /* It is recommended that the DIMI
+    SaHpiUint32T        NumberOfTests;  /* It is recommended that the DIMI
                                                 advertise all available tests
                                                 regardless of ServiceImpact or
                                                 Service OS */
