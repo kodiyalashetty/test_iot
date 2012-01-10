@@ -9,7 +9,7 @@ openhpi-devel@lists.sourceforge.net
 Build Requirements
 ---------------------------------------------------------------------------
 
-- G++ that supports TR1
+- C++ compiler
 - QT4
 - OpenHPI >= 2.15.0
 

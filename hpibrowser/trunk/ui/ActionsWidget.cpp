@@ -43,7 +43,7 @@ cActionsWidget::cActionsWidget( cHpiProvider& provider )
 
     const QIcon& aicon = cIconCache::Instance()->GetIcon( "XXX" );
 
-    for ( unsigned int i = 0; i < MAX_ACTIONS; ++i ) {
+    for ( unsigned int i = 0; i < MaxActionsInWidget; ++i ) {
         QPushButton * btn = new QPushButton( aicon, "Action" );
         btn->hide();
         btn->setObjectName( "HpiAction" );
@@ -66,11 +66,11 @@ void cActionsWidget::Update()
     m_provider.GetActions( actions );
 
     m_anum = 0;
-    for ( unsigned int i = 0; i < MAX_ACTIONS; ++i ) {
+    for ( unsigned int i = 0; i < MaxActionsInWidget; ++i ) {
         m_mapper->removeMappings( m_abuttons[i] );
         m_abuttons[i]->hide();
     }
-    m_anum = std::min( MAX_ACTIONS, actions.size() );
+    m_anum = std::min( MaxActionsInWidget, actions.size() );
     for ( unsigned int i = 0; i < m_anum; ++i ) {
         m_mapper->setMapping( m_abuttons[i], i );
         m_short_actions[i] = HpiActionShort( actions[i] );
@@ -81,7 +81,7 @@ void cActionsWidget::Update()
 
 void cActionsWidget::clicked( int button_id )
 {
-    if ( ( button_id >= 0 ) && ( button_id < m_anum ) ) {
+    if ( ( button_id >= 0 ) && ( button_id < (int)m_anum ) ) {
         m_provider.ExecuteAction( m_short_actions[button_id] );
     } else {
         // TODO

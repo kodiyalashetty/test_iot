@@ -19,7 +19,7 @@
 #define __ICON_CACHE_H__
 
 #include <string>
-#include <tr1/unordered_map>
+#include <map>
 
 #include <QIcon>
 
@@ -45,7 +45,7 @@ private:
     // data
     std::string m_icon_dir_path;
 
-    typedef std::tr1::unordered_map<std::string, QIcon> IconCacheType;
+    typedef std::map<std::string, QIcon> IconCacheType;
     IconCacheType m_cache;
 };
 
