@@ -18,7 +18,7 @@
 #ifndef __ENTRIES_WIDGET_H__
 #define __ENTRIES_WIDGET_H__
 
-#include <tr1/unordered_map>
+#include <map>
 
 #include <QListWidget>
 
@@ -48,7 +48,7 @@ private:
     // data
     cHpiProvider& m_provider;
 
-    typedef std::tr1::unordered_map<int, HpiEntryShort> ShortEntries;
+    typedef std::map<int, HpiEntryShort> ShortEntries;
     ShortEntries m_short_entries;
 };
 

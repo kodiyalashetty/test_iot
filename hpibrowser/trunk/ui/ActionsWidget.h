@@ -30,6 +30,9 @@ class QVBoxLayout;
 /************************************************
  * class cActionsWidget
  ***********************************************/
+const unsigned int MaxActionsInWidget = 13;
+
+
 class cActionsWidget : public QWidget
 {
     Q_OBJECT
@@ -47,14 +50,12 @@ private slots:
 private:
 
     // data
-    static const size_t MAX_ACTIONS = 13;
-
     cHpiProvider&   m_provider;
 
     QSignalMapper * m_mapper;
     unsigned int    m_anum;
-    QPushButton *   m_abuttons[MAX_ACTIONS];
-    HpiActionShort  m_short_actions[MAX_ACTIONS];
+    QPushButton *   m_abuttons[MaxActionsInWidget];
+    HpiActionShort  m_short_actions[MaxActionsInWidget];
     QVBoxLayout *   m_layout;
 };
 

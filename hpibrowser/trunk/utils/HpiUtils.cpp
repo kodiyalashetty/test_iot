@@ -171,8 +171,12 @@ static void SaHpiTime2String( SaHpiTimeT t, std::wstring& txt )
         wchar_t buf[128];
         time_t tt = (time_t)( t / 1000000000LL );
         struct tm tm;
+#ifndef _WIN32
         localtime_r( &tt, &tm);
-        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%F %T", &tm );
+#else /* _WIN32 */
+        localtime_s( &tm, &tt );
+#endif /* _WIN32 */
+        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S", &tm );
         txt = buf;
     } else if ( t == SAHPI_TIME_UNSPECIFIED ) {
         txt = L"Unspecified";
@@ -182,8 +186,12 @@ static void SaHpiTime2String( SaHpiTimeT t, std::wstring& txt )
         wchar_t buf[128];
         time_t tt = (time_t)( t / 1000000000LL );
         struct tm tm;
+#ifndef _WIN32
         localtime_r( &tt, &tm);
-        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%F %T (Relative)", &tm );
+#else /* _WIN32 */
+        localtime_s( &tm, &tt );
+#endif /* _WIN32 */
+        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S (Relative)", &tm );
         txt = buf;
     }
 }

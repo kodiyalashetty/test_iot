@@ -19,7 +19,7 @@
 #define __HPI_H__
 
 #include <stack>
-#include <tr1/unordered_map>
+#include <map>
 
 #include <SaHpi.h>
 
@@ -63,7 +63,7 @@ private:
 
 
     // data
-    typedef std::tr1::unordered_map<SaHpiDomainIdT, SaHpiSessionIdT> Sessions;
+    typedef std::map<SaHpiDomainIdT, SaHpiSessionIdT> Sessions;
     Sessions m_sessions;
 
     HpiEntryCtx             m_ctx;
