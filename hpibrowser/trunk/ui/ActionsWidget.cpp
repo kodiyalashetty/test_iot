@@ -70,7 +70,7 @@ void cActionsWidget::Update()
         m_mapper->removeMappings( m_abuttons[i] );
         m_abuttons[i]->hide();
     }
-    m_anum = std::min( MaxActionsInWidget, actions.size() );
+    m_anum = std::min<unsigned int>( MaxActionsInWidget, actions.size() );
     for ( unsigned int i = 0; i < m_anum; ++i ) {
         m_mapper->setMapping( m_abuttons[i], i );
         m_short_actions[i] = HpiActionShort( actions[i] );
