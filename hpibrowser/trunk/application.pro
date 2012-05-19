@@ -1,5 +1,13 @@
-OPENHPI_PREFIX = /usr/local
-PREFIX = /usr/local
+unix {
+    OPENHPI_PREFIX = /usr/local
+    PREFIX = /usr/local
+}
+
+win32 {
+    OPENHPI_PREFIX = ./openhpi-3.1.0-win32-x86
+    PREFIX = ./hpibrowser-3.1.1-win32-x86
+}
+
 TARGET = hpibrowser
 OUTPUT_DIR = .output
 
@@ -10,12 +18,28 @@ TEMPLATE = app
 OBJECTS_DIR = $$OUTPUT_DIR
 MOC_DIR = $$OUTPUT_DIR
 RCC_DIR = $$OUTPUT_DIR
-INCLUDEPATH += ./include $$OPENHPI_PREFIX/include/openhpi
-LIBS += -L$$OPENHPI_PREFIX/lib -lopenhpi
+INCLUDEPATH += ./include
+
+unix {
+    INCLUDEPATH += $$OPENHPI_PREFIX/include/openhpi
+    LIBS += -L$$OPENHPI_PREFIX/lib -lopenhpi
+}
+
+win32 {
+    INCLUDEPATH += $$OPENHPI_PREFIX
+    LIBS += -L$$OPENHPI_PREFIX -lopenhpi
+}
+
 RESOURCES = application.qrc
 
-target.files = $$TARGET
-target.path = $$PREFIX/bin
+unix {
+    target.path = $$PREFIX/bin
+}
+
+win32 {
+    target.path = $$PREFIX
+}
+
 INSTALLS += target
 
 # Input
