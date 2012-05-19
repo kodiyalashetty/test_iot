@@ -21,6 +21,11 @@
 #include <HpiUtils.h>
 
 
+#ifdef _WIN32
+#define swprintf _snwprintf
+#endif
+
+
 eHpiEntryType RdrType2EntryType( SaHpiRdrTypeT rdr_type )
 {
     switch ( rdr_type ) {
@@ -170,13 +175,15 @@ static void SaHpiTime2String( SaHpiTimeT t, std::wstring& txt )
     if ( t > SAHPI_TIME_MAX_RELATIVE ) {
         wchar_t buf[128];
         time_t tt = (time_t)( t / 1000000000LL );
-        struct tm tm;
+        struct tm *ptm;
 #ifndef _WIN32
-        localtime_r( &tt, &tm);
+        struct tm tm;
+        ptm = localtime_r( &tt, &tm);
 #else /* _WIN32 */
-        localtime_s( &tm, &tt );
+        // Windows version of localtime is thread-safe
+        ptm = localtime( &tt );
 #endif /* _WIN32 */
-        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S", &tm );
+        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S", ptm );
         txt = buf;
     } else if ( t == SAHPI_TIME_UNSPECIFIED ) {
         txt = L"Unspecified";
@@ -185,13 +192,15 @@ static void SaHpiTime2String( SaHpiTimeT t, std::wstring& txt )
     } else {
         wchar_t buf[128];
         time_t tt = (time_t)( t / 1000000000LL );
-        struct tm tm;
+        struct tm *ptm;
 #ifndef _WIN32
-        localtime_r( &tt, &tm);
+        struct tm tm;
+        ptm = localtime_r( &tt, &tm);
 #else /* _WIN32 */
-        localtime_s( &tm, &tt );
+        // Windows version of localtime is thread-safe
+        ptm = localtime( &tt );
 #endif /* _WIN32 */
-        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S (Relative)", &tm );
+        wcsftime( buf, sizeof(buf) / sizeof(wchar_t), L"%Y-%m-%d %H:%M:%S (Relative)", ptm );
         txt = buf;
     }
 }
