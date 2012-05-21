@@ -1,0 +1,3 @@
+The same build procedure as described in README is fine for Windows build with Mingw compiler.
+The build has been tested with Qt SDK 4.7.
+
