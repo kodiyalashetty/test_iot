@@ -48,9 +48,12 @@ HEADERS += include/HpiInfo.h \
            include/HpiEntry.h \
            include/HpiProvider.h \
            include/HpiSubProvider.h \
+           include/OHpi.h \
            include/Hpi.h \
            include/View.h \
+           include/DomainSelector.h \
            include/MainWindow.h \
+           include/OHpiUtils.h \
            include/HpiUtils.h \
            provider/HpiSubProviderUnknown.h \
            provider/HpiSubProviderDomain.h \
@@ -90,6 +93,7 @@ HEADERS += include/HpiInfo.h \
 
 SOURCES += main.cpp \
            provider/HpiInfo.cpp \
+           provider/OHpi.cpp \
            provider/Hpi.cpp \
            provider/HpiSubProviderUnknown.cpp \
            provider/HpiSubProviderDomain.cpp \
@@ -122,10 +126,12 @@ SOURCES += main.cpp \
            provider/HpiSubProviderFUMISourceComponent.cpp \
            provider/CommonHpiSubProviderFUMI.cpp \
            ui/IconCache.cpp \
+           ui/DomainSelector.cpp \
            ui/MainWindow.cpp \
            ui/RollupButton.cpp \
            ui/InfoWidget.cpp \
            ui/ActionsWidget.cpp \
            ui/EntriesWidget.cpp \
+           utils/OHpiUtils.cpp \
            utils/HpiUtils.cpp
 

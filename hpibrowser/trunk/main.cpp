@@ -17,15 +17,14 @@
 
 #include <cstdio>
 #include <stdexcept>
-#include <sstream>
-#include <string>
-
-#include <SaHpi.h>
 
 #include <QApplication>
 
+#include <DomainSelector.h>
 #include <Hpi.h>
 #include <MainWindow.h>
+#include <OHpi.h>
+
 
 int main( int argc, char * argv[] )
 {
@@ -34,35 +33,23 @@ int main( int argc, char * argv[] )
 
         QApplication app( argc, argv );
 
-        SaHpiDomainIdT startup_did = SAHPI_UNSPECIFIED_DOMAIN_ID;
-        // TODO redo command line parsing with cross-platform API
-        do {
-            if ( argc == 1 ) {
-                break;
-            } else if ( argc == 3 ) {
-                if ( std::string( argv[1] ) == "-did" ) {
-                    std::istringstream ss( argv[2] );
-                    ss >> startup_did;
-                    if ( ( !ss.fail() ) && ss.eof() ) {
-                        break;
-                    }
-                }
-            }
+        cOHpi ohpi;
+        cDomainSelector dsel( ohpi );
+        dsel.Update();
+        dsel.show();
+        dsel.exec();
 
-            printf( "Usage: %s [-did <domain_id>]\n", argv[0] );
-            return 0;
-        } while ( false );
-
-        cHpi hpi( startup_did );
+        cHpi hpi( ohpi.GetSelectedDid() );
         cMainWindow mw( hpi );
         mw.Update();
         mw.show();
+
         rc = app.exec();
 
 	} catch ( const std::exception& ex ) {
 		fprintf( stderr, "Error: %s\n", ex.what() );
 	} catch ( ... ) {
-		fprintf(stderr, "Error: unknown exception catched\n");
+		fprintf(stderr, "Error: unknown exception\n");
 	}
 	return rc;
 }
