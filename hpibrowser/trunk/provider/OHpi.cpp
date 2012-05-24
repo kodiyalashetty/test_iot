@@ -67,7 +67,6 @@ void cOHpi::ExecuteAction( const HpiActionShort& )
 
 void cOHpi::GetEntries( std::deque<HpiEntry>& entries )
 {
-printf( "GET!\n" );
     entries.clear();
 
     SaErrorT rv;
