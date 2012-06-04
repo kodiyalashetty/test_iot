@@ -526,16 +526,16 @@ static const wchar_t * HpiLookupEntityType( SaHpiEntityTypeT value )
                 return L"EXTERNAL_ENVIRONMENT";
             case SAHPI_ENT_BATTERY:
                 return L"BATTERY";
-            case SAHPI_ENT_RESERVED_1:
-                return L"RESERVED_1";
-            case SAHPI_ENT_RESERVED_2:
-                return L"RESERVED_2";
-            case SAHPI_ENT_RESERVED_3:
-                return L"RESERVED_3";
-            case SAHPI_ENT_RESERVED_4:
-                return L"RESERVED_4";
-            case SAHPI_ENT_RESERVED_5:
-                return L"RESERVED_5";
+            case SAHPI_ENT_PROCESSING_BLADE:
+                return L"PROCESSING_BLADE";
+            case SAHPI_ENT_CONNECTIVITY_SWITCH:
+                return L"CONNECTIVITY_SWITCH";
+            case SAHPI_ENT_PROCESSOR_MEMORY_MODULE:
+                return L"PROCESSOR_MEMORY_MODULE";
+            case SAHPI_ENT_IO_MODULE:
+                return L"IO_MODULE";
+            case SAHPI_ENT_PROCESSOR_IO_MODULE:
+                return L"PROCESSOR_IO_MODULE";
             case SAHPI_ENT_MC_FIRMWARE:
                 return L"MC_FIRMWARE";
             case SAHPI_ENT_IPMI_CHANNEL:
