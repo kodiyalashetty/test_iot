@@ -18,7 +18,7 @@ Subversion Extracts
 ---------------------------------------------------------------------------
 
 // TODO test URL
-svn co https://svn.sourceforge.net/svnroot/openhpi/hpibrowser/trunk hpibrowser
+svn co https://openhpi.svn.sourceforge.net/svnroot/openhpi/hpibrowser/trunk hpibrowser 
 
 ---------------------------------------------------------------------------
 Build Instructions
